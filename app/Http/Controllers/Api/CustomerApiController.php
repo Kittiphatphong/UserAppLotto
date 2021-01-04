@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\OTP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 class CustomerApiController extends Controller
 {
     public function login(Request $request){
@@ -17,10 +19,13 @@ class CustomerApiController extends Controller
         ]);
         $customer = Customer::where('phone',$request->phone)->first();
     if(! $customer || !Hash::check($request->password,$customer->password)){
-        throw ValidationException::withMessages([
-            'phone' => ['The provided credentials are incorrect.'],
-        ]);
+
+        return response('This number is incorrect');
     }
+        if( $customer->otps == null || $customer->otps->first()->status == 0){
+            return response('This number is not verify');
+        }
+
     $customer->tokens()->delete();
     return $customer->createToken($request->device_name)->plainTextToken;
     }
@@ -36,6 +41,46 @@ class CustomerApiController extends Controller
         $customer = new Customer();
         $customer->makeCustomer($request->firstname,$request->lastname,$request->phone,$request->password,$request->birthday,$request->gender);
         $customer->save();
-        return response()->json($customer);
+        $this->requestOTP($customer->id);
+        return response()->json([$customer,$customer->otps]);
+    }
+
+    public function requestOTP($id){
+    $otps = OTP::where('customer_id',$id)->pluck('id');
+    if ($otps->count() > 0){
+        $otp = OTP::find($otps->first());
+        if($otp->status == 1){
+            return response('This number is verify');
+        }
+    }else{
+        $otp = new OTP();
+    }
+        $otp->customer_id = $id;
+        $otp->otp_number = rand(100000,999999);
+        $otp->save();
+        return response($otp->otp_number);
+    }
+
+    public function verifyOTP(Request $request,$id){
+        $request->validate([
+            'otp' => 'required|numeric'
+        ]);
+    $customer = Customer::find($id);
+    $start = $customer->otps->updated_at->addMinutes(2);
+    //Check OTP number
+
+    if($request->otp == $customer->otps->first()->otp_number){
+        if($start->lt(Carbon::now('Asia/Vientiane'))){
+            return response('OTP is expired');
+        }
+
+        $otps = OTP::where('customer_id','=',$id)->pluck('id');
+        $otp = OTP::find($otps->first());
+        $otp->status = 1;
+        $otp->save();
+            return response('success');
+    }else{
+        return response('OTP is incorrect');
+    }
     }
 }

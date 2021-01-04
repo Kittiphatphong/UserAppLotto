@@ -19,4 +19,8 @@ class Customer extends Model
         $this->birthday = $birthday;
         $this->gender = $gender;
     }
+
+    public function otps(){
+        return $this->hasOne(OTP::class);
+    }
 }
