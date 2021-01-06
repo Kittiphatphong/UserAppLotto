@@ -19,6 +19,7 @@
     <link href="assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
+
     <!--begin::Layout Themes(used by all pages)-->
     <link href="assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css" />
@@ -111,20 +112,19 @@
                 <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
                     <!--begin::Menu Nav-->
                     <ul class="menu-nav">
-                        <li class="menu-item  @if(session()->has('dashboard')) menu-item-here @endif" aria-haspopup="true">
+                        <li class="menu-item  @isset($dashboard) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('dashboard')}}" class="menu-link">
                                 <i class="menu-icon flaticon-home"></i>
                                 <span class="menu-text">Dashboard</span>
                             </a>
                         </li>
                         <li class="menu-section">
-                            <h4 class="menu-text">Layout</h4>
+                            <h4 class="menu-text">Function</h4>
                             <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                         </li>
-
-                        <li class="menu-item menu-item-submenu @if(session()->has('customer.list')) menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                        <li class="menu-item menu-item-submenu @if(isset($customer_list)|| isset($customer_register))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon flaticon-interface-8"></i>
+                                <i class="menu-icon fas fa-users"></i>
                                 <span class="menu-text">Customers</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -132,7 +132,15 @@
                                 <i class="menu-arrow"></i>
                                 <ul class="menu-subnav">
 
-                                    <li class="menu-item @if(session()->has('customer.list')) menu-item-active @endif" aria-haspopup="true">
+                                    <li class="menu-item @isset($customer_register) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('customer.register')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Register</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($customer_list) menu-item-active @endisset" aria-haspopup="true">
                                         <a href="{{route('customer.list')}}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
@@ -140,18 +148,46 @@
                                             <span class="menu-text">List</span>
                                         </a>
                                     </li>
-                                    <li class="menu-item " aria-haspopup="true">
-                                        <a href="layout/general/empty-page.html" class="menu-link">
-                                            <i class="menu-bullet menu-bullet-dot">
-                                                <span></span>
-                                            </i>
-                                            <span class="menu-text">List</span>
-                                        </a>
-                                    </li>
-
 
                                 </ul>
                             </div>
+                        </li>
+                        <li class="menu-item menu-item-submenu @if(isset($bill_2d3d4d5d6d)|| isset($bill_340))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fa la-money-check"></i>
+                                <span class="menu-text">Bill order</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($bill_2d3d4d5d6d) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('bill.2d3d4d5d6d')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Bill 2d3d4d5d6d</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($bill_340) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('bill.340')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Bill 3/40</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('provider.list')}}" class="menu-link">
+                                <i class="menu-icon flaticon-users-1"></i>
+                                <span class="menu-text">Provider</span>
+                            </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
                             <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">
@@ -1039,8 +1075,26 @@
                 <div class="d-flex flex-column-fluid">
                     <!--begin::Container-->
                     <div class="container">
+                        @if (Session::has('success'))
+                         <div class="fixed-bottom mr-4 mb-14">
+                            <div class="alert alert-success alert-block col-2 float-right mb-4" id="message_id">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong>{{ Session::get('success') }}</strong>
+                            </div>
+                         </div>
+                        @endif
                         @yield('content')
 
+                            <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+                            @if (Session::has('success'))
+                                <script>
+                                    $("document").ready(function(){
+                                        setTimeout(function(){
+                                            $("#message_id").fadeToggle();
+                                        }, 2800 );
+                                    });
+                                </script>
+                            @endif
                     </div>
                     <!--end::Container-->
                 </div>
@@ -1357,7 +1411,13 @@
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="assets/js/pages/widgets.js"></script>
+<script src="assets/js/pages/crud/ktdatatable/base/html-table.js"></script>
+<script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 <!--end::Page Scripts-->
+
+
+
+
 </body>
 <!--end::Body-->
 </html>

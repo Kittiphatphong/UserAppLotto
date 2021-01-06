@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BillOrderController;
+use App\Http\Controllers\ProviderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,13 +20,23 @@ Route::get('/', function () {
 });
 Route::group(['middleware' =>'auth'],function(){
     Route::get('/dashboard', function () {
-        session()->flash('dashboard');
-        return view('dashboard');})->name('dashboard');
+        return view('dashboard')->with('dashboard','dashboard');})
+        ->name('dashboard');
 
 
 });
 Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
+
+Route::get('/customer-register',[CustomerController::class,'customerRegister'])->name('customer.register');
 Route::post('customers',[CustomerController::class,'customerStore'])->name('customer.store');
+Route::post('/customer-delete/{id}',[CustomerController::class,'customerDelete'])->name('customer.delete');
 
 
+//Bill order
+Route::get('/bill2d3d4d5d6d',[BillOrderController::class,'bill2d3d4d5d6d'])->name('bill.2d3d4d5d6d');
+Route::get('/bill340',[BillOrderController::class,'bill340'])->name('bill.340');
+
+//Provider
+Route::get('/provider',[ProviderController::class,'providerList'])->name('provider.list');
+Route::post('/provider',[ProviderController::class,'providerStore'])->name('provider.store');
 require __DIR__.'/auth.php';

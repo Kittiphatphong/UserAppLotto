@@ -22,7 +22,7 @@ class CustomerApiController extends Controller
 
         return response('This number is incorrect');
     }
-        if( $customer->otps == null || $customer->otps->first()->status == 0){
+        if( $customer->otps->status != 1){
             return response('This number is not verify');
         }
 
@@ -63,13 +63,13 @@ class CustomerApiController extends Controller
 
     public function verifyOTP(Request $request,$id){
         $request->validate([
-            'otp' => 'required|numeric'
+            'otp_verify' => 'required|numeric'
         ]);
     $customer = Customer::find($id);
     $start = $customer->otps->updated_at->addMinutes(2);
     //Check OTP number
 
-    if($request->otp == $customer->otps->first()->otp_number){
+    if($request->otp_verify == $customer->otps->otp_number){
         if($start->lt(Carbon::now('Asia/Vientiane'))){
             return response('OTP is expired');
         }

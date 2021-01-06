@@ -86,24 +86,27 @@ var KTSweetAlert2Demo = function () {
 			  	}
 		  	});
 		});
-
-		$('#kt_sweetalert_demo_8').click(function (e) {
+        $(document).ready( function() {
+            $('.delete_form').on('click',function(e){
+                e.preventDefault()
 			Swal.fire({
 				title: 'Are you sure?',
 				text: "You won't be able to revert this!",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Yes, delete it!'
+
 			}).then(function (result) {
 				if (result.value) {
-					Swal.fire(
-						'Deleted!',
-						'Your file has been deleted.',
-						'success'
-					)
+                    $('.delete_form').submit();
 				}
 			});
 		});
+        });
+
+        $(window).bind('resize', function() {
+            location.reload();
+        });
 
 		$('#kt_sweetalert_demo_9').click(function (e) {
 			Swal.fire({
