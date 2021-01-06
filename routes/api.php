@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerApiController;
+use App\Http\Controllers\Api\ProviderApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,3 +25,5 @@ Route::post('/verify-otp/{id}',[CustomerApiController::class,'verifyOTP']);
 
 Route::post('/login-customer',[CustomerApiController::class,'login']);
 
+//Provider
+Route::post('/login-provider',[ProviderApiController::class,'login']);

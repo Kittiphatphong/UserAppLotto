@@ -83,7 +83,7 @@
 
                         <td>{{$provider->id}}</td>
                         <td>{{$provider->provider_name}}</td>
-                        <td>6421874shgfkashf92547sadf</td>
+                        <td>{{$provider->tokens->count()}}</td>
 
 
                     </tr>
