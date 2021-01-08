@@ -15,6 +15,11 @@ class CreateBillorder340sTable extends Migration
     {
         Schema::create('billorder340s', function (Blueprint $table) {
             $table->id();
+            $table->string('animal1');
+            $table->string('animal2')->nullable();
+            $table->string('animal3')->nullable();
+            $table->double('money');
+            $table->unsignedBigInteger('order_id');
             $table->timestamps();
         });
     }

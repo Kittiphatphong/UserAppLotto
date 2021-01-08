@@ -23,4 +23,8 @@ class Customer extends Model
     public function otps(){
         return $this->hasOne(OTP::class);
     }
+
+    public function orders(){
+        return $this->hasMany(BillOrder::class);
+    }
 }

@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Billorder2d3d4d5d6d extends Model
+class Result extends Model
 {
     use HasFactory;
-    public function orders(){
-        return $this->belongsTo(BillOrder::class,'order_id');
-    }
 }

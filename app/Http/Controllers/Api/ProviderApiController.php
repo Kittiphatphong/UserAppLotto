@@ -18,12 +18,12 @@ class ProviderApiController extends Controller
         $provider = Provider::where('provider_name',$request->provider_name)->first();
         if(! $provider || !Hash::check($request->password,$provider->password)){
 
-            return response('This number is incorrect');
+            return response('This provider name is not correct');
         }
 
         $provider->tokens()->delete();
         return $provider->createToken($request->device_name)->plainTextToken;
 
-       
+
     }
 }

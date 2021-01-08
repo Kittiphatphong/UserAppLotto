@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBillorder2d3d4d5d6dsTable extends Migration
+class CreateWin340sTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateBillorder2d3d4d5d6dsTable extends Migration
      */
     public function up()
     {
-        Schema::create('billorder2d3d4d5d6ds', function (Blueprint $table) {
+        Schema::create('win340s', function (Blueprint $table) {
             $table->id();
-            $table->string('number_code');
-            $table->double('money');
-            $table->unsignedBigInteger('order_id');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateBillorder2d3d4d5d6dsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('billorder2d3d4d5d6ds');
+        Schema::dropIfExists('win340s');
     }
 }

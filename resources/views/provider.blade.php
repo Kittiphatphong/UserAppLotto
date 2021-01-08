@@ -68,24 +68,17 @@
             <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
                 <thead>
                 <tr>
-
                     <th>ID USER</th>
                     <th>PROVIDER NAME</th>
                     <th>TOKEN</th>
-
-
-
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($providers as $provider)
                     <tr>
-
                         <td>{{$provider->id}}</td>
                         <td>{{$provider->provider_name}}</td>
                         <td>{{$provider->tokens->count()}}</td>
-
-
                     </tr>
                 @endforeach
                 </tbody>

@@ -182,6 +182,36 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="menu-item menu-item-submenu @if(isset($win_2d3d4d5d6d)|| isset($win_340))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fa la-money-check"></i>
+                                <span class="menu-text">Winner</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($win_2d3d4d5d6d) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('win.2d3d4d5d6d')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Win 2d3d4d5d6d</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($win_340) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('win.340')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Win 3/40</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
 
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
@@ -968,9 +998,9 @@
                         <div class="topbar-item">
                             <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
                                 <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-                                <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">Sean</span>
+                                <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ucfirst(Auth::user()->name)}}</span>
                                 <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
-											<span class="symbol-label font-size-h5 font-weight-bold">S</span>
+											<span class="symbol-label font-size-h5 font-weight-bold">{{ucfirst(substr(Auth::user()->name,0,1))}}</span>
 										</span>
                             </div>
                         </div>
@@ -1072,9 +1102,9 @@
                 </div>
                 <!--end::Subheader-->
                 <!--begin::Entry-->
-                <div class="d-flex flex-column-fluid">
+                <div class="d-flex flex-column-fluid col-12">
                     <!--begin::Container-->
-                    <div class="container">
+                    <div class="container-fluid">
                         @if (Session::has('success'))
                          <div class="fixed-bottom mr-4 mb-14">
                             <div class="alert alert-success alert-block col-2 float-right mb-4" id="message_id">
@@ -1170,7 +1200,16 @@
 									<span class="navi-text text-muted text-hover-primary">jm@softplus.com</span>
 								</span>
                     </a>
-                    <a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-responsive-nav-link :href="route('logout')"
+                                               onclick="event.preventDefault();
+                                        this.closest('form').submit();" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">
+                            Sign Out
+                        </x-responsive-nav-link>
+                    </form>
+
                 </div>
             </div>
         </div>
