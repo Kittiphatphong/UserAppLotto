@@ -184,7 +184,7 @@
                         </li>
                         <li class="menu-item menu-item-submenu @if(isset($win_2d3d4d5d6d)|| isset($win_340))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon fa la-money-check"></i>
+                                <i class="menu-icon fa la-won-sign"></i>
                                 <span class="menu-text">Winner</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -212,7 +212,12 @@
                                 </ul>
                             </div>
                         </li>
-
+                        <li class="menu-item  @isset($result_list) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('result.list')}}" class="menu-link">
+                                <i class="menu-icon fas fa-registered"></i>
+                                <span class="menu-text">Results</span>
+                            </a>
+                        </li>
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
                                 <i class="menu-icon flaticon-users-1"></i>

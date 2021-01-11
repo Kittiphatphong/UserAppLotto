@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\WinnerController;
+use App\Http\Controllers\ResultController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +45,9 @@ Route::group(['middleware' =>'auth'],function(){
     Route::get('win-2d3d4d5d6d',[WinnerController::class,'win2d3d4d5d6d'])->name('win.2d3d4d5d6d');
     Route::get('win-340',[WinnerController::class,'win340'])->name('win.340');
 
+//Result
+    Route::get('result-list',[ResultController::class,'resultList'])->name('result.list');
+    Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store');
 });
 
 require __DIR__.'/auth.php';
