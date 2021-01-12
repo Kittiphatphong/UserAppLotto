@@ -20,27 +20,28 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Result
+                <h3 class="card-label">Result = <b>Draw @if(\App\Models\BillOrder::count()>0){{\App\Models\BillOrder::where('id',DB::raw("(select max(`id`) from bill_orders)"))->pluck('id')->first()}}@endif</b>
                     <span class="d-block text-muted pt-2 font-size-sm">Result lottory </span></h3>
+                <span class="float-right"></span>
             </div>
-            <div class="card-toolbar float-right">
+            <div class="card-toolbar">
+
                 <!--begin::Button-->
                 <form action="{{route('result.store')}}" class="d-flex justify-content-end" method="post">
                 @csrf
 
                         <span class="form-control col-2 bg-info text-center">2d4d5d5d6d</span>
                         <input type="search" class="form-control col-2" placeholder="2d4d5d5d6d" maxlength="6" minlength="6" name="2d4d5d5d6d">
-
-
-
                             <span class="form-control col-1 bg-info text-center">3/40</span>
                         <input type="search" class="form-control col-1" placeholder="1/40" maxlength="2" minlength="2" name="animal1">
                         <input type="search" class="form-control col-1" placeholder="2/40" maxlength="2" minlength="2" name="animal2">
                             <input type="search" class="form-control col-1" placeholder="3/40" maxlength="2" minlength="2" name="animal3">
 
-                            <button type="submit" class="btn btn-success form-control col-1">SUBMIT</button>
+                            <button type="submit" class="btn btn-success form-control col-1">SUBMIT</button><br>
+
 
                 </form>
+
                 <!--end::Button-->
             </div>
         </div>

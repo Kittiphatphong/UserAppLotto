@@ -1110,26 +1110,41 @@
                 <div class="d-flex flex-column-fluid col-12">
                     <!--begin::Container-->
                     <div class="container-fluid">
-                        @if (Session::has('success'))
+                        @if (Session::has('success') || Session::has('warning'))
                          <div class="fixed-bottom mr-4 mb-14">
-                            <div class="alert alert-success alert-block col-2 float-right mb-4" id="message_id">
+                            <div class="alert @if(Session::has('success')) alert-success @else alert-danger @endif alert-block col-2 float-right mb-4" id="message_id">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ Session::get('success') }}</strong>
+                                <strong>@if(Session::has('success')) {{ Session::get('success') }} @else {{ Session::get('warning') }} @endif</strong>
                             </div>
                          </div>
                         @endif
+
+                            @if($errors->any())
+
+                                    <div class="fixed-bottom mr-4 mb-14">
+                                        <div class="alert alert-danger alert-block col-2 float-right mb-4" id="message_id" >
+                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                            @foreach($errors->all() as $error)
+                                                <p><strong>{{$error}}</strong></p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                            @endif
+
                         @yield('content')
 
+
                             <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-                            @if (Session::has('success'))
+                            @if (Session::has('success') || Session::has('warning') || $errors->any())
                                 <script>
                                     $("document").ready(function(){
                                         setTimeout(function(){
                                             $("#message_id").fadeToggle();
-                                        }, 2800 );
+                                        }, 3200 );
                                     });
                                 </script>
                             @endif
+
                     </div>
                     <!--end::Container-->
                 </div>

@@ -15,7 +15,7 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->integer('draw');
+            $table->integer('draw')->unique();
             $table->string('animal1');
             $table->string('animal2');
             $table->string('animal3');
