@@ -18,4 +18,7 @@ class BillOrder extends Model
     public function bill340s(){
         return $this->hasMany(Billorder340::class,'order_id');
     }
+    public function checkWin340s(){
+        return $this->hasMany(Billorder340::class,'order_id')->where('animal1','=','14')->count();
+    }
 }

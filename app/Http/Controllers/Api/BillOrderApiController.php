@@ -31,8 +31,9 @@ class BillOrderApiController extends Controller
 
         $customer = Customer::where('phone',$request->phone_no)->first();
         if(!$customer){
-            return response('This phone number do not exist');
+            return response($customer->token()->count());
         }
+
         $type = "2d3d4d5d6d";
         $order = $this->billOrder($request->bill_number,$request->draw,$customer->id,$type);
 

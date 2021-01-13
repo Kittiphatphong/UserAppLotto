@@ -48,6 +48,8 @@ Route::group(['middleware' =>'auth'],function(){
 //Result
     Route::get('result-list',[ResultController::class,'resultList'])->name('result.list');
     Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store');
+    Route::get('win-store/{id}',[ResultController::class,'winStore'])->name('win.store');
+    Route::get('win-restore/{id}',[ResultController::class,'winRestore'])->name('win.restore');
 });
 
 require __DIR__.'/auth.php';

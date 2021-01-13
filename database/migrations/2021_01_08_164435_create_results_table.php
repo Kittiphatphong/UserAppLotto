@@ -19,7 +19,7 @@ class CreateResultsTable extends Migration
             $table->string('animal1');
             $table->string('animal2');
             $table->string('animal3');
-            $table->string('2d3d4d5d6d');
+            $table->string('l2d3d4d5d6d');
             $table->timestamps();
         });
     }
