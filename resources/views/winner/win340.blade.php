@@ -20,6 +20,81 @@
 
 
 @section('content')
-    <p>Winner 3/40</p>
+    <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+            <div class="card-title">
+                <h3 class="card-label">Win 3/40
+                    <span class="d-block text-muted pt-2 font-size-sm">List winning 3/40</span></h3>
+            </div>
+            <div class="card-toolbar">
+                <!--begin::Button-->
+
+                <!--end::Button-->
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin: Search Form-->
+            <!--begin::Search Form-->
+            <div class="mb-7">
+                <div class="row align-items-center">
+                    <div class="col-lg-9 col-xl-8">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 my-2 my-md-0">
+                                <div class="input-icon">
+                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
+                                    <span>
+																	<i class="flaticon2-search-1 text-muted"></i>
+																</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--begin: Datatable-->
+            <div class="table-responsive">
+                <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                    <thead>
+                    <tr>
+
+                        <th>DRAW </th>
+                        <th>PHONE NO</th>
+                        <th>BILL NUMBER</th>
+                        <th>DRAW DATE</th>
+                        <th>CODE</th>
+                        <th>WIN</th>
+                        <th>DATE BUY</th>
+                        <th>Name</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($orders as $order)
+                        <tr>
+                            <td>{{$order->draw}}</td>
+                            <td><strong>{{$order->customers->phone}}</strong></td>
+                            <td>{{$order->bill_number}}</td>
+                            <td>{{$order->id}} </td>
+
+
+                            <td><p>@foreach($order->win340s as $code)
+                                        <strong>[</strong><span>{{$code->animal1}}</span><span>@if($code->animal2),{{$code->animal2}}@endif</span>@if($code->animal3),{{$code->animal3}}@endif<strong>]</strong>
+                                    @endforeach</p></td>
+                            <td><strong>{{$order->winAmount340()}}</strong></td>
+
+                            <td>{{$order->created_at}}</td>
+                            <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <!--end: Datatable-->
+        </div>
+    </div>
 
 @endsection

@@ -12,13 +12,86 @@ class BillOrder extends Model
     public function customers(){
         return $this->belongsTo(Customer::class,'customer_id');
     }
+
     public function billorder2d3d4d5d6ds(){
         return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id');
     }
+    public function win2d3d4d5d6ds(){
+        return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id')->whereNotNull('status_win');
+    }
+    public function winAmount2d3d4d5d6d(){
+        $amounts = $this->hasMany(Billorder2d3d4d5d6d::class,'order_id')->whereNotNull('status_win');
+        $total = 0;
+        $arrayAmount = $amounts->get()->toArray();
+        for ($i=0;$i<$amounts->count();$i++){
+            switch ($arrayAmount[$i]['status_win']){
+                case 6:
+                    $sum = $arrayAmount[$i]['money'] * 400000;
+                    break;
+
+                case 5:
+                    $sum = $arrayAmount[$i]['money'] * 40000;
+                    break;
+
+                case 4:
+                    $sum = $arrayAmount[$i]['money'] * 5000;
+                    break;
+
+                case 3:
+                    $sum = $arrayAmount[$i]['money'] * 500;
+                    break;
+
+                case 2:
+                    $sum = $arrayAmount[$i]['money'] * 60;
+                    break;
+
+                default:
+                    echo "Don't have this digit";
+            }
+
+           $total+=  $sum;
+
+        }
+        return number_format($total);
+
+    }
+
+
+
     public function bill340s(){
         return $this->hasMany(Billorder340::class,'order_id');
     }
-    public function checkWin340s(){
-        return $this->hasMany(Billorder340::class,'order_id')->where('animal1','=','14')->count();
+    public function win340s(){
+        return $this->hasMany(Billorder340::class,'order_id')->whereNotNull('status_win');
     }
+    public function winAmount340(){
+        $amounts = $this->hasMany(Billorder340::class,'order_id')->whereNotNull('status_win');
+        $total = 0;
+        $arrayAmount = $amounts->get()->toArray();
+        for ($i=0;$i<$amounts->count();$i++){
+
+            switch ($arrayAmount[$i]['status_win']){
+                case 3:
+                    $sum = $arrayAmount[$i]['money'] * 6000;
+                    break;
+
+                case 2:
+                    $sum = $arrayAmount[$i]['money'] * 160;
+                    break;
+
+                case 1:
+                    $sum = $arrayAmount[$i]['money'] * 8;
+                    break;
+
+                default:
+                    echo "Don't have this digit";
+            }
+
+            $total+=  $sum;
+
+        }
+        return number_format($total);
+
+    }
+
 }

@@ -12,7 +12,12 @@ class Billorder340 extends Model
     public function orders(){
         return $this->belongsTo(BillOrder::class,'order_id');
     }
-    public function bills(){
-        return $this->where('animal1','03')->first();
+
+    public function storeWins($digit){
+        $this->status_win =$digit;
+        $this->save();
+        $order = BillOrder::find($this->order_id);
+        $order->status_win = 1 ;
+        $order->save();
     }
 }

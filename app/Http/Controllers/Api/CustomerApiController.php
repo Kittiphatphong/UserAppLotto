@@ -9,8 +9,15 @@ use App\Models\OTP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use App\Http\Controllers\SendMassageController;
 class CustomerApiController extends Controller
 {
+    protected $SendMassageController;
+    public function __construct(SendMassageController $sendMassageController)
+    {
+        $this->SendMassageController = $sendMassageController;
+    }
+
     public function login(Request $request){
         $request->validate([
             'phone' => 'required',
@@ -46,7 +53,10 @@ class CustomerApiController extends Controller
     }
 
     public function requestOTP($id){
+
     $otps = OTP::where('customer_id',$id)->pluck('id');
+        $customer = Customer::find($id);
+
     if ($otps->count() > 0){
         $otp = OTP::find($otps->first());
         if($otp->status == 1){
@@ -55,9 +65,23 @@ class CustomerApiController extends Controller
     }else{
         $otp = new OTP();
     }
+    if($customer->otps){
+        $start = $customer->otps->updated_at->addMinutes(3);
+        if($start->gt(Carbon::now('Asia/Vientiane'))){
+            $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
+            return response('Waiting about '.gmdate('i:s', $timeWait).' for request new OTP');
+        }
+    }
+
         $otp->customer_id = $id;
         $otp->otp_number = rand(100000,999999);
         $otp->save();
+
+//        //Send otp to sms
+//        $customerPhone = Customer::find($id)->phone;
+//        $contentSms= "Your OTP is ". $otp->otp_number;
+//        $this->SendMassageController->sendOTP($customerPhone,$contentSms);
+
         return response($otp->otp_number);
     }
 
@@ -66,7 +90,7 @@ class CustomerApiController extends Controller
             'otp_verify' => 'required|numeric'
         ]);
     $customer = Customer::find($id);
-    $start = $customer->otps->updated_at->addMinutes(2);
+    $start = $customer->otps->updated_at->addMinutes(3);
     //Check OTP number
 
     if($request->otp_verify == $customer->otps->otp_number){
