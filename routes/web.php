@@ -55,7 +55,7 @@ Route::group(['middleware' =>'auth'],function(){
 //Promotion
     Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list');
     Route::get('promotion-create',[PromotionController::class,'promotionCreate'])->name('promotion.create');
-    Route::post('promotion-store',[PromotionController::class,'promotionStore'])->name('promotion.store');
+    Route::post('promotion-create',[PromotionController::class,'promotionStore'])->name('promotion.store');
 
 
 });

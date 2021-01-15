@@ -29,7 +29,7 @@
                         <h3 class="card-label">PROMOTION
                             <span class="d-block text-muted pt-2 font-size-sm">Create new promotion</span></h3>
                     </div>
-                    <form  action="{{route('promotion.store')}}" method="post" height="1000px" class="pb-10 mb-10">
+                    <form enctype="multipart/form-data" action="{{route('promotion.store')}}" method="post" height="1000px" class="pb-10 mb-10">
                         @csrf
                         <div class="form-group">
                             <label>TITLE</label>
@@ -42,7 +42,7 @@
 
                         <div class="form-group">
                             <lable>IMAGE</lable>
-                            <input type="file" class="form-control" name="photo">
+                            <input type="file" class="form-control" name="image">
                         </div>
                         <div class="form-group justify-content-between ">
                             <lable>DATETIME</lable>
