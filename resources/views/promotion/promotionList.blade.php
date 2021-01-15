@@ -80,7 +80,7 @@
                             <td>{{$promotion->title}}</td>
                             <td>{{$promotion->content}}</td>
                             <td><img src="{{asset('storage')}}/promotion_image/{{$promotion->image}}" width="80%" ></td>
-                            <td>{{$promotion->differentTime()}}</td>
+                            <td><span class="text-success"><b class="far fa-dot-circle bg-primary">Active</b> {{$promotion->differentTime()}}</span></td>
                             <td>
                                 <a href="" class="mr-4"><i class="far fa-edit"></i></a>
                                 <a href=""><i class="fas fa-trash"></i></a>
