@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -212,6 +213,38 @@
                                 </ul>
                             </div>
                         </li>
+
+                        <li class="menu-item menu-item-submenu @if(isset($promotion_list)|| isset($promotion_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fa fa-bullhorn"></i>
+                                <span class="menu-text">Promotion</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($promotion_create) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('promotion.create')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">New</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($promotion_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('promotion.list')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">List</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
                         <li class="menu-item  @isset($result_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('result.list')}}" class="menu-link">
                                 <i class="menu-icon fas fa-registered"></i>
@@ -1474,8 +1507,7 @@
 <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 <!--end::Page Scripts-->
 
-
-
+<script src="assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js"></script>
 
 </body>
 <!--end::Body-->

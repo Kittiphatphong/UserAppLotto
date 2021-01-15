@@ -6,6 +6,7 @@ use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\WinnerController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\PromotionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,6 +51,13 @@ Route::group(['middleware' =>'auth'],function(){
     Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store');
     Route::get('win-store/{id}',[ResultController::class,'winStore'])->name('win.store');
     Route::get('win-restore/{id}',[ResultController::class,'winRestore'])->name('win.restore');
+
+//Promotion
+    Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list');
+    Route::get('promotion-create',[PromotionController::class,'promotionCreate'])->name('promotion.create');
+    Route::post('promotion-store',[PromotionController::class,'promotionStore'])->name('promotion.store');
+
+
 });
 
 require __DIR__.'/auth.php';
