@@ -80,10 +80,17 @@
                             <td>{{$promotion->title}}</td>
                             <td>{{$promotion->content}}</td>
                             <td><img src="{{asset('storage')}}/promotion_image/{{$promotion->image}}" width="80%" ></td>
-                            <td><span class="text-success"><b class="far fa-dot-circle bg-primary">Active</b> {{$promotion->differentTime()}}</span></td>
                             <td>
-                                <a href="" class="mr-4"><i class="far fa-edit"></i></a>
-                                <a href=""><i class="fas fa-trash"></i></a>
+                                @if(\Carbon\Carbon::now()->gt($promotion->end))<b class="text-danger far fa-dot-circle"> Inactive</b>
+                                @elseif(\Carbon\Carbon::now()->lt($promotion->start))
+                                    <b class="text-warning far fa-dot-circle"> Pending</b>
+                                @else
+                                    <b class="far fa-dot-circle p-1 rounded text-success"> Active</b><span class="text-success"> {{$promotion->differentTime()}}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{route('promotion.edit',$promotion->id)}}" class="mr-4"><i class="far fa-edit"></i></a>
+                                <a href="{{route('promotion.delete',$promotion->id)}}"><i class="fas fa-trash"></i></a>
                             </td>
                             <td>{{$promotion->start}}</td>
                             <td>{{$promotion->end}}</td>

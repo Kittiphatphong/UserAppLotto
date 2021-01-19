@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -16,8 +17,11 @@ class PromotionController extends Controller
     }
 
     public function promotionCreate(){
+        $promotion = New Promotion();
+
         return view('promotion.promotionCreate')
-            ->with('promotion_create','promotion_create');
+            ->with('promotion_create','promotion_create')
+            ->with('promotion',$promotion);
     }
 
     public function promotionStore(Request $request)
@@ -40,7 +44,42 @@ class PromotionController extends Controller
     $promotion->makePromotion($request->get('title'),$request->get('content'),$imageName,$start,$end);
     Storage::disk('local')->put('public/promotion_image/'.$imageName, $imageEncode);
 
-    return back()->with('success','Uploaded promotion successful');
+    return redirect()->route('promotion.list')->with('success','Uploaded promotion successful');
+    }
+
+    public function promotionEdit($id){
+        $promotion = Promotion::find($id);
+
+        return view('promotion.promotionCreate')
+            ->with('promotion_create','promotion_create')
+            ->with('promotion',$promotion)
+            ->with('edit','edit');
+    }
+
+    public function promotionUpdate(Request $request,$id){
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'content' => 'required',
+            'start' => 'required',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg'
+        ]);
+        $promotion = Promotion::find($id);
+        $start = Carbon::parse($request->get('start'))->toDateTimeString();
+        $end = Carbon::parse($request->get('end'))->toDateTimeString();
+        $promotion->makePromotion($request->get('title'),$request->get('content'),null,$start,$end);
+        if($request->hasFile("image")){
+            Storage::delete("public/promotion_image/".$promotion->image);
+            $request->image->storeAs("public/promotion_image",$promotion->image);
+        }
+        return redirect()->route('promotion.list')->with('success','Edited promotion successful');
+    }
+    
+    public function promotionDelete($id){
+        $promotion = Promotion::find($id);
+        Storage::delete("public/promotion_image/".$promotion->image);
+        $promotion->delete();
+        return redirect()->route('promotion.list')->with('success','Deleted promotion successful');
     }
 }
 

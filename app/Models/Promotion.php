@@ -12,7 +12,9 @@ class Promotion extends Model
     public function makePromotion($title,$content,$image,$start,$end){
         $this->title = $title;
         $this->content = $content;
-        $this->image = $image;
+        if($image != null){
+            $this->image = $image;
+        }
         $this->start =$start;
         $this->end = $end;
         $this->save();
@@ -25,8 +27,9 @@ class Promotion extends Model
         if($date == 0)
             $dateTime = $formatTime;
         else
-        $dateTime = $date."D ".$formatTime;
+        $dateTime = $date."d ".$formatTime;
 
         return $dateTime;
     }
+
 }

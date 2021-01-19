@@ -56,6 +56,9 @@ Route::group(['middleware' =>'auth'],function(){
     Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list');
     Route::get('promotion-create',[PromotionController::class,'promotionCreate'])->name('promotion.create');
     Route::post('promotion-create',[PromotionController::class,'promotionStore'])->name('promotion.store');
+    Route::get('promotion-edit/{id}',[PromotionController::class,'promotionEdit'])->name('promotion.edit');
+    Route::post('promotion-edit/{id}',[PromotionController::class,'promotionUpdate'])->name('promotion.update');
+    Route::get('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete');
 
 
 });

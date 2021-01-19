@@ -8,9 +8,15 @@ use App\Models\Billorder2d3d4d5d6d;
 use App\Models\Billorder340;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\PushNotificationController;
 class BillOrderApiController extends Controller
 {
+    protected $PushNotificationController;
+    public function __construct(PushNotificationController $pushNotificationController)
+    {
+        $this->PushNotificationController = $pushNotificationController;
+    }
+
     public function billOrder($bill_number,$draw,$customer,$type){
         $order = new BillOrder();
         $order->customer_id = $customer;
@@ -45,8 +51,14 @@ class BillOrderApiController extends Controller
        $bill2d3d4d5d6d->order_id = $order->id;
        $bill2d3d4d5d6d->save();
        }
+        foreach ($order->billorder2d3d4d5d6ds as $bill6d){
+            $list[] = $bill6d->number_code."=".($bill6d->money/1000)."k";
+        }
+        $body = collect($list)->implode(' // ');
+        $title = "Lotto 6D";
+        $this->PushNotificationController->pushNotification($body ,$title);
 
-       return response('buy lotto successful');
+       return response()->json($order);
 
     }
     public function sell340(Request $request){
@@ -89,8 +101,13 @@ class BillOrderApiController extends Controller
             $bill340->order_id = $order->id;
             $bill340->save();
         }
-
-        return response('buy lotto successful');
+        foreach ($arr as $bill340){
+         $list[] = $bill340->code."=".($bill340->money/1000)."k";
+        }
+        $body = collect($list)->implode(' // ');
+        $title = "Lotto 3/40";
+        $this->PushNotificationController->pushNotification($body ,$title);
+        return response()->json($order);
 
     }
 
