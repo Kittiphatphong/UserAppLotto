@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\PushNotificationController;
 
 class PromotionController extends Controller
 {
+    protected $PushNotificationController;
+
+    public function __construct(PushNotificationController $pushNotificationController)
+    {
+        $this->PushNotificationController = $pushNotificationController;
+    }
+
     public function promotionList(){
         return view('promotion.promotionList')
             ->with('promotion_list',Promotion::orderBy('id','desc')->get());
@@ -74,12 +83,21 @@ class PromotionController extends Controller
         }
         return redirect()->route('promotion.list')->with('success','Edited promotion successful');
     }
-    
+
     public function promotionDelete($id){
         $promotion = Promotion::find($id);
         Storage::delete("public/promotion_image/".$promotion->image);
         $promotion->delete();
         return redirect()->route('promotion.list')->with('success','Deleted promotion successful');
+
+    }
+
+    public function promotionNotification($id){
+        $promotion = Promotion::find($id);
+            $this->PushNotificationController->pushNotificationAll($promotion->content,$promotion->title);
+        return back()->with('success',"push notification successful");
+
+
     }
 }
 

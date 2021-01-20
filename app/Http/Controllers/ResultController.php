@@ -6,14 +6,23 @@ use Illuminate\Http\Request;
 use App\Models\Result;
 use App\Models\BillOrder;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PushNotificationController;
 class ResultController extends Controller
 {
+    protected $PushNotificationController;
+    public function __construct(PushNotificationController $pushNotificationController)
+    {
+        $this->PushNotificationController = $pushNotificationController;
+    }
+
     public function resultList(){
         $result = new Result();
         $billOrder = BillOrder::where('id',DB::raw("(select max(`id`) from bill_orders)"))->pluck('draw')->first();
+        $billOrders = BillOrder::where('status_win',1)->get();
         return view('result.resultList')
             ->with('result_list',$result)
             ->with('currently_draw',$billOrder)
+            ->with('billOrders',$billOrders)
             ->with('results',Result::all());
     }
     public function resultStore(Request $request){
@@ -25,6 +34,9 @@ class ResultController extends Controller
             'animal3' => 'required|different:animal1|min:2|max:2',
 
         ]);
+        if(round($request->animal1)>40 || round($request->animal2)>40 || round($request->animal3)>40){
+            return back()->with("warning","3/40 not more than 40");
+        }
         if(BillOrder::where('draw',$request->get('draw'))->count() <= 0 ){
             return back()->with("warning","This draw is not exist");
         }
@@ -36,9 +48,11 @@ class ResultController extends Controller
         $result->animal2 = $request->animal2;
         $result->animal3 = $request->animal3;
         $result->save();
-
+        $title = "Result lottory draw ". $result->draw;
+        $body = "6d=".$result->l2d3d4d5d6d."\n3/40=".$result->animal1."-".$result->animal2."-".$result->animal3;
+         $this->PushNotificationController->pushNotificationAll($body,$title);
         $this->winStore($result->id);
-        return back()->with('success',"Updated result draw ".$result->draw." successful ");
+        return back()->with('success',"Updated result draw ".$result->draw." successful");
 
     }
 
@@ -105,10 +119,28 @@ class ResultController extends Controller
         return back()->with('success','Updated wining draw ' . $result->draw);
     }
 
+    public function resultDelete($id){
+        $this->winReset($id);
+        $result =  Result::find($id);
+        $result->delete();
+        return back()->with('success','Deleted result successful');
+
+    }
+
+    public function winReset($id){
+        $result = Result::find($id);
+        $billOrderDraw6d = BillOrder::where('draw',$result->draw)->where('type','2d3d4d5d6d')->pluck('id');
+        $billOrderDraw340 = BillOrder::where('draw',$result->draw)->where('type','3/40')->pluck('id');
+        DB::table('bill_orders')->where('draw',$result->draw)->update(['status_win' => 0]);
+        DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['status_win' => null]);
+        DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['status_win' => null]);
+
+    }
+
     public function winRestore($id){
-        DB::table('bill_orders')->update(['status_win' => 0]);
-        DB::table('billorder2d3d4d5d6ds')->update(['status_win' => null]);
-        DB::table('billorder340s')->update(['status_win' => null]);
+    $this->winReset($id);
+    $this->winStore($id);
+    return back()->with('success','Successful');
     }
 
 }

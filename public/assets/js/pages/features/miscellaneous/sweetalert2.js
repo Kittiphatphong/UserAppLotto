@@ -86,23 +86,42 @@ var KTSweetAlert2Demo = function () {
 			  	}
 		  	});
 		});
+
         $(document).ready( function() {
             $('.delete_form').on('click',function(e){
-                e.preventDefault()
-			Swal.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonText: 'Yes, delete it!'
 
-			}).then(function (result) {
-				if (result.value) {
-                    $('.delete_form').submit();
-				}
-			});
+                if(confirm("Are you sure you want to delete this?")){
+                    $(".delete_form").attr("href", "query.php?ACTION=delete&ID='1'");
+                }
+                else{
+                    return false;
+                }
 		});
         });
+        $(document).ready( function() {
+            $('.push_form').on('click',function(e){
+
+                if(confirm("Are you sure you want to push notification to all customer ?")){
+                    $(".push_form").attr("href", "query.php?ACTION=delete&ID='1'");
+                }
+                else{
+                    return false;
+                }
+            });
+        });
+        $(document).ready( function() {
+            $('.reset_form').on('click',function(e){
+
+                if(confirm("Are you sure you want to reset draw win?")){
+                    $(".push_form").attr("href", "query.php?ACTION=delete&ID='1'");
+                }
+                else{
+                    return false;
+                }
+            });
+        });
+
+
 
         $(window).bind('resize', function() {
             location.reload();
@@ -147,6 +166,24 @@ var KTSweetAlert2Demo = function () {
 				animation: false
 			});
 		});
+
+        // $(document).ready( function() {
+        //     $('.push_form').on('click',function(e){
+        //         e.preventDefault()
+        //         Swal.fire({
+        //             title: 'Are you sure?',
+        //             text: "You want to push notification to all customer!",
+        //             icon: 'info',
+        //             showCancelButton: true,
+        //             confirmButtonText: 'Yes'
+        //
+        //         }).then(function (result) {
+        //             if (result.value) {
+        //                 $('.push_form').submit();
+        //             }
+        //         });
+        //     });
+        // });
 
 		$('#kt_sweetalert_demo_11').click(function (e) {
 			Swal.fire({

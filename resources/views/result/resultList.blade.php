@@ -74,11 +74,13 @@
                     <thead>
                     <tr>
 
-                        <th>RECORD ID </th>
+
                         <th>Draw</th>
                         <th>2D3D4D5D6D</th>
                         <th>3/40</th>
                         <th>CREATED AT </th>
+                        <th>TOTAL WIN</th>
+                        <th>ACTION </th>
                         <th>UPDATED BY</th>
                         <th>UPDATED AT</th>
 
@@ -88,11 +90,24 @@
                     <tbody>
                     @foreach($results as $result)
                         <tr>
-                            <td>{{$result->id}}</td>
+
                             <td>{{$result->draw}}</td>
                             <td>{{$result->l2d3d4d5d6d}}</td>
                             <td>{{$result->animal1}}, {{$result->animal2}}, {{$result->animal3}}</td>
                             <td>{{$result->created_at}}</td>
+                            <td>{{$billOrders->where('draw',$result->draw)->count()}}</td>
+                            <td><div class="d-flex justify-content-start m-0">
+
+                                    <form action="{{route('win.restore',$result->id)}}" method="post" class="reset_form">
+                                        @csrf
+                                        <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-redo-alt"></i></button>
+                                    </form>
+                                    <form action="{{route('result.delete',$result->id)}}" method="post" class="delete_form">
+                                        @csrf
+                                        <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
                             <td>Jay</td>
                             <td>{{$result->updated_at}}</td>
 

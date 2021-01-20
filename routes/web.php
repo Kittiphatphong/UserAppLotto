@@ -49,8 +49,9 @@ Route::group(['middleware' =>'auth'],function(){
 //Result
     Route::get('result-list',[ResultController::class,'resultList'])->name('result.list');
     Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store');
+    Route::post('result-delete/{id}',[ResultController::class,'resultDelete'])->name('result.delete');
     Route::get('win-store/{id}',[ResultController::class,'winStore'])->name('win.store');
-    Route::get('win-restore/{id}',[ResultController::class,'winRestore'])->name('win.restore');
+    Route::post('win-restore/{id}',[ResultController::class,'winRestore'])->name('win.restore');
 
 //Promotion
     Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list');
@@ -58,7 +59,8 @@ Route::group(['middleware' =>'auth'],function(){
     Route::post('promotion-create',[PromotionController::class,'promotionStore'])->name('promotion.store');
     Route::get('promotion-edit/{id}',[PromotionController::class,'promotionEdit'])->name('promotion.edit');
     Route::post('promotion-edit/{id}',[PromotionController::class,'promotionUpdate'])->name('promotion.update');
-    Route::get('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete');
+    Route::post('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete');
+    Route::post('promotion-notification/{id}',[PromotionController::class,'promotionNotification'])->name('promotion.notification');
 
 
 });

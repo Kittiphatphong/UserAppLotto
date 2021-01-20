@@ -56,7 +56,7 @@ class BillOrderApiController extends Controller
         }
         $body = collect($list)->implode(' // ');
         $title = "Lotto 6D";
-        $this->PushNotificationController->pushNotification($body ,$title);
+        $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
 
        return response()->json($order);
 
@@ -106,7 +106,7 @@ class BillOrderApiController extends Controller
         }
         $body = collect($list)->implode(' // ');
         $title = "Lotto 3/40";
-        $this->PushNotificationController->pushNotification($body ,$title);
+        $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
         return response()->json($order);
 
     }

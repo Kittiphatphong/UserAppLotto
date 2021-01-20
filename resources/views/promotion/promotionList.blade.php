@@ -60,7 +60,7 @@
                     <thead>
                     <tr>
 
-                        <th>RECORD ID </th>
+
                         <th>TITLE</th>
                         <th>CONTENT</th>
                         <th>IMAGE</th>
@@ -76,8 +76,8 @@
                     <tbody>
                     @foreach($promotion_list as $promotion)
                         <tr>
-                            <td>{{$promotion->id}} </td>
-                            <td>{{$promotion->title}}</td>
+
+                            <td>{{$promotion->id}} {{$promotion->title}}</td>
                             <td>{{$promotion->content}}</td>
                             <td><img src="{{asset('storage')}}/promotion_image/{{$promotion->image}}" width="80%" ></td>
                             <td>
@@ -88,9 +88,19 @@
                                     <b class="far fa-dot-circle p-1 rounded text-success"> Active</b><span class="text-success"> {{$promotion->differentTime()}}</span>
                                 @endif
                             </td>
-                            <td>
-                                <a href="{{route('promotion.edit',$promotion->id)}}" class="mr-4"><i class="far fa-edit"></i></a>
-                                <a href="{{route('promotion.delete',$promotion->id)}}"><i class="fas fa-trash"></i></a>
+                            <td><div class="d-flex justify-content-start">
+                                <a href="{{route('promotion.edit',$promotion->id)}}" class="btn btn-link"><i class="far fa-edit"></i></a>
+
+                                <form action="{{route('win.restore',$promotion->id)}}" method="post" class="delete_form">
+                                    @csrf
+                                <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
+                                </form>
+
+                                    <form action="{{route('promotion.notification',$promotion->id)}}" method="post" class="push_form">
+                                    @csrf
+                                    <button type="submit"  class="btn btn-link"><i class="fas fa-arrow-alt-circle-up "></i></button>
+                                </form>
+                                </div>
                             </td>
                             <td>{{$promotion->start}}</td>
                             <td>{{$promotion->end}}</td>
@@ -104,5 +114,6 @@
             <!--end: Datatable-->
         </div>
     </div>
+
 
 @endsection
