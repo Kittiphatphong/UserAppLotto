@@ -17,11 +17,11 @@ class ResultApiController extends Controller
 }
    public function pullResult(Request $request){
         $this->ResultController->resultStore($request);
-        return response("updated result success");
+            return response()->json(['status' => true ,'msg' => 'Updated result successful'],201);
    }
 
    public function showResult(){
         $result = Result::orderBy('draw','desc')->get();
-        return response()->json($result);
+        return response()->json(['status' => true ,'data' => $result],200);
    }
 }

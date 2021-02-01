@@ -9,6 +9,7 @@ use App\Models\Billorder340;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
+use Illuminate\Support\Facades\Validator;
 class BillOrderApiController extends Controller
 {
     protected $PushNotificationController;
@@ -28,17 +29,20 @@ class BillOrderApiController extends Controller
     }
 
     public function sell2d3d4d5d6d(Request $request){
-        $request->validate([
-        'phone_no' => 'required',
+         $validator = Validator::make($request->all(),[
+        'phone' => 'required|min:10|max:10|exists:customers,phone',
         'bill_number' => 'required|unique:bill_orders|min:7|max:7',
         'draw' => 'numeric|required',
         'code' =>'required|json',
         ]);
+         if($validator->fails()){
+             return response()->json([
+               'status' => false,
+                'msg' => $validator->errors()
+             ],422);
+         }
 
         $customer = Customer::where('phone',$request->phone_no)->first();
-        if(!$customer){
-            return response($customer->token()->count());
-        }
 
         $type = "2d3d4d5d6d";
         $order = $this->billOrder($request->bill_number,$request->draw,$customer->id,$type);
@@ -58,22 +62,27 @@ class BillOrderApiController extends Controller
         $title = "Lotto 6D";
         $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
 
-       return response()->json($order);
+       return response()->json([
+           'status' => true,
+           'data'   => $order
+       ],201);
 
     }
     public function sell340(Request $request){
-        $request->validate([
-            'phone_no' => 'required',
+        $validator = Validator::make($request->all(),[
+            'phone' => 'required|min:10|max:10|exists:customers,phone',
             'bill_number' => 'required|unique:bill_orders|min:7|max:7',
             'draw' => 'numeric|required',
             'code' =>'required|json',
-
         ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'msg' => $validator->errors()
+            ],422);
+        }
 
         $customer = Customer::where('phone',$request->phone_no)->first();
-        if(!$customer){
-            return response('This phone number do not exist');
-        }
         $type = "3/40";
         $order = $this->billOrder($request->bill_number,$request->draw,$customer->id,$type);
 
@@ -107,7 +116,10 @@ class BillOrderApiController extends Controller
         $body = collect($list)->implode(' // ');
         $title = "Lotto 3/40";
         $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
-        return response()->json($order);
+        return response()->json([
+            'status' => true,
+            'data'   => $order
+        ],201);
 
     }
 

@@ -6,19 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Validator;
 class ProviderApiController extends Controller
 {
     public function login(Request $request){
-        $request->validate([
-            'provider_name' => 'required',
-            'password' => 'required',
+        $validator =  Validator::make($request->all(),[
+            'provider_name' => 'required|exists:providers,provider_name',
+            'password' => 'required|min:8',
             'device_name' => 'required',
         ]);
+        if($validator->fails()){
+            return response()->json([
+               'status' => "false",
+                'msg' => $validator->errors()
+            ],422);
+        }
         $provider = Provider::where('provider_name',$request->provider_name)->first();
         if(! $provider || !Hash::check($request->password,$provider->password)){
 
-            return response('This provider name is not correct');
+            return response()->json([
+                'status' => "false",
+                'msg' => ['password'=>'Password is incorrect'],
+            ],422);;
         }
 
         $provider->tokens()->delete();
