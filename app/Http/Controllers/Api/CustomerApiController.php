@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\OTP;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Http\Controllers\SendMassageController;
@@ -19,13 +19,18 @@ class CustomerApiController extends Controller
         $this->SendMassageController = $sendMassageController;
     }
 
-
     public function login(Request $request){
-        $request->validate([
-            'phone' => 'required',
+        $validator=  Validator::make($request->all(), [
+            'phone' => 'required|min:10|max:10|exists:customers,phone',
             'password' => 'required',
             'device_name' => 'required',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors(),
+            ], 422);
+        }
         $customer = Customer::where('phone',$request->phone)->first();
     if(! $customer || !Hash::check($request->password,$customer->password)){
 
@@ -52,13 +57,91 @@ class CustomerApiController extends Controller
         $customer = new Customer();
         $customer->phone =$request->phone;
         $customer->save();
-        $this->requestOTP($customer->id);
-        return response()->json(['status' => true,'data' => [$customer,$customer->otps]],201);
+        $customer->requestNewOTP();
+
+        $customerPhone = $customer->phone;
+        $contentSms= "Your OTP is ". $customer->otps->otp_number;
+        $this->SendMassageController->sendOTP($customerPhone,$contentSms);
+
+        return response()->json(['status' => true,'msg' => 'successful'],201);
     }
 
-    public function setPassword(Request $request, $id){
+    public function requestOTP(Request $request){
+        $validator=  Validator::make($request->all(), [
+            'phone' => 'required|min:10|max:10|exists:customers,phone'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors(),
+            ], 422);
+        }
+
+        $customer = Customer::where('phone',$request->phone)->first();
+        $otps = OTP::where('customer_id',$customer->id)->pluck('id');
+
+
+        if ($otps->count() > 0){
+            $otp = OTP::find($otps->first());
+            $otp->otp_number = rand(100000,999999);
+            $otp->save();
+
+            if($otp->status == 1){
+                return response()->json(['status' => false ,'msg' => 'This number is verify'],422);
+            }
+            $customerPhone = $customer->phone;
+            $contentSms= "Your OTP is ".  $otp->otp_number;
+            $this->SendMassageController->sendOTP($customerPhone,$contentSms);
+            return response()->json(['status' => true, 'mgs' => 'Request new OTP successful'],201);
+
+        }
+        if($customer->otps){
+            $start = $customer->otps->updated_at->addMinutes(3 );
+            if($start->gt(Carbon::now('Asia/Vientiane'))){
+                $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
+                return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
+            }
+        }
+
+    }
+
+    public function verifyOTP(Request $request){
+        $validator=  Validator::make($request->all(), [
+            'otp_verify' => 'required|numeric',
+            'phone' => 'min:10|max:10|exists:customers,phone'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors(),
+            ], 422);
+        }
+
+        $customer = Customer::where('phone',$request->phone)->first();
+        $start = $customer->otps->updated_at->addMinutes(3);
+        //Check OTP number
+
+        if($request->otp_verify == $customer->otps->otp_number){
+            if($start->lt(Carbon::now('Asia/Vientiane'))){
+                return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
+            }
+
+            $otps = OTP::where('customer_id','=',$customer->id)->pluck('id');
+            $otp = OTP::find($otps->first());
+            $otp->status = 1;
+            $otp->save();
+            return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
+        }else{
+            return response()->json(['status' => false ,'msg' => 'OTP is incorrect'],422);
+        }
+    }
+
+    public function setPassword(Request $request){
         $validator= Validator::make($request->all(),[
             'password' => 'required|min:8',
+            'phone' => 'min:10|max:10|exists:customers,phone'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -66,18 +149,19 @@ class CustomerApiController extends Controller
                 "msg" => $validator->errors(),
             ], 422);
         }
-        $customer = Customer::find($id);
+        $customer = Customer::where('phone',$request->phone)->first();
 
             $customer->password = Hash::make($request->password);
             $customer->save();
             return response()->json(['status' => true, 'data' => $customer],201);
     }
 
-    public function moreAccount(Request $request, $id){
+    public function moreAccount(Request $request){
         $validator = Validator::make($request->all(),[
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'birthday' => 'required|date',
+            'phone' => 'min:10|max:10|exists:customers,phone'
         ]);
         if($validator->fails()){
             return response()->json([
@@ -86,65 +170,12 @@ class CustomerApiController extends Controller
             ],422);
 
         }
-        $customer = Customer::find($id);
+        $customer = Customer::where('phone',$request->phone)->first();
         $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender);
         $customer->save();
         return response()->json(['stutus' => true , 'data' => $customer]);
     }
 
 
-    public function requestOTP($id){
 
-    $otps = OTP::where('customer_id',$id)->pluck('id');
-        $customer = Customer::find($id);
-
-    if ($otps->count() > 0){
-        $otp = OTP::find($otps->first());
-        if($otp->status == 1){
-            return response()->json(['status' => false ,'msg' => 'This number is verify'],422);
-        }
-    }else{
-        $otp = new OTP();
-    }
-    if($customer->otps){
-        $start = $customer->otps->updated_at->addMinutes(3);
-        if($start->gt(Carbon::now('Asia/Vientiane'))){
-            $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
-            return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
-        }
-    }
-
-        $otp->customer_id = $id;
-        $otp->otp_number = rand(100000,999999);
-        $otp->save();
-
-//        //Send otp to sms
-//        $customerPhone = Customer::find($id)->phone;
-//        $contentSms= "Your OTP is ". $otp->otp_number;
-//        $this->SendMassageController->sendOTP($customerPhone,$contentSms);
-        return respones()->json(['status' => true, 'data' => $otp->otp_number],201);
-    }
-
-    public function verifyOTP(Request $request,$id){
-        $request->validate([
-            'otp_verify' => 'required|numeric'
-        ]);
-    $customer = Customer::find($id);
-    $start = $customer->otps->updated_at->addMinutes(3);
-    //Check OTP number
-
-    if($request->otp_verify == $customer->otps->otp_number){
-        if($start->lt(Carbon::now('Asia/Vientiane'))){
-            return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
-        }
-
-        $otps = OTP::where('customer_id','=',$id)->pluck('id');
-        $otp = OTP::find($otps->first());
-        $otp->status = 1;
-        $otp->save();
-            return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
-    }else{
-        return response()->json(['status' => false ,'msg' => 'OTP is incorrect'],422);
-    }
-    }
 }

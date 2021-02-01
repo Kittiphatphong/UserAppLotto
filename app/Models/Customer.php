@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 class Customer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -29,5 +30,14 @@ class Customer extends Model
 
     public function orders(){
         return $this->hasMany(BillOrder::class);
+    }
+
+    public function requestNewOTP(){
+
+        $otp = new OTP();
+        $otp->customer_id = $this->id;
+        $otp->otp_number = rand(100000,999999);
+        $otp->save();
+
     }
 }
