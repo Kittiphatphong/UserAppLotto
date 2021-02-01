@@ -21,9 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register-customer',[CustomerApiController::class,'Register']);
+Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone']);
 Route::post('/register-otp/{id}',[CustomerApiController::class,'requestOTP']);
 Route::post('/verify-otp/{id}',[CustomerApiController::class,'verifyOTP']);
+Route::post('/set-password/{id}',[CustomerApiController::class,'setPassword']);
+Route::post('/set-Account/{id}',[CustomerApiController::class,'moreAccount']);
 
 Route::post('/login-customer',[CustomerApiController::class,'login']);
 

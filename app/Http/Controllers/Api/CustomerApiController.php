@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\OTP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Http\Controllers\SendMassageController;
 class CustomerApiController extends Controller
@@ -18,6 +19,7 @@ class CustomerApiController extends Controller
         $this->SendMassageController = $sendMassageController;
     }
 
+
     public function login(Request $request){
         $request->validate([
             'phone' => 'required',
@@ -27,30 +29,69 @@ class CustomerApiController extends Controller
         $customer = Customer::where('phone',$request->phone)->first();
     if(! $customer || !Hash::check($request->password,$customer->password)){
 
-        return response('This number is incorrect');
+        return response()->json(['status' => false ,'msg' => 'This number is incorrect'],422);
     }
         if( $customer->otps->status != 1){
-            return response('This number is not verify');
+            return response()->json(['status' => false ,'msg' => 'This number is not verify'],422);
         }
 
     $customer->tokens()->delete();
     return $customer->createToken($request->device_name)->plainTextToken;
     }
 
-    public function register(Request $request){
-        $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+    public function registerPhone(Request $request){
+        $validator=  Validator::make($request->all(), [
             'phone' => 'required|max:10|min:10|unique:customers',
-            'birthday' => 'required',
-            'password' => 'required|string|min:8',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors(),
+            ], 422);
+    }
         $customer = new Customer();
-        $customer->makeCustomer($request->firstname,$request->lastname,$request->phone,$request->password,$request->birthday,$request->gender);
+        $customer->phone =$request->phone;
         $customer->save();
         $this->requestOTP($customer->id);
-        return response()->json([$customer,$customer->otps]);
+        return response()->json(['status' => true,'data' => [$customer,$customer->otps]],201);
     }
+
+    public function setPassword(Request $request, $id){
+        $validator= Validator::make($request->all(),[
+            'password' => 'required|min:8',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors(),
+            ], 422);
+        }
+        $customer = Customer::find($id);
+
+            $customer->password = Hash::make($request->password);
+            $customer->save();
+            return response()->json(['status' => true, 'data' => $customer],201);
+    }
+
+    public function moreAccount(Request $request, $id){
+        $validator = Validator::make($request->all(),[
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'birthday' => 'required|date',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+            "status" => false,
+            "msg" => $validator->errors()  ,
+            ],422);
+
+        }
+        $customer = Customer::find($id);
+        $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender);
+        $customer->save();
+        return response()->json(['stutus' => true , 'data' => $customer]);
+    }
+
 
     public function requestOTP($id){
 
@@ -60,7 +101,7 @@ class CustomerApiController extends Controller
     if ($otps->count() > 0){
         $otp = OTP::find($otps->first());
         if($otp->status == 1){
-            return response('This number is verify');
+            return response()->json(['status' => false ,'msg' => 'This number is verify'],422);
         }
     }else{
         $otp = new OTP();
@@ -69,7 +110,7 @@ class CustomerApiController extends Controller
         $start = $customer->otps->updated_at->addMinutes(3);
         if($start->gt(Carbon::now('Asia/Vientiane'))){
             $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
-            return response('Waiting about '.gmdate('i:s', $timeWait).' for request new OTP');
+            return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
         }
     }
 
@@ -81,8 +122,7 @@ class CustomerApiController extends Controller
 //        $customerPhone = Customer::find($id)->phone;
 //        $contentSms= "Your OTP is ". $otp->otp_number;
 //        $this->SendMassageController->sendOTP($customerPhone,$contentSms);
-
-        return response($otp->otp_number);
+        return respones()->json(['status' => true, 'data' => $otp->otp_number],201);
     }
 
     public function verifyOTP(Request $request,$id){
@@ -95,16 +135,16 @@ class CustomerApiController extends Controller
 
     if($request->otp_verify == $customer->otps->otp_number){
         if($start->lt(Carbon::now('Asia/Vientiane'))){
-            return response('OTP is expired');
+            return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
         }
 
         $otps = OTP::where('customer_id','=',$id)->pluck('id');
         $otp = OTP::find($otps->first());
         $otp->status = 1;
         $otp->save();
-            return response('success');
+            return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
     }else{
-        return response('OTP is incorrect');
+        return response()->json(['status' => false ,'msg' => 'OTP is incorrect'],422);
     }
     }
 }

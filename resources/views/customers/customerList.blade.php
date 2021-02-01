@@ -168,9 +168,9 @@
                           </td>
                    <td><form action="{{route('customer.delete',$customer->id)}}" method="post" class="delete_form">
                            @csrf <button type="submit" class="btn btn-link text-danger m-0 p-0 " ><i class="fa fa-trash-alt text-danger"></i></button></form></td>
-                   <td>{{$customer->firstname}} {{$customer->lastname}}</td>
-                   <td>{{$customer->gender}}</td>
-                   <td>{{$customer->birthday}}</td>
+                   <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->firstname}} {{$customer->lastname}}@endif</td>
+                   <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->gender}}@endif</td>
+                   <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->birthday}}@endif</td>
 
                    <td>10</td>
                    <td>2.000.000</td>

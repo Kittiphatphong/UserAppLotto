@@ -11,13 +11,16 @@ class Customer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function makeCustomer($firstname,$lastname,$phone,$password,$birthday,$gender){
+    public function makeCustomer($firstname,$lastname,$birthday,$gender){
         $this->firstname = $firstname;
         $this->lastname = $lastname;
-        $this->phone = $phone;
-        $this->password = Hash::make($password);
         $this->birthday = $birthday;
         $this->gender = $gender;
+    }
+    public function newCustomer($phone,$password){
+        $this->phone = $phone;
+        $this->password = Hash::make($password);
+
     }
 
     public function otps(){

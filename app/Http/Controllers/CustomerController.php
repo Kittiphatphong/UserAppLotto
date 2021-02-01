@@ -29,7 +29,7 @@ class CustomerController extends Controller
             'password' => 'required|string|min:8',
         ]);
           $customer = new Customer();
-       $customer->makeCustomer($request->firstname,$request->lastname,$request->phone,$request->password,$request->birthday,$request->gender);
+       $customer->newCustomer($request->firstname,$request->lastname,$request->phone,$request->password,$request->birthday,$request->gender);
        $customer->save();
        $otp = new OTP();
        $otp->status = 1;
