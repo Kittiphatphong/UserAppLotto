@@ -32,12 +32,13 @@ class CustomerApiController extends Controller
             ], 422);
         }
         $customer = Customer::where('phone',$request->phone)->first();
-    if(! $customer || !Hash::check($request->password,$customer->password)){
 
-        return response()->json(['status' => false ,'msg' => 'This number is incorrect'],422);
-    }
         if( $customer->otps->status != 1){
             return response()->json(['status' => false ,'msg' => 'This number is not verify'],422);
+        }
+        if(! $customer || !Hash::check($request->password,$customer->password)){
+
+            return response()->json(['status' => false ,'msg' => 'This password is not correct'],422);
         }
 
     $customer->tokens()->delete();
@@ -132,6 +133,9 @@ class CustomerApiController extends Controller
             $otp = OTP::find($otps->first());
             $otp->status = 1;
             $otp->save();
+            if($otp->status == 1){
+                return response()->json(['status' => false ,'msg' => 'This number is verified'],422);
+            }
             return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
         }else{
             return response()->json(['status' => false ,'msg' => 'OTP is incorrect'],422);
@@ -140,8 +144,9 @@ class CustomerApiController extends Controller
 
     public function setPassword(Request $request){
         $validator= Validator::make($request->all(),[
-            'password' => 'required|min:8',
-            'phone' => 'min:10|max:10|exists:customers,phone'
+            'password' => 'required|min:8|same:password_confirm',
+            'phone' => 'min:10|max:10|exists:customers,phone',
+            'device_token' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -149,9 +154,13 @@ class CustomerApiController extends Controller
                 "msg" => $validator->errors(),
             ], 422);
         }
-        $customer = Customer::where('phone',$request->phone)->first();
 
+        $customer = Customer::where('phone',$request->phone)->first();
+        if($customer->otps->status == 0 ){
+            return response()->json(['status' => false ,'msg' => 'This number is not verify'],422);
+        }
             $customer->password = Hash::make($request->password);
+            $customer->device_token = Hash::make($request->device_token);
             $customer->save();
             return response()->json(['status' => true, 'data' => $customer],201);
     }

@@ -25,7 +25,7 @@ Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone'])
 Route::post('/register-otp',[CustomerApiController::class,'requestOTP']);
 Route::post('/verify-otp',[CustomerApiController::class,'verifyOTP']);
 Route::post('/set-password',[CustomerApiController::class,'setPassword']);
-Route::post('/set-Account/{id}',[CustomerApiController::class,'moreAccount']);
+Route::post('/set-Account',[CustomerApiController::class,'moreAccount']);
 
 Route::post('/login-customer',[CustomerApiController::class,'login']);
 
