@@ -20,8 +20,8 @@ class Billorder2d3d4d5d6d extends Model
         $order->save();
     }
 
-   public function sumWins($digit){
-       switch ($digit){
+   public function sumWins(){
+       switch ($this->status_win){
            case 6:
                $sum = $this->money * 400000;
                break;
@@ -45,7 +45,16 @@ class Billorder2d3d4d5d6d extends Model
            default:
                echo "Don't have this digit";
        }
-
-       return $sum;
+   if($sum<1000000){
+       $total = ($sum/1000)."K";
+   }elseif ($sum>=1000000 && $sum<1000000000){
+       $total =($sum/1000000)."M";
+   }else{
+       $total =($sum/1000000000)."B";
+   }
+   if($total ==0){
+       $total=1;
+   }
+       return $total;
    }
 }

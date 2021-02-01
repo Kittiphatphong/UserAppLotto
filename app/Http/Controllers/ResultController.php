@@ -23,7 +23,7 @@ class ResultController extends Controller
             ->with('result_list',$result)
             ->with('currently_draw',$billOrder)
             ->with('billOrders',$billOrders)
-            ->with('results',Result::all());
+            ->with('results',Result::orderBy('draw','desc')->get());
     }
     public function resultStore(Request $request){
         $request->validate([
@@ -116,6 +116,9 @@ class ResultController extends Controller
             }
 
         }
+        //push notification to customer
+        $this->PushNotificationController->pushNotificationWin($result->draw);
+
         return back()->with('success','Updated wining draw ' . $result->draw);
     }
 

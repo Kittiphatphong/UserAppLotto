@@ -112,5 +112,14 @@ class BillOrderApiController extends Controller
     }
 
 
+    public function bill6dCustomer(){
+        $bill2d3d4d5d6d = BillOrder::with(['billorder2d3d4d5d6ds','customers'])->orderBy('id','desc')->where('type','2d3d4d5d6d')->get();
+        return response()->json($bill2d3d4d5d6d);
+    }
+    public function bil340Customer(){
+        $bill340 = BillOrder::with(['bill340s','customers'])->orderBy('id','desc')->where('type','3/40')->get();
+        return response()->json($bill340);
+    }
+
 
 }

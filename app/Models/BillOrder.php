@@ -57,7 +57,6 @@ class BillOrder extends Model
     }
 
 
-
     public function bill340s(){
         return $this->hasMany(Billorder340::class,'order_id');
     }

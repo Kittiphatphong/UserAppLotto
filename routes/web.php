@@ -65,4 +65,6 @@ Route::group(['middleware' =>'auth'],function(){
 
 });
 
+
+Route::get('test/{draw}',[\App\Http\Controllers\PushNotificationController::class,'pushNotificationWin']);
 require __DIR__.'/auth.php';

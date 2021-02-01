@@ -20,4 +20,35 @@ class Billorder340 extends Model
         $order->status_win = 1 ;
         $order->save();
     }
+
+    public function sumWins(){
+        switch ($this->status_win){
+            case 3:
+                $sum = $this->money * 6000;
+                break;
+
+            case 2:
+                $sum = $this->money * 160;
+                break;
+
+            case 1:
+                $sum = $this->money * 8;
+                break;
+
+            default:
+                echo "Don't have this digit";
+        }
+
+        if($sum<1000000){
+            $total = ($sum/1000)."K";
+        }elseif ($sum>=1000000 && $sum<1000000000){
+            $total =($sum/1000000)."M";
+        }else{
+            $total =($sum/1000000000)."B";
+        }
+        if($total ==0){
+            $total=1;
+        }
+        return $total;
+    }
 }

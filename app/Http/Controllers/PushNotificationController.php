@@ -55,4 +55,74 @@ class PushNotificationController extends Controller
         }
 
     }
+    public function pushNotificationWin($draw){
+        $customer6ds = Customer::whereNotNull('device_token')
+        ->whereHas('orders',function ($q) use($draw){
+            $q->where('status_win',1);
+            $q->where('draw',$draw);
+            $q->where('type',"2d3d4d5d6d");
+        })->get();
+        $customer340s = Customer::whereNotNull('device_token')
+            ->whereHas('orders',function ($q) use($draw){
+                $q->where('status_win',1);
+                $q->where('draw',$draw);
+                $q->where('type',"3/40");
+            })->get();
+
+        $title6d= "Congratulations You win lottory 6d Draw ".$draw."\n";
+        $body6d=null;
+
+
+        foreach($customer6ds as $customer){
+            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','2d3d4d5d6d');
+        foreach ($orders as $order){
+
+           $orderText= "ID=".$order->id." "."Total win=".$order->winAmount2d3d4d5d6d();
+           $win6dTexts=null;
+        foreach ($order->win2d3d4d5d6ds as $win6d){
+            $win6dText = $win6d->number_code;
+            $sumWin = $win6d->sumWins();
+            $win6dTexts.=" ".$win6dText."=".$sumWin.";";
+        }
+            $body6d.=$orderText."\nCode:".$win6dTexts."\n";
+
+        }
+            $this->pushNotification($body6d,$title6d,$customer->device_token);
+
+        }
+
+        $title340= "Congratulations You win lottory 3/40 Draw ".$draw."\n";
+        $body340=null;
+
+        foreach($customer340s as $customer){
+            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','3/40');
+            foreach ($orders as $order){
+
+                $orderText= "ID=".$order->id." "."Total win=".$order->winAmount340();
+                $win340Texts=null;
+
+                foreach ($order->win340s as $win340){
+                    
+                    if($win340->animal1 != null && $win340->animal2 == null && $win340->animal3 == null)
+                    $win340Text = "[".$win340->animal1."]";
+                    elseif($win340->animal1 != null && $win340->animal2 != null && $win340->animal3 == null)
+                    $win340Text = "[".$win340->animal1."]"."[".$win340->animal2."]";
+                    else
+                        $win340Text = "[".$win340->animal1."]"."[".$win340->animal2."]"."[".$win340->animal3."]";
+
+                    $sumWin = $win340->sumWins();
+                    $win340Texts.=" ".$win340Text."=".$sumWin.";";
+                }
+
+                $body340.=$orderText."\nCode:".$win340Texts."\n";
+
+            }
+            $this->pushNotification($body340,$title340,$customer->device_token);
+
+
+        }
+
+
+
+    }
 }
