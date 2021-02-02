@@ -257,6 +257,14 @@
                                 <span class="menu-text">Provider</span>
                             </a>
                         </li>
+
+                                <li class="menu-item  @isset($recommend_list) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('recommend.list')}}" class="menu-link">
+                                <i class="menu-icon flaticon-users-1"></i>
+                                <span class="menu-text">Recommend Lotto</span>
+                            </a>
+                        </li>
+
                         <li class="menu-item" aria-haspopup="true">
                             <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">
                                 <i class="menu-icon flaticon-cogwheel-1"></i>

@@ -7,16 +7,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\WinnerController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\PromotionController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\RecommentLottoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,6 +53,9 @@ Route::group(['middleware' =>'auth'],function(){
     Route::post('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete');
     Route::post('promotion-notification/{id}',[PromotionController::class,'promotionNotification'])->name('promotion.notification');
 
+//Recommend lotto
+
+    Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
 
 });
 
