@@ -15,6 +15,8 @@ class CreateRecommentLottosTable extends Migration
     {
         Schema::create('recomment_lottos', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('contet');
             $table->timestamps();
         });
     }

@@ -124,20 +124,23 @@ class CustomerApiController extends Controller
         $customer = Customer::where('phone',$request->phone)->first();
         $start = $customer->otps->updated_at->addMinutes(3);
         //Check OTP number
-
         if($request->otp_verify == $customer->otps->otp_number){
-            if($start->lt(Carbon::now('Asia/Vientiane'))){
-                return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
-            }
 
             $otps = OTP::where('customer_id','=',$customer->id)->pluck('id');
             $otp = OTP::find($otps->first());
-            $otp->status = 1;
-            $otp->save();
+
             if($otp->status == 1){
                 return response()->json(['status' => false ,'msg' => 'This number is verified'],422);
             }
+
+            if($start->lt(Carbon::now('Asia/Vientiane'))){
+                return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
+            }
+            
+            $otp->status = 1;
+            $otp->save();
             return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
+
         }else{
             return response()->json(['status' => false ,'msg' => 'OTP is incorrect'],422);
         }
