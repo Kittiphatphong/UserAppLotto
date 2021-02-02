@@ -260,7 +260,7 @@
 
                                 <li class="menu-item  @isset($recommend_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('recommend.list')}}" class="menu-link">
-                                <i class="menu-icon flaticon-users-1"></i>
+                                <i class="menu-icon far fa-comments"></i>
                                 <span class="menu-text">Recommend Lotto</span>
                             </a>
                         </li>

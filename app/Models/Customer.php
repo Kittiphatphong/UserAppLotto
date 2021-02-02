@@ -36,7 +36,7 @@ class Customer extends Model
 
         $otp = new OTP();
         $otp->customer_id = $this->id;
-        $otp->otp_number = rand(100000,999999);
+        $otp->otp_number = rand(1000,9999);
         $otp->save();
 
     }

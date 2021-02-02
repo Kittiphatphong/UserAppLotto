@@ -91,7 +91,7 @@ class CustomerApiController extends Controller
 
         if ($otps->count() > 0){
             $otp = OTP::find($otps->first());
-            $otp->otp_number = rand(100000,999999);
+            $otp->otp_number = rand(1000,9999);
             $otp->save();
 
             if($otp->status == 1){
