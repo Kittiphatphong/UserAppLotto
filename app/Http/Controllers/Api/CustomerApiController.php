@@ -81,6 +81,13 @@ class CustomerApiController extends Controller
         $customer = Customer::where('phone',$request->phone)->first();
         $otps = OTP::where('customer_id',$customer->id)->pluck('id');
 
+        if($customer->otps){
+            $start = $customer->otps->updated_at->addMinutes(3 );
+            if($start->gt(Carbon::now('Asia/Vientiane'))){
+                $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
+                return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
+            }
+        }
 
         if ($otps->count() > 0){
             $otp = OTP::find($otps->first());
@@ -90,13 +97,7 @@ class CustomerApiController extends Controller
             if($otp->status == 1){
                 return response()->json(['status' => false ,'msg' => 'This number is verify'],422);
             }
-            if($customer->otps){
-                $start = $customer->otps->updated_at->addMinutes(3 );
-                if($start->gt(Carbon::now('Asia/Vientiane'))){
-                    $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
-                    return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
-                }
-            }
+
             $customerPhone = $customer->phone;
             $contentSms= "Your OTP is ".  $otp->otp_number;
             $this->SendMassageController->sendOTP($customerPhone,$contentSms);
