@@ -56,6 +56,7 @@ Route::group(['middleware' =>'auth'],function(){
 //Recommend lotto
 
     Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
+    Route::get('recommend-create',[RecommentLottoController::class,'recommendCreate'])->name('recommend.create');
 
 });
 

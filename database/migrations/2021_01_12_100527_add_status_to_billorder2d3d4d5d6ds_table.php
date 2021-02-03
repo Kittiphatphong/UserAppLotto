@@ -14,7 +14,7 @@ class AddStatusToBillorder2d3d4d5d6dsTable extends Migration
     public function up()
     {
         Schema::table('billorder2d3d4d5d6ds', function (Blueprint $table) {
-            $table->integer('status_win')->nullable()->after('order_id');
+            $table->integer('type_win')->nullable()->after('order_id');
         });
     }
 

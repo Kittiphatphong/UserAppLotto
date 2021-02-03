@@ -38,10 +38,14 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('sell-340',[BillOrderApiController::class,'sell340']);
     Route::post('pull-result',[ResultApiController::class,'pullResult']);
 
+    Route::post('all-bill-customer',[BillOrderApiController::class,'billAll']);
+    Route::post('detail-bill-customer',[BillOrderApiController::class,'billDetail']);
     Route::post('bill6d-customer',[BillOrderApiController::class,'bill6dCustomer']);
     Route::post('bill340-customer',[BillOrderApiController::class,'bil340Customer']);
 
     Route::post('show-result',[ResultApiController::class,'showResult']);
+
+    Route::post('logout-customer',[CustomerApiController::class,'logout']);
 
 });
 

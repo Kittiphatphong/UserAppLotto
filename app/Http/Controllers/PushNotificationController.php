@@ -12,7 +12,9 @@ class PushNotificationController extends Controller
 //        $token = "ezawAWrbaUNt3yJ_xUA7cg:APA91bEyIsZuq2-UB6P70PvLSJK5pKn6EA51o01E_KfLgMabw3LM2hpiIJzru9ioZ3nFNpqtcTagv8HclUQgboaZnPc7IjObWzSUJ7rlzRh6DivOE_R6sbG8Nn3Tl4WeK9CS7HusYVN5";
 //        $token = "f8NAhkmxsqLDcBkj1Up3pR:APA91bGOOWO22D4Z8G21VsZu-RyRq_dklGz7yXkfzO2HCAJWD2u4rN6KfFrr4WfKzPOCb06GLrpKAwd0-mjXB-jmgpLheIyVkHZhFpeET-KNHvUYKWMZG6qbfIz9-_8hM4RYzRyMJADr";
 //
+//$token="dbJAssFYnkCrghD6vc3UsC:APA91bExsuwNSHaj6R54pdYX7u2nwIowzcTRpK--ayOgpQrwUkYaXEjsNPd74y0lvoxVlHq6efDBLvPChJAVuSfxzxLKcJ5Q1q-b0h5hienVTFRI7fKzdWWZkQ98eAyawaPioAnI6e2N";
         $from = "AAAA1twLRCc:APA91bF77GPgkgQsjvS2QNAhVVG1ycM2kPRgV9NGNApRNf_P5ylcuF2RwudjWqwvjG9Fn5E3Jfc31z5IYeTo8331lAJcEpjciMLSrbiDTACKFZzWeDEhITh7il6sam_hlTwRoFhipN9I";
+//        $from ="AAAAj--EuJs:APA91bGwks5UxG8TkSIf3kCeeOzKhZS8PSFy_DtQjVzSG5-zUvV6fbMPQ9-TPKyEyGeHVpaiK4-zZ0h2kScrr-TS0RwrGG79EQaSkGedR4Kxkg5BhlbI7Fi_zJOThvLphJYkn_J0UFAi";
         $msg = array
         (
             'body'  => $body,
@@ -102,7 +104,7 @@ class PushNotificationController extends Controller
                 $win340Texts=null;
 
                 foreach ($order->win340s as $win340){
-                    
+
                     if($win340->animal1 != null && $win340->animal2 == null && $win340->animal3 == null)
                     $win340Text = "[".$win340->animal1."]";
                     elseif($win340->animal1 != null && $win340->animal2 != null && $win340->animal3 == null)

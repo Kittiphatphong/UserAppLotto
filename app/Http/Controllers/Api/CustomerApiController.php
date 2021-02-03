@@ -40,8 +40,16 @@ class CustomerApiController extends Controller
             return response()->json(['status' => false ,'msg' => 'This password is not correct'],422);
         }
 
-    $customer->tokens()->delete();
-    return $customer->createToken($request->device_name)->plainTextToken;
+        $customer->tokens()->delete();
+        $customer->device_token = $request->device_name;
+        $customer->save();
+        $token =    $customer->createToken($request->device_name)->plainTextToken;
+        return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
+    }
+
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['status' => true ,'msg' => 'logout']);
     }
 
     public function registerPhone(Request $request){
@@ -82,7 +90,7 @@ class CustomerApiController extends Controller
         $otps = OTP::where('customer_id',$customer->id)->pluck('id');
 
         if($customer->otps){
-            $start = $customer->otps->updated_at->addMinutes(3 );
+            $start = $customer->otps->updated_at->addMinutes(3);
             if($start->gt(Carbon::now('Asia/Vientiane'))){
                 $timeWait = $start->diffInSeconds(Carbon::now('Asia/Vientiane'));
                 return response()->json(['status' => false ,'msg' => 'Waiting about '.gmdate('i:s', $timeWait).' for request new OTP'],422);
@@ -136,7 +144,7 @@ class CustomerApiController extends Controller
             if($start->lt(Carbon::now('Asia/Vientiane'))){
                 return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
             }
-            
+
             $otp->status = 1;
             $otp->save();
             return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
@@ -163,10 +171,14 @@ class CustomerApiController extends Controller
         if($customer->otps->status == 0 ){
             return response()->json(['status' => false ,'msg' => 'This number is not verify'],422);
         }
+            $customer->tokens()->delete();
             $customer->password = Hash::make($request->password);
-            $customer->device_token = Hash::make($request->device_token);
+            $customer->device_token = $request->device_token;
             $customer->save();
-            return response()->json(['status' => true, 'data' => $customer],201);
+
+        $token =    $customer->createToken($request->device_token)->plainTextToken;
+        return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
+
     }
 
     public function moreAccount(Request $request){
@@ -186,7 +198,7 @@ class CustomerApiController extends Controller
         $customer = Customer::where('phone',$request->phone)->first();
         $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender);
         $customer->save();
-        return response()->json(['stutus' => true , 'data' => $customer]);
+        return response()->json(['status' => true , 'data' => $customer]);
     }
 
 

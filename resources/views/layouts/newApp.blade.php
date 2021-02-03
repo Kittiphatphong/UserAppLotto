@@ -251,6 +251,38 @@
                                 <span class="menu-text">Results</span>
                             </a>
                         </li>
+
+                        <li class="menu-item menu-item-submenu @if(isset($recommend_list)|| isset($recommend_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-comment"></i>
+                                <span class="menu-text">Recommend lotto</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($recommend_create) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('recommend.create')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">New</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($recommend_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('recommend.list')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">List</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
                                 <i class="menu-icon flaticon-users-1"></i>
@@ -258,12 +290,6 @@
                             </a>
                         </li>
 
-                                <li class="menu-item  @isset($recommend_list) menu-item-here @endisset" aria-haspopup="true">
-                            <a href="{{route('recommend.list')}}" class="menu-link">
-                                <i class="menu-icon far fa-comments"></i>
-                                <span class="menu-text">Recommend Lotto</span>
-                            </a>
-                        </li>
 
                         <li class="menu-item" aria-haspopup="true">
                             <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">

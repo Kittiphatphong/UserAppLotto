@@ -8,11 +8,11 @@
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <a href="{{route('recommend.list')}}" class="text-muted">Recommend lotto</a>
+                <a href="{{route('recommend.create')}}" class="text-muted">Recommend lotto</a>
             </li>
-                        <li class="breadcrumb-item">
-                            <a href="" class="text-muted">list</a>
-                        </li>
+            <li class="breadcrumb-item">
+                <a href="" class="text-muted">create</a>
+            </li>
         </ul>
         <!--end::Breadcrumb-->
     </div>

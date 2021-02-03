@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToBillorder340sTable extends Migration
+class AddTotalToBillOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddStatusToBillorder340sTable extends Migration
      */
     public function up()
     {
-        Schema::table('billorder340s', function (Blueprint $table) {
-            $table->integer('type_win')->nullable()->after('order_id');
+        Schema::table('bill_orders', function (Blueprint $table) {
+            $table->double('total')->after('status_win')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddStatusToBillorder340sTable extends Migration
      */
     public function down()
     {
-        Schema::table('billorder340s', function (Blueprint $table) {
+        Schema::table('bill_orders', function (Blueprint $table) {
             //
         });
     }

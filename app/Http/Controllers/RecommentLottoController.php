@@ -10,4 +10,8 @@ class RecommentLottoController extends Controller
         return view('recommend.recommendList')
             ->with('recommend_list','recommend_list');
     }
+    public function recommendCreate(){
+        return view('recommend.recommendCreate')
+            ->with('recommend_create','recommend_create');
+    }
 }

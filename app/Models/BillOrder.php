@@ -16,6 +16,8 @@ class BillOrder extends Model
     public function billorder2d3d4d5d6ds(){
         return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id');
     }
+
+
     public function win2d3d4d5d6ds(){
         return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id')->whereNotNull('status_win');
     }
@@ -24,7 +26,7 @@ class BillOrder extends Model
         $total = 0;
         $arrayAmount = $amounts->get()->toArray();
         for ($i=0;$i<$amounts->count();$i++){
-            switch ($arrayAmount[$i]['status_win']){
+            switch ($arrayAmount[$i]['type_win']){
                 case 6:
                     $sum = $arrayAmount[$i]['money'] * 400000;
                     break;
@@ -56,10 +58,10 @@ class BillOrder extends Model
 
     }
 
-
     public function bill340s(){
         return $this->hasMany(Billorder340::class,'order_id');
     }
+
     public function win340s(){
         return $this->hasMany(Billorder340::class,'order_id')->whereNotNull('status_win');
     }
@@ -69,7 +71,7 @@ class BillOrder extends Model
         $arrayAmount = $amounts->get()->toArray();
         for ($i=0;$i<$amounts->count();$i++){
 
-            switch ($arrayAmount[$i]['status_win']){
+            switch ($arrayAmount[$i]['type_win']){
                 case 3:
                     $sum = $arrayAmount[$i]['money'] * 6000;
                     break;

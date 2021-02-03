@@ -14,7 +14,7 @@ class Billorder340 extends Model
     }
 
     public function storeWins($digit){
-        $this->status_win =$digit;
+        $this->type_win =$digit;
         $this->save();
         $order = BillOrder::find($this->order_id);
         $order->status_win = 1 ;
@@ -22,7 +22,7 @@ class Billorder340 extends Model
     }
 
     public function sumWins(){
-        switch ($this->status_win){
+        switch ($this->type_win){
             case 3:
                 $sum = $this->money * 6000;
                 break;

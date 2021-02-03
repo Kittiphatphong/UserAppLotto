@@ -9,6 +9,7 @@ use App\Models\Billorder340;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 class BillOrderApiController extends Controller
 {
@@ -30,7 +31,7 @@ class BillOrderApiController extends Controller
 
     public function sell2d3d4d5d6d(Request $request){
          $validator = Validator::make($request->all(),[
-        'phone' => 'required|min:10|max:10|exists:customers,phone',
+        'phone_no' => 'required|min:10|max:10|exists:customers,phone',
         'bill_number' => 'required|unique:bill_orders|min:7|max:7',
         'draw' => 'numeric|required',
         'code' =>'required|json',
@@ -55,6 +56,9 @@ class BillOrderApiController extends Controller
        $bill2d3d4d5d6d->order_id = $order->id;
        $bill2d3d4d5d6d->save();
        }
+       $order->total = $order->billorder2d3d4d5d6ds->sum('money');
+       $order->save();
+
         foreach ($order->billorder2d3d4d5d6ds as $bill6d){
             $list[] = $bill6d->number_code."=".($bill6d->money/1000)."k";
         }
@@ -70,7 +74,7 @@ class BillOrderApiController extends Controller
     }
     public function sell340(Request $request){
         $validator = Validator::make($request->all(),[
-            'phone' => 'required|min:10|max:10|exists:customers,phone',
+            'phone_no' => 'required|min:10|max:10|exists:customers,phone',
             'bill_number' => 'required|unique:bill_orders|min:7|max:7',
             'draw' => 'numeric|required',
             'code' =>'required|json',
@@ -110,6 +114,9 @@ class BillOrderApiController extends Controller
             $bill340->order_id = $order->id;
             $bill340->save();
         }
+
+        $order->total = $order->bill340s->sum('money');
+        $order->save();
         foreach ($arr as $bill340){
          $list[] = $bill340->code."=".($bill340->money/1000)."k";
         }
@@ -132,6 +139,56 @@ class BillOrderApiController extends Controller
         $bill340 = BillOrder::with(['bill340s','customers'])->orderBy('id','desc')->where('type','3/40')->get();
         return response()->json($bill340);
     }
+
+    public function billAll(Request $request){
+        $validator = Validator::make($request->all(),[
+           'phone' => 'required|min:10|max:10|exists:customers,phone',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'msg' => $validator->errors()
+            ],422);
+        }
+         $phone = $request->phone;
+
+        $bills = BillOrder::whereHas('customers',function ($q) use($phone)
+        {
+            $q->where('phone','=',$phone);
+        })->get();
+
+        return response()->json([
+           'status' => true,
+           'data' => $bills
+        ]);
+    }
+
+    public function billDetail(Request $request){
+        $validator = Validator::make($request->all(),[
+            'bill' => 'required|exists:bill_orders,bill_number',
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'msg' => $validator->errors()
+            ],422);
+        }
+
+        $bills = BillOrder::all();
+
+        if($bills->type = "3/40"){
+            $billDetail = $bills->bill340s;
+        }else{
+            $billDetail = $bills->billorder2d3d4d5d6ds;
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $bills
+        ]);
+    }
+
 
 
 }
