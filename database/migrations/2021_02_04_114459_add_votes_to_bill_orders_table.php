@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTotalToBillOrdersTable extends Migration
+class AddVotesToBillOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddTotalToBillOrdersTable extends Migration
     public function up()
     {
         Schema::table('bill_orders', function (Blueprint $table) {
-            $table->double('total')->after('status_win')->nullable();
-//            $table->double('total_win')->after('total')->default(0);
+            $table->double('total_win')->after('total')->default(0);
         });
     }
 

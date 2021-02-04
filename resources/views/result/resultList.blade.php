@@ -92,8 +92,8 @@
                         <tr>
 
                             <td>{{$result->draw}}</td>
-                            <td>{{$result->l2d3d4d5d6d}}</td>
-                            <td>{{$result->animal1}}, {{$result->animal2}}, {{$result->animal3}}</td>
+                            <td>{{$result->l2d3d4d5d6d}} [{{$result->animal6ds->name}}]</td>
+                            <td>[{{$result->animal1}} {{$result->animal1s->name}}], [{{$result->animal2}} {{$result->animal2s->name}}], [{{$result->animal3}} {{$result->animal3s->name}}]</td>
                             <td>{{$result->created_at}}</td>
                             <td>{{$billOrders->where('draw',$result->draw)->count()}}</td>
                             <td><div class="d-flex justify-content-start m-0">

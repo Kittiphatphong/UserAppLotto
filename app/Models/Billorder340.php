@@ -18,6 +18,7 @@ class Billorder340 extends Model
         $this->save();
         $order = BillOrder::find($this->order_id);
         $order->status_win = 1 ;
+        $order->total_win = $order->winAmount340();
         $order->save();
     }
 

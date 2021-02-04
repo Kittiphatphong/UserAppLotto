@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecommentImagesTable extends Migration
+class CreateAnimalNosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateRecommentImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('recomment_images', function (Blueprint $table) {
+        Schema::create('animal_nos', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
-            $table->unsignedBigInteger('recommend_id');
-            $table->foreign('recommend_id')->references('id')->on('recomment_lottos')->onDelete('cascade');
+            $table->string('no')->unique();
+            $table->unsignedBigInteger('animal_id');
+            $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateRecommentImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recomment_images');
+        Schema::dropIfExists('animal_nos');
     }
 }

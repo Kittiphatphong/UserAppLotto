@@ -79,8 +79,7 @@
                         <td>{{$order->bill_number}}</td>
                         <td>{{$order->id}}</td>
                         <td class="row">@foreach($order->win2d3d4d5d6ds as $code)<strong>{{$code->number_code}}</strong> @if($order->win2d3d4d5d6ds->last()->id != $code->id)& @endif @endforeach </td>
-
-                        <td>{{$order->winAmount2d3d4d5d6d()}}</td>
+                        <td>{{number_format($order->winAmount2d3d4d5d6d())}}</td>
                         <td>{{$order->created_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
 

@@ -1,17 +1,17 @@
 @extends('layouts.newApp')
-@section('title','Winner 3/40')
+@section('title','Animals')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">WINNER PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">40 ANIMALS PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <span class="text-muted">Winner</span>
+                <span class="text-muted">40 Animals</span>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('win.340')}}" class="text-muted">Winner 3/40</a>
+                <a href="{{route('animal.list')}}"class="text-muted">List</a>
             </li>
         </ul>
         <!--end::Breadcrumb-->
@@ -23,13 +23,12 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Win 3/40
-                    <span class="d-block text-muted pt-2 font-size-sm">List winning 3/40</span></h3>
+                <h3 class="card-label">Promotion
+                    <span class="d-block text-muted pt-2 font-size-sm">Promotion list </span></h3>
+                <span class="float-right"></span>
             </div>
             <div class="card-toolbar">
-                <!--begin::Button-->
 
-                <!--end::Button-->
             </div>
         </div>
         <div class="card-body">
@@ -57,37 +56,32 @@
 
             <!--begin: Datatable-->
             <div class="table-responsive">
-                <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
                     <thead>
                     <tr>
 
-                        <th>DRAW </th>
-                        <th>PHONE NO</th>
-                        <th>BILL NUMBER</th>
-                        <th>DRAW DATE</th>
-                        <th>CODE</th>
-                        <th>WIN</th>
-                        <th>DATE BUY</th>
-                        <th>Name</th>
+
+                        <th>{{substr ('ABCDEF', 3,1)}} {{strlen('012345')}}NAME</th>
+                        <th>NO</th>
+                        <th>IMAGE</th>
+                        <th>DETAIL</th>
+                        <th>DETAIL NO</th>
+                        <th>UPDATED AT</th>
+
 
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($orders as $order)
+                    @foreach($animal_list as $animal)
                         <tr>
-                            <td>{{$order->draw}}</td>
-                            <td><strong>{{$order->customers->phone}}</strong></td>
-                            <td>{{$order->bill_number}}</td>
-                            <td>{{$order->id}} </td>
+                            <td>{{$animal->name}}</td>
+                            <td>{{str_replace('"','',$animal->animalNos->pluck('no'))}}</td>
+                            <td><img src="{{$animal->image}}" width="80%" ></td>
+                            <td>{{$animal->detail}}</td>
+                            <td>{{$animal->number}}</td>
+                            <td>{{$animal->updated_at}}</td>
 
 
-                            <td><p>@foreach($order->win340s as $code)
-                                        <strong>[</strong><span>{{$code->animal1}}</span><span>@if($code->animal2),{{$code->animal2}}@endif</span>@if($code->animal3),{{$code->animal3}}@endif<strong>]</strong>
-                                    @endforeach</p></td>
-                            <td><strong>{{number_format($order->winAmount340())}}</strong></td>
-
-                            <td>{{$order->created_at}}</td>
-                            <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
                         </tr>
                     @endforeach
                     </tbody>

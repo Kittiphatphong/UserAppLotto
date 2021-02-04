@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Animal;
 use Illuminate\Http\Request;
 use App\Models\Result;
 use App\Models\BillOrder;
@@ -40,14 +41,46 @@ class ResultController extends Controller
         if(BillOrder::where('draw',$request->get('draw'))->count() <= 0 ){
             return back()->with("warning","This draw is not exist");
         }
+        $number2d = substr($request->get('l2d3d4d5d6d'),4,5);
+        $animal1 = $request->animal1;
+        $animal2 = $request->animal2;
+        $animal3 = $request->animal3;
+        $animal6d_id = Animal::whereHas('animalNos',function ($q) use ($number2d){
+            $q->where('no',$number2d);
+        })->first()->id;
+        $animal1_id = Animal::whereHas('animalNos',function ($q) use ($animal1){
+            $q->where('no',$animal1);
+        })->first()->id;
+        $animal2_id = Animal::whereHas('animalNos',function ($q) use ($animal2){
+            $q->where('no',$animal2);
+        })->first()->id;
+        $animal3_id = Animal::whereHas('animalNos',function ($q) use ($animal3){
+            $q->where('no',$animal3);
+        })->first()->id;
+        $result6d = $request->get('l2d3d4d5d6d');
+
 
         $result = new Result();
         $result->draw = $request->get('draw');
-        $result->l2d3d4d5d6d = $request->get('l2d3d4d5d6d');
-        $result->animal1 = $request->animal1;
-        $result->animal2 = $request->animal2;
-        $result->animal3 = $request->animal3;
+        $result->l2d3d4d5d6d = $result6d;
+        $result->d1 = substr ($result6d, 0,1);
+        $result->d2 = substr ($result6d, 1,1);
+        $result->d3 = substr ($result6d, 2,1);
+        $result->d4 = substr ($result6d, 3,1);
+        $result->d5 = substr ($result6d, 4,1);
+        $result->d6 = substr ($result6d, 5,1);
+
+
+        $result->animal1 = $animal1;
+        $result->animal2 = $animal2;
+        $result->animal3 = $animal3;
+        $result->animal6d_id = $animal6d_id;
+        $result->animal1_id = $animal1_id;
+        $result->animal2_id = $animal2_id;
+        $result->animal3_id = $animal3_id;
         $result->save();
+
+
         $title = "Result lottory draw ". $result->draw;
         $body = "6d=".$result->l2d3d4d5d6d."\n3/40=".$result->animal1."-".$result->animal2."-".$result->animal3;
          $this->PushNotificationController->pushNotificationAll($body,$title);
@@ -135,8 +168,9 @@ class ResultController extends Controller
         $billOrderDraw6d = BillOrder::where('draw',$result->draw)->where('type','2d3d4d5d6d')->pluck('id');
         $billOrderDraw340 = BillOrder::where('draw',$result->draw)->where('type','3/40')->pluck('id');
         DB::table('bill_orders')->where('draw',$result->draw)->update(['status_win' => 0]);
-        DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['status_win' => null]);
-        DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['status_win' => null]);
+        DB::table('bill_orders')->where('draw',$result->draw)->update(['total_win' => 0]);
+        DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['type_win' => null]);
+        DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['type_win' => null]);
 
     }
 

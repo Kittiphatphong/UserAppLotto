@@ -8,6 +8,7 @@ use App\Http\Controllers\WinnerController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RecommentLottoController;
+use App\Http\Controllers\AnimalController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +58,11 @@ Route::group(['middleware' =>'auth'],function(){
 
     Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
     Route::get('recommend-create',[RecommentLottoController::class,'recommendCreate'])->name('recommend.create');
+
+//40 Animal
+    Route::get('animal-list',[AnimalController::class,'animalList'])->name('animal.list');
+    Route::get('animal-create',[AnimalController::class,'animalCrate'])->name('animal.create');
+    Route::post('animal-create',[AnimalController::class,'animalStore'])->name('animal.store');
 
 });
 

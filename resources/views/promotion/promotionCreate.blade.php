@@ -45,7 +45,7 @@
                             <input type="file" class="form-control" name="image" value="{{old('image',$promotion->image)}}">
                             @if(isset($edit))
                                 <div class="centered">
-                                <img src="{{asset('storage')}}/promotion_image/{{$promotion->image}}" width="50%">
+                                <img src="{{$promotion->image}}" width="50%">
                                 </div>
                             @endif
                         </div>

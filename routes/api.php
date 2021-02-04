@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CustomerApiController;
 use App\Http\Controllers\Api\ProviderApiController;
 use App\Http\Controllers\Api\BillOrderApiController;
 use App\Http\Controllers\Api\ResultApiController;
+use App\Http\Controllers\Api\AnimalApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,8 +39,8 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('sell-340',[BillOrderApiController::class,'sell340']);
     Route::post('pull-result',[ResultApiController::class,'pullResult']);
 
-    Route::post('all-bill-customer',[BillOrderApiController::class,'billAll']);
-    Route::post('detail-bill-customer',[BillOrderApiController::class,'billDetail']);
+    Route::post('history-bill',[BillOrderApiController::class,'billAll']);
+    Route::post('history-bill-detail',[BillOrderApiController::class,'billDetail']);
     Route::post('bill6d-customer',[BillOrderApiController::class,'bill6dCustomer']);
     Route::post('bill340-customer',[BillOrderApiController::class,'bil340Customer']);
 
@@ -47,6 +48,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     Route::post('logout-customer',[CustomerApiController::class,'logout']);
 
+    Route::post('animal-list',[AnimalApiController::class,'animalList']);
 });
 
 //Bill order

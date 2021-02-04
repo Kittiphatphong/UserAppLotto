@@ -141,25 +141,21 @@ class BillOrderApiController extends Controller
     }
 
     public function billAll(Request $request){
-        $validator = Validator::make($request->all(),[
-           'phone' => 'required|min:10|max:10|exists:customers,phone',
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => false,
-                'msg' => $validator->errors()
-            ],422);
-        }
-         $phone = $request->phone;
 
-        $bills = BillOrder::whereHas('customers',function ($q) use($phone)
-        {
-            $q->where('phone','=',$phone);
-        })->get();
+        $customerid = $request->user()->currentAccessToken();
+
+//        if ($customerid->tokenable_type == "App\\Models\\Provider"){
+//            return response()->json([
+//                'status' => false,
+//                'msg' => "This token is for provider"
+//            ],422);
+//        }
+
+        $bills = BillOrder::where('customer_id',$customerid->tokenable->id)->get();
 
         return response()->json([
            'status' => true,
-           'data' => $bills
+           'data' =>  $bills
         ]);
     }
 
@@ -174,12 +170,14 @@ class BillOrderApiController extends Controller
             ],422);
         }
 
-        $bills = BillOrder::all();
+        $bills = BillOrder::where('bill_number',$request->bill)->first();
 
-        if($bills->type = "3/40"){
-            $billDetail = $bills->bill340s;
+        if($bills->type == "3/40"){
+            $win = $bills->winAmount340();
+            $detail = $bills->bill340s;
         }else{
-            $billDetail = $bills->billorder2d3d4d5d6ds;
+            $win = $bills->winAmount2d3d4d5d6d();
+            $detail = $bills->billorder2d3d4d5d6ds;
         }
 
 

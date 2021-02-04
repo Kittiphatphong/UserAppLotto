@@ -50,7 +50,7 @@ class PromotionController extends Controller
     $promotion = new Promotion();
     $start = Carbon::parse($request->get('start'))->toDateTimeString();
     $end = Carbon::parse($request->get('end'))->toDateTimeString();
-    $promotion->makePromotion($request->get('title'),$request->get('content'),$imageName,$start,$end);
+    $promotion->makePromotion($request->get('title'),$request->get('content'),"/storage/promotion_image/".$imageName,$start,$end);
     Storage::disk('local')->put('public/promotion_image/'.$imageName, $imageEncode);
 
     return redirect()->route('promotion.list')->with('success','Uploaded promotion successful');

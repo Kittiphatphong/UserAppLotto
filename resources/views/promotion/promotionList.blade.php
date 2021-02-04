@@ -79,7 +79,7 @@
 
                             <td>{{$promotion->id}} {{$promotion->title}}</td>
                             <td>{{$promotion->content}}</td>
-                            <td><img src="{{asset('storage')}}/promotion_image/{{$promotion->image}}" width="80%" ></td>
+                            <td><img src="{{$promotion->image}}" width="80%" ></td>
                             <td>
                                 @if(\Carbon\Carbon::now()->gt($promotion->end))<b class="text-danger far fa-dot-circle"> Inactive</b>
                                 @elseif(\Carbon\Carbon::now()->lt($promotion->start))
@@ -91,7 +91,7 @@
                             <td><div class="d-flex justify-content-start">
                                 <a href="{{route('promotion.edit',$promotion->id)}}" class="btn btn-link"><i class="far fa-edit"></i></a>
 
-                                <form action="{{route('win.restore',$promotion->id)}}" method="post" class="delete_form">
+                                <form action="{{route('promotion.delete',$promotion->id)}}" method="post" class="delete_form">
                                     @csrf
                                 <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                                 </form>
