@@ -36,18 +36,18 @@
                             <input type="text" class="form-control" name="name" value="">
                         </div>
                         <div class="form-group ">
-                            <label>NO</label>
-                            <input type="text" class="form-control" name="animal" value="" maxlength="2">
+                            <label>ANIMAL DIGIT</label>
+                            <input type="text" class="form-control" name="animalDigit" value="" maxlength="2">
                         </div>
 
 
                         <div class="form-group">
-                            <label>DETAIL</label>
-                            <input type="text" class="form-control" name="detail" value="">
+                            <label>DESCRIPTION</label>
+                            <input type="text" class="form-control" name="description" value="">
                         </div>
                         <div class="form-group">
-                            <label>DETAIL NO</label>
-                            <input type="text" class="form-control" name="detailNo" value="" onkeyup="format(this)">
+                            <label>DIGIT</label>
+                            <input type="text" class="form-control" name="digit" value="" onkeyup="format(this)">
                         </div>
 
                         <div class="form-group">

@@ -46,16 +46,16 @@ class ResultController extends Controller
         $animal2 = $request->animal2;
         $animal3 = $request->animal3;
         $animal6d_id = Animal::whereHas('animalNos',function ($q) use ($number2d){
-            $q->where('no',$number2d);
+            $q->where('animal_digit',$number2d);
         })->first()->id;
         $animal1_id = Animal::whereHas('animalNos',function ($q) use ($animal1){
-            $q->where('no',$animal1);
+            $q->where('animal_digit',$animal1);
         })->first()->id;
         $animal2_id = Animal::whereHas('animalNos',function ($q) use ($animal2){
-            $q->where('no',$animal2);
+            $q->where('animal_digit',$animal2);
         })->first()->id;
         $animal3_id = Animal::whereHas('animalNos',function ($q) use ($animal3){
-            $q->where('no',$animal3);
+            $q->where('animal_digit',$animal3);
         })->first()->id;
         $result6d = $request->get('l2d3d4d5d6d');
 

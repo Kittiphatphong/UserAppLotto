@@ -78,8 +78,8 @@ class PromotionController extends Controller
         $end = Carbon::parse($request->get('end'))->toDateTimeString();
         $promotion->makePromotion($request->get('title'),$request->get('content'),null,$start,$end);
         if($request->hasFile("image")){
-            Storage::delete("public/promotion_image/".$promotion->image);
-            $request->image->storeAs("public/promotion_image",$promotion->image);
+            Storage::delete("public/promotion_image/".str_replace('/storage/promotion_image/','',$promotion->image));
+            $request->image->storeAs("public/promotion_image",str_replace('/storage/promotion_image/','',$promotion->image));
         }
         return redirect()->route('promotion.list')->with('success','Edited promotion successful');
     }

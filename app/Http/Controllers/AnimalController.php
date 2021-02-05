@@ -22,13 +22,13 @@ class AnimalController extends Controller
     public function animalStore(Request $request){
         $request->validate([
             'name' => 'required',
-            'detail' => 'required',
-            'detailNo' => 'required',
+            'description' => 'required',
+            'digit' => 'required',
             'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg',
-            'animal' => 'required|unique:animal_nos,no|min:2|max:2',
+            'animalDigit' => 'required|unique:animal_nos,animal_digit|min:2|max:2',
 
         ]);
-        if(round($request->animal)<=0 && round($request->animal)>40){
+        if(round($request->animalDigit)<=0 && round($request->animalDigit)>40){
             return back()->with('warning','no incorrect');
         }
 
@@ -37,29 +37,31 @@ class AnimalController extends Controller
         $imageName = $stringImageReformat.".".$ext;
         $imageEncode = File::get($request->image);
 
+        $pieces = explode(",", $request->digit);
+
 
         $animal = new Animal();
         $animal->name = $request->name;
-        $animal->detail = $request->detail;
+        $animal->description = $request->description;
         $animal->image = "/storage/animal_image/".$imageName;
-        $animal->number = "[".$request->detailNo."]";
+        $animal->digit = $pieces;
         $animal->save();
 
         $animalNo = new AnimalNo();
-        $animalNo->no = $request->animal;
+        $animalNo->animal_digit = $request->animalDigit;
         $animalNo->animal_id = $animal->id;
         $animalNo->save();
 
-        $getAnimal = round($request->animal)+40;
+        $getAnimal = round($request->animalDigit)+40;
 
         while($getAnimal<=100){
 
             $animalNo = new AnimalNo();
 
             if($getAnimal == 100){
-                $animalNo->no = "00";
+                $animalNo->animal_digit = "00";
             }else{
-                $animalNo->no = $getAnimal;
+                $animalNo->animal_digit = $getAnimal;
             }
             $animalNo->animal_id = $animal->id;
             $animalNo->save();
@@ -67,6 +69,8 @@ class AnimalController extends Controller
             $getAnimal+=40;
         }
 
+        $animal->animals_digit = $animal->animalNos->pluck('animal_digit');
+        $animal->save();
         Storage::disk('local')->put('public/animal_image/'.$imageName, $imageEncode);
         return back()->with('success','success');
     }

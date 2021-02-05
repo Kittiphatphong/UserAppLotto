@@ -9,7 +9,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RecommentLottoController;
 use App\Http\Controllers\AnimalController;
-
+use App\Http\Controllers\DreamTellerController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -58,11 +58,17 @@ Route::group(['middleware' =>'auth'],function(){
 
     Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
     Route::get('recommend-create',[RecommentLottoController::class,'recommendCreate'])->name('recommend.create');
+    Route::post('recommend-create',[RecommentLottoController::class,'recommendStore'])->name('recommend.store');
 
 //40 Animal
     Route::get('animal-list',[AnimalController::class,'animalList'])->name('animal.list');
     Route::get('animal-create',[AnimalController::class,'animalCrate'])->name('animal.create');
     Route::post('animal-create',[AnimalController::class,'animalStore'])->name('animal.store');
+
+//Dream Teller
+   Route::resource('dream-teller',DreamTellerController::class,[
+       'only' => ['index', 'create','store','update']
+   ]);
 
 });
 

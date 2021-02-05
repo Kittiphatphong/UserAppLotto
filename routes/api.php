@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\ProviderApiController;
 use App\Http\Controllers\Api\BillOrderApiController;
 use App\Http\Controllers\Api\ResultApiController;
 use App\Http\Controllers\Api\AnimalApiController;
+use App\Http\Controllers\Api\PromotionApiController;
+use App\Http\Controllers\Api\RecommendApiLottoController;
+use App\Http\Controllers\Api\DreamTellerApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -49,6 +52,12 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('logout-customer',[CustomerApiController::class,'logout']);
 
     Route::post('animal-list',[AnimalApiController::class,'animalList']);
+
+    Route::post('promotion',[PromotionApiController::class,'promotionList']);
+
+    Route::post('recommend-lotto',[RecommendApiLottoController::class,'recommendList']);
+
+    Route::post('dream-teller',[DreamTellerApiController::class,'dreamTellerList']);
 });
 
 //Bill order

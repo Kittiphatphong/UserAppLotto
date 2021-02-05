@@ -9,10 +9,15 @@ class Animal extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'animals_digit' => 'array',
+        'digit' => 'array'
+    ];
+
     public function animalNos(){
         return $this->hasMany(AnimalNo::class,'animal_id');
     }
     public function animalNo(){
-        return $this->hasMany(AnimalNo::class,'animal_id')->select('animal_id','no');
+        return $this->hasMany(AnimalNo::class,'animal_id');
     }
 }

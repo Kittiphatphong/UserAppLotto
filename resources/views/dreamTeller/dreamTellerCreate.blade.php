@@ -4,11 +4,11 @@
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">RECOMMEND LOTTO PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">DREAM TELLER PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <a href="{{route('recommend.create')}}" class="text-muted">Recommend lotto</a>
+                <a href="{{route('dream-teller.create')}}" class="text-muted">Dream teller</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="" class="text-muted">create</a>
@@ -26,10 +26,10 @@
 
                 <div class="p-6 bg-white border-b border-gray-200 pb-4">
                     <div class="card-title">
-                        <h3 class="card-label">RECOMMEND
+                        <h3 class="card-label">DREAM TELLER
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-                    <form enctype="multipart/form-data"  method="post" height="1000px" class="pb-10 mb-10">
+                    <form action="{{route('dream-teller.store')}}" enctype="multipart/form-data"  method="post" height="1000px" class="pb-10 mb-10">
                         @csrf
                         <div class="form-group">
                             <label>TITLE</label>
@@ -39,9 +39,9 @@
                             <label>CONTENT</label>
                             <input type="text" class="form-control" name="contentShow" >
                         </div>
-                        <div class="form-group ">
-                            <label>DRAW</label>
-                            <input type="number" class="form-control" name="draw" >
+                        <div class="form-group">
+                            <label>RECOMMEND DIGITS</label>
+                            <input type="text" class="form-control" name="recommendDigits" >
                         </div>
 
 

@@ -11,7 +11,7 @@ class AnimalApiController extends Controller
    public function animalList(){
        return response()->json([
           'status' =>true,
-          'data' => Animal::with('animalNo')->get()
+          'data' => Animal::all()
        ]);
    }
 }

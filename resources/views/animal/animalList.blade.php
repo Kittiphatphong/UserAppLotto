@@ -23,8 +23,8 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Promotion
-                    <span class="d-block text-muted pt-2 font-size-sm">Promotion list </span></h3>
+                <h3 class="card-label">40 Animals
+                    <span class="d-block text-muted pt-2 font-size-sm">Animal list </span></h3>
                 <span class="float-right"></span>
             </div>
             <div class="card-toolbar">
@@ -61,11 +61,11 @@
                     <tr>
 
 
-                        <th>{{substr ('ABCDEF', 3,1)}} {{strlen('012345')}}NAME</th>
-                        <th>NO</th>
+                        <th>NAME</th>
+                        <th>ANIMAL DIGIT</th>
                         <th>IMAGE</th>
-                        <th>DETAIL</th>
-                        <th>DETAIL NO</th>
+                        <th>DESCRIPTION</th>
+                        <th>DIGIT</th>
                         <th>UPDATED AT</th>
 
 
@@ -75,10 +75,10 @@
                     @foreach($animal_list as $animal)
                         <tr>
                             <td>{{$animal->name}}</td>
-                            <td>{{str_replace('"','',$animal->animalNos->pluck('no'))}}</td>
+                            <td>{{str_replace('"','',$animal->animalNos->pluck('animal_digit'))}}</td>
                             <td><img src="{{$animal->image}}" width="80%" ></td>
-                            <td>{{$animal->detail}}</td>
-                            <td>{{$animal->number}}</td>
+                            <td>{{$animal->description}}</td>
+                            <td>@foreach($animal->digit as $digit) [{{$digit}}] @endforeach</td>
                             <td>{{$animal->updated_at}}</td>
 
 

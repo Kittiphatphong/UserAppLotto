@@ -15,7 +15,7 @@ class CreateAnimalNosTable extends Migration
     {
         Schema::create('animal_nos', function (Blueprint $table) {
             $table->id();
-            $table->string('no')->unique();
+            $table->string('animal_digit')->unique();
             $table->unsignedBigInteger('animal_id');
             $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
             $table->timestamps();
