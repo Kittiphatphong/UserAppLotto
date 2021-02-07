@@ -17,8 +17,8 @@ class CreateDreamtellerImagesTable extends Migration
             $table->id();
             $table->string('image');
             $table->unsignedBigInteger('dream_id');
-            $table->foreign('dream_id')->references('id')->on('dreamtellers')->onDelete('cascade');
             $table->timestamps();
+            $table->foreign('dream_id')->references('id')->on('dreamtellers')->onDelete('cascade');
 
         });
     }
