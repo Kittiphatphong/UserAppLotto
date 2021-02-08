@@ -46,7 +46,7 @@ class DreamTellerController extends Controller
             'title' => 'required',
             'contentShow' => 'required',
             'recommendDigits' =>'required',
-
+            'images' => 'required|file|image',
 
         ]);
         $pieces = explode(",", $request->recommendDigits);

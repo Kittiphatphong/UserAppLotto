@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\AnimalApiController;
 use App\Http\Controllers\Api\PromotionApiController;
 use App\Http\Controllers\Api\RecommendApiLottoController;
 use App\Http\Controllers\Api\DreamTellerApiController;
+use App\Http\Controllers\Api\NotificationApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,15 +30,18 @@ Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone'])
 Route::post('/register-otp',[CustomerApiController::class,'requestOTP']);
 Route::post('/verify-otp',[CustomerApiController::class,'verifyOTP']);
 Route::post('/set-password',[CustomerApiController::class,'setPassword']);
-Route::post('/set-Account',[CustomerApiController::class,'moreAccount']);
+
 
 Route::post('/login-customer',[CustomerApiController::class,'login']);
 
 //Provider
 Route::post('/login-provider',[ProviderApiController::class,'login']);
 
-Route::group(['middleware'=>'auth:sanctum'],function(){
 
+Route::group(['middleware'=>'auth:sanctum'],function(){
+    Route::post('/set-account',[CustomerApiController::class,'moreAccount']);
+
+    Route::post('/customer-info',[CustomerApiController::class,'customerInfo']);
     Route::post('sell-2d3d4d5d6d',[BillOrderApiController::class,'sell2d3d4d5d6d']);
     Route::post('sell-340',[BillOrderApiController::class,'sell340']);
     Route::post('pull-result',[ResultApiController::class,'pullResult']);
@@ -58,6 +62,8 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('recommend-lotto',[RecommendApiLottoController::class,'recommendList']);
 
     Route::post('dream-teller',[DreamTellerApiController::class,'dreamTellerList']);
+
+    Route::post('notification',[NotificationApiController::class,'notificationList']);
 });
 
 //Bill order

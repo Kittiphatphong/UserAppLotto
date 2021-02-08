@@ -36,8 +36,12 @@ class ResultApiController extends Controller
    }
 
    public function showResult(){
-        $result = Result::with(['animal6drs','animal1rs','animal2rs','animal3rs'])->orderBy('draw','desc')->get();
-//       $result = Result::with('animal6d1s' , 'jay')->orderBy('draw','desc')->get();
+        $result = Result::with(['animal6drs','animal1rs','animal2rs','animal3rs'])->orderBy('draw','desc')->get(
+
+
+
+
+        );
         return response()->json(['status' => true ,'data' => $result],200);
    }
 }

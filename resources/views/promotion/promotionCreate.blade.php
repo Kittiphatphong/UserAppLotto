@@ -44,7 +44,8 @@
                             <lable>IMAGE</lable>
                             <input type="file" class="form-control" name="image" value="{{old('image',$promotion->image)}}">
                             @if(isset($edit))
-                                <div class="centered">
+                                <div class="d-flex justify-content-center mt-4 border rounded">
+                                    <br><br><br><br><br><br><br><br><br>
                                 <img src="{{$promotion->image}}" width="50%">
                                 </div>
                             @endif

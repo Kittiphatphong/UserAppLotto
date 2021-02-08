@@ -63,12 +63,12 @@ class ResultController extends Controller
         $result = new Result();
         $result->draw = $request->get('draw');
         $result->l2d3d4d5d6d = $result6d;
-        $result->d1 = substr ($result6d, 0,1);
-        $result->d2 = substr ($result6d, 1,1);
-        $result->d3 = substr ($result6d, 2,1);
-        $result->d4 = substr ($result6d, 3,1);
-        $result->d5 = substr ($result6d, 4,1);
-        $result->d6 = substr ($result6d, 5,1);
+        $result->d6 = substr ($result6d, 0,1);
+        $result->d5 = substr ($result6d, 1,1);
+        $result->d4 = substr ($result6d, 2,1);
+        $result->d3 = substr ($result6d, 3,1);
+        $result->d2 = substr ($result6d, 4,1);
+        $result->d1 = substr ($result6d, 5,1);
 
 
         $result->animal1 = $animal1;
@@ -83,7 +83,7 @@ class ResultController extends Controller
 
         $title = "Result lottory draw ". $result->draw;
         $body = "6d=".$result->l2d3d4d5d6d."\n3/40=".$result->animal1."-".$result->animal2."-".$result->animal3;
-         $this->PushNotificationController->pushNotificationAll($body,$title);
+         $this->PushNotificationController->pushNotificationAll($body,$title,3);
         $this->winStore($result->id);
         return back()->with('success',"Updated result draw ".$result->draw." successful");
 

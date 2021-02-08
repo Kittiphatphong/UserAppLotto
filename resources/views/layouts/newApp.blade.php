@@ -347,7 +347,37 @@
 
                             </div>
                         </li>
+                        <li class="menu-item menu-item-submenu @if(isset($notification_list)|| isset($notification_icon))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-bell"></i>
+                                <span class="menu-text">Notifications</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
 
+                                    <li class="menu-item @isset($notification_icon) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('notification.type')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Type</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($notification_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('notification.list')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Transaction</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </li>
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
                                 <i class="menu-icon flaticon-users-1"></i>

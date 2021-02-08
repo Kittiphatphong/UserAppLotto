@@ -12,11 +12,12 @@ class Customer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function makeCustomer($firstname,$lastname,$birthday,$gender){
+    public function makeCustomer($firstname,$lastname,$birthday,$gender,$address){
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->birthday = $birthday;
         $this->gender = $gender;
+        $this->address = $address;
     }
     public function newCustomer($phone,$password){
         $this->phone = $phone;
@@ -30,6 +31,10 @@ class Customer extends Model
 
     public function orders(){
         return $this->hasMany(BillOrder::class);
+    }
+
+    public function customer_notification(){
+        return $this->hasMany(Customer_Notification::class,'customer_id');
     }
 
     public function requestNewOTP(){

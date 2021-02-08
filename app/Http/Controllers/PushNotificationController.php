@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Customer_Notification;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class PushNotificationController extends Controller
 {
     protected $serverKey = 'AAAAj--EuJs:APA91bGwks5UxG8TkSIf3kCeeOzKhZS8PSFy_DtQjVzSG5-zUvV6fbMPQ9-TPKyEyGeHVpaiK4-zZ0h2kScrr-TS0RwrGG79EQaSkGedR4Kxkg5BhlbI7Fi_zJOThvLphJYkn_J0UFAi';
-    public function pushNotification($body ,$title,$token){
 
-   //     $token = "ezawAWrbaUNt3yJ_xUA7cg:APA91bEyIsZuq2-UB6P70PvLSJK5pKn6EA51o01E_KfLgMabw3LM2hpiIJzru9ioZ3nFNpqtcTagv8HclUQgboaZnPc7IjObWzSUJ7rlzRh6DivOE_R6sbG8Nn3Tl4WeK9CS7HusYVN5";
-        //$token = "f8NAhkmxsqLDcBkj1Up3pR:APA91bGOOWO22D4Z8G21VsZu-RyRq_dklGz7yXkfzO2HCAJWD2u4rN6KfFrr4WfKzPOCb06GLrpKAwd0-mjXB-jmgpLheIyVkHZhFpeET-KNHvUYKWMZG6qbfIz9-_8hM4RYzRyMJADr";
-$token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKGBHeY6I7T8x68Wr2h42riHSLenIfHwp9h4KsuYgmhLp7JG7WIizIIiGMH4v94ZUPu-byC94AxsUoKs4RqJ4q7Afb5RGlm";
-//$token="dbJAssFYnkCrghD6vc3UsC:APA91bExsuwNSHaj6R54pdYX7u2nwIowzcTRpK--ayOgpQrwUkYaXEjsNPd74y0lvoxVlHq6efDBLvPChJAVuSfxzxLKcJ5Q1q-b0h5hienVTFRI7fKzdWWZkQ98eAyawaPioAnI6e2N";
+    public function pushNotification($body ,$title,$token){
+        $token = "f8NAhkmxsqLDcBkj1Up3pR:APA91bGOOWO22D4Z8G21VsZu-RyRq_dklGz7yXkfzO2HCAJWD2u4rN6KfFrr4WfKzPOCb06GLrpKAwd0-mjXB-jmgpLheIyVkHZhFpeET-KNHvUYKWMZG6qbfIz9-_8hM4RYzRyMJADr";
         $from = "AAAA1twLRCc:APA91bF77GPgkgQsjvS2QNAhVVG1ycM2kPRgV9NGNApRNf_P5ylcuF2RwudjWqwvjG9Fn5E3Jfc31z5IYeTo8331lAJcEpjciMLSrbiDTACKFZzWeDEhITh7il6sam_hlTwRoFhipN9I";
-//        $from ="AAAAj--EuJs:APA91bGwks5UxG8TkSIf3kCeeOzKhZS8PSFy_DtQjVzSG5-zUvV6fbMPQ9-TPKyEyGeHVpaiK4-zZ0h2kScrr-TS0RwrGG79EQaSkGedR4Kxkg5BhlbI7Fi_zJOThvLphJYkn_J0UFAi";
         $msg = array
         (
             'body'  => $body,
@@ -45,19 +43,16 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
         curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
         curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
         $result = curl_exec($ch );
-
         curl_close( $ch );
-
-
     }
 
 
-    public function sendPush($body ,$title)
+    public function sendPush($body ,$title, $token)
     {
 
         try {
-//            $user = User::find($request->id);
-            $token ="cjhazaXu_klkq87XTBUGQh:APA91bGVecpBY2yhh20Hm-U2kEzHfkXFaWTCyxc4tu-hEj6KXrHsKm-UK-8QTPV8iWBmC8A2-hZaDpz6_gZpnQZnz-PBQFSpvh2ls4pV-WDjhVkO1-1DZxnZsTfyEztSz8YGhuu6QtGy";
+
+//            $token ="cjhazaXu_klkq87XTBUGQh:APA91bGVecpBY2yhh20Hm-U2kEzHfkXFaWTCyxc4tu-hEj6KXrHsKm-UK-8QTPV8iWBmC8A2-hZaDpz6_gZpnQZnz-PBQFSpvh2ls4pV-WDjhVkO1-1DZxnZsTfyEztSz8YGhuu6QtGy";
 
             $notification = [
 //                "to" => $request->device_token,//token
@@ -67,8 +62,9 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
                 "notification" =>
                     [
                         "title" => $title,
-                        "body" => $body
-//                        "icon" => url('http://192.168.10.21/storage/animal_image/XzE2MTI0MjQ4MDI=.png')
+                        "body" => $body,
+                        "icon"  => "https://scontent.fbkk15-1.fna.fbcdn.net/v/t1.0-9/140317948_270623577819917_1398799135777551851_n.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEArrcihmDjHAOQqXdqIFLum30_-gmGOAebfT_6CYY4B45A8d-fL5YveW5EKf2q7QO_KapKptj8u6tV45BbaQOJ&_nc_ohc=wMo_ORi8zL4AX9gS94q&_nc_ht=scontent.fbkk15-1.fna&oh=4502219f6a1ec618ca8288fc1a2424e1&oe=602DC018",/*Default Icon*/
+                        "sound" => 'mySound'/*Default sound*/
                     ],
 
             ];
@@ -92,14 +88,27 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
 
     }
 
+    public function pushNotificationBuy($body ,$title,$type,$idCustomer){
+        $customer = Customer::find($idCustomer);
+        if($customer->device_token != null){
+            $notification = new Notification();
+            $notification->newNotification($title,$body,$type);
+            $customer_notification = new Customer_Notification();
+            $this->sendPush($body,$title,$customer->device_token);
+            $customer_notification->newCustomerNotification($customer->id,$notification->id);
+        }
 
+    }
 
-    public function pushNotificationAll($body ,$title){
-        $this->sendPush($body ,$title);
+    public function pushNotificationAll($body ,$title,$type){
         $customers = Customer::whereNotNull('device_token')->get();
-//        foreach($customers as $customer){
-//            $this->pushNotification($body,$title,$customer->device_token);
-//        }
+        $notification = new Notification();
+        $notification->newNotification($title,$body,$type);
+        foreach($customers as $customer){
+            $customer_notification = new Customer_Notification();
+            $this->sendPush($body,$title,$customer->device_token);
+            $customer_notification->newCustomerNotification($customer->id,$notification->id);
+        }
 
     }
     public function pushNotificationWin($draw){
@@ -124,7 +133,7 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
             $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','2d3d4d5d6d');
         foreach ($orders as $order){
 
-           $orderText= "ID=".$order->id." "."Total win=".$order->winAmount2d3d4d5d6d();
+           $orderText= "Total win =".number_format($order->winAmount2d3d4d5d6d())."LAK";
            $win6dTexts=null;
         foreach ($order->win2d3d4d5d6ds as $win6d){
             $win6dText = $win6d->number_code;
@@ -134,7 +143,12 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
             $body6d.=$orderText."\nCode:".$win6dTexts."\n";
 
         }
-            $this->pushNotification($body6d,$title6d,$customer->device_token);
+
+                $notification = new Notification();
+                $notification->newNotification($title6d,$body6d,2);
+                $customer_notification = new Customer_Notification();
+                $this->sendPush($body6d,$title6d,$customer->device_token);
+                $customer_notification->newCustomerNotification($customer->id,$notification->id);
 
         }
 
@@ -145,7 +159,7 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
             $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','3/40');
             foreach ($orders as $order){
 
-                $orderText= "ID=".$order->id." "."Total win=".$order->winAmount340();
+                $orderText= "Total win =".number_format($order->winAmount340())."LAK";
                 $win340Texts=null;
 
                 foreach ($order->win340s as $win340){
@@ -153,9 +167,9 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
                     if($win340->animal1 != null && $win340->animal2 == null && $win340->animal3 == null)
                     $win340Text = "[".$win340->animal1."]";
                     elseif($win340->animal1 != null && $win340->animal2 != null && $win340->animal3 == null)
-                    $win340Text = "[".$win340->animal1."]"."[".$win340->animal2."]";
+                    $win340Text = "[".$win340->animal1.",".$win340->animal2."]";
                     else
-                        $win340Text = "[".$win340->animal1."]"."[".$win340->animal2."]"."[".$win340->animal3."]";
+                        $win340Text = "[".$win340->animal1.",".$win340->animal2.",".$win340->animal3."]";
 
                     $sumWin = $win340->sumWins();
                     $win340Texts.=" ".$win340Text."=".$sumWin.";";
@@ -164,10 +178,17 @@ $token ="f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKG
                 $body340.=$orderText."\nCode:".$win340Texts."\n";
 
             }
+
+                $notification = new Notification();
+                $notification->newNotification($title340,$body340,2);
+                $customer_notification = new Customer_Notification();
+                $this->sendPush($body340,$title340,$customer->device_token);
+                $customer_notification->newCustomerNotification($customer->id,$notification->id);
+            }
             $this->pushNotification($body340,$title340,$customer->device_token);
 
 
-        }
+
 
 
 

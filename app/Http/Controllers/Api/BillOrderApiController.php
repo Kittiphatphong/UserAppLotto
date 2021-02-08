@@ -64,7 +64,7 @@ class BillOrderApiController extends Controller
         }
         $body = collect($list)->implode(' // ');
         $title = "Lotto 6D";
-        $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
+        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id);
 
        return response()->json([
            'status' => true,
@@ -120,9 +120,9 @@ class BillOrderApiController extends Controller
         foreach ($arr as $bill340){
          $list[] = $bill340->code."=".($bill340->money/1000)."k";
         }
-        $body = collect($list)->implode(' // ');
+        $body = collect($list)->implode(' ');
         $title = "Lotto 3/40";
-        $this->PushNotificationController->pushNotification($body , $title, $customer->device_token);
+        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id);
         return response()->json([
             'status' => true,
             'data'   => $order
@@ -143,13 +143,6 @@ class BillOrderApiController extends Controller
     public function billAll(Request $request){
 
         $customerid = $request->user()->currentAccessToken();
-
-//        if ($customerid->tokenable_type == "App\\Models\\Provider"){
-//            return response()->json([
-//                'status' => false,
-//                'msg' => "This token is for provider"
-//            ],422);
-//        }
 
         $bills = BillOrder::where('customer_id',$customerid->tokenable->id)->get();
 

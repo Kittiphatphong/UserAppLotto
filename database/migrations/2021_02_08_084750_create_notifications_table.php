@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDreamtellerImagesTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateDreamtellerImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dreamteller_images', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
-            $table->unsignedBigInteger('dream_id');
+            $table->string('title');
+            $table->string('content');
+            $table->unsignedBigInteger('type_id');
             $table->timestamps();
-            $table->foreign('dream_id')->references('id')->on('dreamtellers')->onDelete('cascade');
-
         });
     }
 
@@ -30,6 +29,6 @@ class CreateDreamtellerImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dreamteller_images');
+        Schema::dropIfExists('notifications');
     }
 }

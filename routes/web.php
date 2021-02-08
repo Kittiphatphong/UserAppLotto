@@ -10,6 +10,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RecommentLottoController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\DreamTellerController;
+use App\Http\Controllers\NotificationController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -70,6 +71,13 @@ Route::group(['middleware' =>'auth'],function(){
        'only' => ['index', 'create','store','update']
    ]);
 
+//Notification
+   Route::get('notification-list',[NotificationController::class,'notificationList'])->name('notification.list');
+   Route::get('notification-type',[NotificationController::class,'notificationType'])->name('notification.type');
+   Route::get('notification-icon',[NotificationController::class,'notificationIcon'])->name('notification.icon');
+   Route::post('notification-icon',[NotificationController::class,'notificationStore'])->name('notification.store');
+    Route::get('notification-icon-edit/{id}',[NotificationController::class,'notificationIconEdit'])->name('notification.icon.edit');
+    Route::post('notification-icon-edit/{id}',[NotificationController::class,'notificationUpdate'])->name('notification.update');
 });
 
 

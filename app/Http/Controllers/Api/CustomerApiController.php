@@ -186,7 +186,7 @@ class CustomerApiController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'birthday' => 'required|date',
-            'phone' => 'min:10|max:10|exists:customers,phone'
+            'address' => 'required',
         ]);
         if($validator->fails()){
             return response()->json([
@@ -195,9 +195,16 @@ class CustomerApiController extends Controller
             ],422);
 
         }
-        $customer = Customer::where('phone',$request->phone)->first();
-        $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender);
+        $customerId = $request->user()->currentAccessToken()->tokenable->id;
+        $customer = Customer::find($customerId);
+        $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender,$request->address);
         $customer->save();
+        return response()->json(['status' => true , 'data' => $customer]);
+    }
+
+    public function customerInfo(Request $request){
+        $customerId = $request->user()->currentAccessToken()->tokenable->id;
+        $customer = Customer::where('id',$customerId)->select('id','firstname','lastname','phone','birthday','gender','address','status')->get();
         return response()->json(['status' => true , 'data' => $customer]);
     }
 
