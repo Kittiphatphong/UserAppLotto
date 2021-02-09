@@ -60,11 +60,11 @@ class BillOrderApiController extends Controller
        $order->save();
 
         foreach ($order->billorder2d3d4d5d6ds as $bill6d){
-            $list[] = $bill6d->number_code."=".($bill6d->money/1000)."k";
+            $list[] = $bill6d->number_code."=".number_format($bill6d->money)."LAK";
         }
-        $body = collect($list)->implode(' // ');
-        $title = "Lotto 6D";
-        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id);
+        $body = collect($list)->implode(' ');
+        $title = "Buy lotto 6D";
+        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
 
        return response()->json([
            'status' => true,
@@ -118,11 +118,11 @@ class BillOrderApiController extends Controller
         $order->total = $order->bill340s->sum('money');
         $order->save();
         foreach ($arr as $bill340){
-         $list[] = $bill340->code."=".($bill340->money/1000)."k";
+         $list[] = $bill340->code."=".number_format($bill340->money)."Lak";
         }
         $body = collect($list)->implode(' ');
-        $title = "Lotto 3/40";
-        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id);
+        $title = "Buy lotto 3/40";
+        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
         return response()->json([
             'status' => true,
             'data'   => $order
@@ -144,7 +144,7 @@ class BillOrderApiController extends Controller
 
         $customerid = $request->user()->currentAccessToken();
 
-        $bills = BillOrder::where('customer_id',$customerid->tokenable->id)->get();
+        $bills = BillOrder::with('billorder2d3d4d5d6ds','bill340s')->where('customer_id',$customerid->tokenable->id)->get();
 
         return response()->json([
            'status' => true,

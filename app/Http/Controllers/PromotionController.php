@@ -95,7 +95,7 @@ class PromotionController extends Controller
     public function promotionNotification($id){
 
         $promotion = Promotion::find($id);
-            $this->PushNotificationController->pushNotificationAll($promotion->content,$promotion->title,4);
+            $this->PushNotificationController->pushNotificationAll($promotion->content,"Promotion",4,$promotion);
         return back()->with('success',"push notification successful");
 
 

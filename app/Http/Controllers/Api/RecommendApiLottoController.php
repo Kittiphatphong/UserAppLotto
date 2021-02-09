@@ -12,7 +12,7 @@ class RecommendApiLottoController extends Controller
 
         return response()->json([
            'status' => true ,
-            'data' => RecommentLotto::with('recommendImages')->get()
+            'data' => RecommentLotto::with('recommendImages')->orderBy('id','desc')->first()
         ]);
     }
 }

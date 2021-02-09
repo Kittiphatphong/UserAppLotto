@@ -88,11 +88,11 @@ class PushNotificationController extends Controller
 
     }
 
-    public function pushNotificationBuy($body ,$title,$type,$idCustomer){
+    public function pushNotificationBuy($body ,$title,$type,$idCustomer,$massages){
         $customer = Customer::find($idCustomer);
         if($customer->device_token != null){
             $notification = new Notification();
-            $notification->newNotification($title,$body,$type);
+            $notification->newNotification($title,$body,$type,$massages);
             $customer_notification = new Customer_Notification();
             $this->sendPush($body,$title,$customer->device_token);
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
@@ -100,10 +100,10 @@ class PushNotificationController extends Controller
 
     }
 
-    public function pushNotificationAll($body ,$title,$type){
+    public function pushNotificationAll($body ,$title,$type,$massages){
         $customers = Customer::whereNotNull('device_token')->get();
         $notification = new Notification();
-        $notification->newNotification($title,$body,$type);
+        $notification->newNotification($title,$body,$type,$massages);
         foreach($customers as $customer){
             $customer_notification = new Customer_Notification();
             $this->sendPush($body,$title,$customer->device_token);
@@ -125,7 +125,7 @@ class PushNotificationController extends Controller
                 $q->where('type',"3/40");
             })->get();
 
-        $title6d= "Congratulations You win lottory 6d Draw ".$draw."\n";
+        $title6d= "Congratulations You win";
         $body6d=null;
 
 
@@ -133,33 +133,38 @@ class PushNotificationController extends Controller
             $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','2d3d4d5d6d');
         foreach ($orders as $order){
 
-           $orderText= "Total win =".number_format($order->winAmount2d3d4d5d6d())."LAK";
+           $orderText= "Draw=".$draw." total win=".number_format($order->winAmount2d3d4d5d6d())."LAK";
            $win6dTexts=null;
         foreach ($order->win2d3d4d5d6ds as $win6d){
             $win6dText = $win6d->number_code;
             $sumWin = $win6d->sumWins();
             $win6dTexts.=" ".$win6dText."=".$sumWin.";";
         }
-            $body6d.=$orderText."\nCode:".$win6dTexts."\n";
-
-        }
-
-                $notification = new Notification();
-                $notification->newNotification($title6d,$body6d,2);
+            $body6d=$orderText." Code:".$win6dTexts;
+                            $notification = new Notification();
+                $notification->newNotification($title6d,$body6d,2,$order);
                 $customer_notification = new Customer_Notification();
                 $this->sendPush($body6d,$title6d,$customer->device_token);
                 $customer_notification->newCustomerNotification($customer->id,$notification->id);
+//              $body6d.=$orderText."\nCode:".$win6dTexts."\n";
+        }
+
+//                $notification = new Notification();
+//                $notification->newNotification($title6d,$body6d,2);
+//                $customer_notification = new Customer_Notification();
+//                $this->sendPush($body6d,$title6d,$customer->device_token);
+//                $customer_notification->newCustomerNotification($customer->id,$notification->id);
 
         }
 
-        $title340= "Congratulations You win lottory 3/40 Draw ".$draw."\n";
+        $title340= "Congratulations You win";
         $body340=null;
 
         foreach($customer340s as $customer){
             $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','3/40');
             foreach ($orders as $order){
 
-                $orderText= "Total win =".number_format($order->winAmount340())."LAK";
+                $orderText= "Draw=".$draw." total win=".number_format($order->winAmount340())."LAK";
                 $win340Texts=null;
 
                 foreach ($order->win340s as $win340){
@@ -174,18 +179,24 @@ class PushNotificationController extends Controller
                     $sumWin = $win340->sumWins();
                     $win340Texts.=" ".$win340Text."=".$sumWin.";";
                 }
+                  $body340 = $orderText." Code:".$win340Texts;
+                  $notification = new Notification();
+                  $notification->newNotification($title340,$body340,2,$order);
+                  $customer_notification = new Customer_Notification();
+                  $this->sendPush($body340,$title340,$customer->device_token);
+                  $customer_notification->newCustomerNotification($customer->id,$notification->id);
 
-                $body340.=$orderText."\nCode:".$win340Texts."\n";
+//                $body340.=$orderText."\nCode:".$win340Texts."\n";
 
             }
 
-                $notification = new Notification();
-                $notification->newNotification($title340,$body340,2);
-                $customer_notification = new Customer_Notification();
-                $this->sendPush($body340,$title340,$customer->device_token);
-                $customer_notification->newCustomerNotification($customer->id,$notification->id);
+//                $notification = new Notification();
+//                $notification->newNotification($title340,$body340,2);
+//                $customer_notification = new Customer_Notification();
+//                $this->sendPush($body340,$title340,$customer->device_token);
+//                $customer_notification->newCustomerNotification($customer->id,$notification->id);
             }
-            $this->pushNotification($body340,$title340,$customer->device_token);
+//            $this->pushNotification($body340,$title340,$customer->device_token);
 
 
 

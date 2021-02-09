@@ -22,7 +22,7 @@ class RecommentLottoController extends Controller
         $request->validate([
            'title' => 'required',
            'contentShow' => 'required',
-            'images' => 'required|file|image'
+            'images' => 'required'
         ]);
         $recomentLotto = new  RecommentLotto();
         $recomentLotto->title = $request->title;

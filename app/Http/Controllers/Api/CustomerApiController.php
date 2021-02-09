@@ -187,6 +187,7 @@ class CustomerApiController extends Controller
             'lastname' => 'required|string|max:255',
             'birthday' => 'required|date',
             'address' => 'required',
+            'gender' => 'required'
         ]);
         if($validator->fails()){
             return response()->json([
@@ -198,8 +199,40 @@ class CustomerApiController extends Controller
         $customerId = $request->user()->currentAccessToken()->tokenable->id;
         $customer = Customer::find($customerId);
         $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender,$request->address);
+        $customer->status = true ;
         $customer->save();
         return response()->json(['status' => true , 'data' => $customer]);
+    }
+
+    public function changePassword(Request $request){
+        $validator = Validator::make($request->all(),[
+            'oldPassword' => 'required',
+            'password' => 'required',
+            'confirmPassword' => 'required|same:password'
+
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                "status" => false,
+                "msg" => $validator->errors() ,
+            ],422);
+
+        }
+        $customerId = $request->user()->currentAccessToken();
+        $customer=Customer::find($customerId->tokenable->id);
+
+        if(!(Hash::check($request->get('oldPassword'),$customer->password))){
+            return response()->json([
+                "status" => false,
+                "msg" => ['oldPassword' => 'old password invalid'] ,
+            ],422);
+
+        }else{
+            $customer->password = Hash::make($request->get('password'));
+            $customer->save();
+            return response()->json(['status' => true , 'msg' => "Change new password success"]);
+
+        }
     }
 
     public function customerInfo(Request $request){

@@ -78,7 +78,7 @@
 
                         <td>{{$list->notifications->typeNotifications->name}}<img src="{{$list->notifications->typeNotifications->icon}}" width="30px" class="float-right"></td>
                     <td>{{$list->notifications->title}}</td>
-                        <td>{{$list->notifications->content}}</td>
+                        <td>{{$list->notifications->body}}</td>
                         <td>{{$list->customers->phone}}</td>
                         <td>{{$list->updated_at}}</td>
 
