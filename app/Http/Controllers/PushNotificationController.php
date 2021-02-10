@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\Customer_Notification;
 use App\Models\Notification;
@@ -111,97 +112,137 @@ class PushNotificationController extends Controller
         }
 
     }
+
     public function pushNotificationWin($draw){
-        $customer6ds = Customer::whereNotNull('device_token')
-        ->whereHas('orders',function ($q) use($draw){
-            $q->where('status_win',1);
-            $q->where('draw',$draw);
-            $q->where('type',"2d3d4d5d6d");
-        })->get();
-        $customer340s = Customer::whereNotNull('device_token')
-            ->whereHas('orders',function ($q) use($draw){
-                $q->where('status_win',1);
-                $q->where('draw',$draw);
-                $q->where('type',"3/40");
-            })->get();
 
-        $title6d= "Congratulations You win";
-        $body6d=null;
+        $bills = Bill::where('status_win',1)->where('draw',$draw)->get();
 
+        foreach ($bills as $bill){
+            $title= "Congratulations You win";
+            $body= str_replace('"','',implode(',',$bill->digit)) ." = ". number_format($bill->total_win). "Lak";;
 
-        foreach($customer6ds as $customer){
-            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','2d3d4d5d6d');
-        foreach ($orders as $order){
+            $notification = new Notification();
+            $notification->newNotification($title,$body,2,$bill);
+            $customer_notification = new Customer_Notification();
+            $this->sendPush($body,$title,$bill->customers->device_token);
+            $customer_notification->newCustomerNotification($bill->customers->id,$notification->id);
 
-           $orderText= "Draw=".$draw." total win=".number_format($order->winAmount2d3d4d5d6d())."LAK";
-           $win6dTexts=null;
-        foreach ($order->win2d3d4d5d6ds as $win6d){
-            $win6dText = $win6d->number_code;
-            $sumWin = $win6d->sumWins();
-            $win6dTexts.=" ".$win6dText."=".$sumWin.";";
-        }
-            $body6d=$orderText." Code:".$win6dTexts;
-                            $notification = new Notification();
-                $notification->newNotification($title6d,$body6d,2,$order);
-                $customer_notification = new Customer_Notification();
-                $this->sendPush($body6d,$title6d,$customer->device_token);
-                $customer_notification->newCustomerNotification($customer->id,$notification->id);
-//              $body6d.=$orderText."\nCode:".$win6dTexts."\n";
         }
 
+//            $this->pushNotification($body,$title,$customer->device_token);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    public function pushNotificationWin($draw){
+//        $customer6ds = Customer::whereNotNull('device_token')
+//            ->whereHas('orders',function ($q) use($draw){
+//                $q->where('status_win',1);
+//                $q->where('draw',$draw);
+//                $q->where('type',"2d3d4d5d6d");
+//            })->get();
+//        $customer340s = Customer::whereNotNull('device_token')
+//            ->whereHas('orders',function ($q) use($draw){
+//                $q->where('status_win',1);
+//                $q->where('draw',$draw);
+//                $q->where('type',"3/40");
+//            })->get();
+//
+//        $title6d= "Congratulations You win";
+//        $body6d=null;
+//
+//
+//        foreach($customer6ds as $customer){
+//            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','2d3d4d5d6d');
+//            foreach ($orders as $order){
+//
+//                $orderText= "Draw=".$draw." total win=".number_format($order->winAmount2d3d4d5d6d())."LAK";
+//                $win6dTexts=null;
+//                foreach ($order->win2d3d4d5d6ds as $win6d){
+//                    $win6dText = $win6d->number_code;
+//                    $sumWin = $win6d->sumWins();
+//                    $win6dTexts.=" ".$win6dText."=".$sumWin.";";
+//                }
+//                $body6d=$orderText." Code:".$win6dTexts;
 //                $notification = new Notification();
-//                $notification->newNotification($title6d,$body6d,2);
+//                $notification->newNotification($title6d,$body6d,2,$order);
 //                $customer_notification = new Customer_Notification();
 //                $this->sendPush($body6d,$title6d,$customer->device_token);
 //                $customer_notification->newCustomerNotification($customer->id,$notification->id);
-
-        }
-
-        $title340= "Congratulations You win";
-        $body340=null;
-
-        foreach($customer340s as $customer){
-            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','3/40');
-            foreach ($orders as $order){
-
-                $orderText= "Draw=".$draw." total win=".number_format($order->winAmount340())."LAK";
-                $win340Texts=null;
-
-                foreach ($order->win340s as $win340){
-
-                    if($win340->animal1 != null && $win340->animal2 == null && $win340->animal3 == null)
-                    $win340Text = "[".$win340->animal1."]";
-                    elseif($win340->animal1 != null && $win340->animal2 != null && $win340->animal3 == null)
-                    $win340Text = "[".$win340->animal1.",".$win340->animal2."]";
-                    else
-                        $win340Text = "[".$win340->animal1.",".$win340->animal2.",".$win340->animal3."]";
-
-                    $sumWin = $win340->sumWins();
-                    $win340Texts.=" ".$win340Text."=".$sumWin.";";
-                }
-                  $body340 = $orderText." Code:".$win340Texts;
-                  $notification = new Notification();
-                  $notification->newNotification($title340,$body340,2,$order);
-                  $customer_notification = new Customer_Notification();
-                  $this->sendPush($body340,$title340,$customer->device_token);
-                  $customer_notification->newCustomerNotification($customer->id,$notification->id);
-
-//                $body340.=$orderText."\nCode:".$win340Texts."\n";
-
-            }
-
+////              $body6d.=$orderText."\nCode:".$win6dTexts."\n";
+//            }
+//
+////                $notification = new Notification();
+////                $notification->newNotification($title6d,$body6d,2);
+////                $customer_notification = new Customer_Notification();
+////                $this->sendPush($body6d,$title6d,$customer->device_token);
+////                $customer_notification->newCustomerNotification($customer->id,$notification->id);
+//
+//        }
+//
+//        $title340= "Congratulations You win";
+//        $body340=null;
+//
+//        foreach($customer340s as $customer){
+//            $orders = $customer->orders->where('status_win',1)->where('draw',$draw)->where('type','3/40');
+//            foreach ($orders as $order){
+//
+//                $orderText= "Draw=".$draw." total win=".number_format($order->winAmount340())."LAK";
+//                $win340Texts=null;
+//
+//                foreach ($order->win340s as $win340){
+//
+//                    if($win340->animal1 != null && $win340->animal2 == null && $win340->animal3 == null)
+//                        $win340Text = "[".$win340->animal1."]";
+//                    elseif($win340->animal1 != null && $win340->animal2 != null && $win340->animal3 == null)
+//                        $win340Text = "[".$win340->animal1.",".$win340->animal2."]";
+//                    else
+//                        $win340Text = "[".$win340->animal1.",".$win340->animal2.",".$win340->animal3."]";
+//
+//                    $sumWin = $win340->sumWins();
+//                    $win340Texts.=" ".$win340Text."=".$sumWin.";";
+//                }
+//                $body340 = $orderText." Code:".$win340Texts;
 //                $notification = new Notification();
-//                $notification->newNotification($title340,$body340,2);
+//                $notification->newNotification($title340,$body340,2,$order);
 //                $customer_notification = new Customer_Notification();
 //                $this->sendPush($body340,$title340,$customer->device_token);
 //                $customer_notification->newCustomerNotification($customer->id,$notification->id);
-            }
-//            $this->pushNotification($body340,$title340,$customer->device_token);
-
-
-
-
-
-
-    }
+//
+////                $body340.=$orderText."\nCode:".$win340Texts."\n";
+//
+//            }
+//
+////                $notification = new Notification();
+////                $notification->newNotification($title340,$body340,2);
+////                $customer_notification = new Customer_Notification();
+////                $this->sendPush($body340,$title340,$customer->device_token);
+////                $customer_notification->newCustomerNotification($customer->id,$notification->id);
+//        }
+////            $this->pushNotification($body340,$title340,$customer->device_token);
+//    }
 }

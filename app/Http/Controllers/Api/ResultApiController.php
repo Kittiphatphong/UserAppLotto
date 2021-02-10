@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\BillOrder;
+use App\Models\Customer_Notification;
 use App\Models\Result;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ResultController;
@@ -64,6 +65,21 @@ class ResultApiController extends Controller
                'status' => "false",
                'msg' => $validator->errors()
            ], 422);
+       }
+       if($request->noti_id != null){
+           $validator = Validator::make($request->all(),[
+               'noti_id' => 'exists:customer__notifications,id'
+           ]);
+           if($validator->fails()) {
+               return response()->json([
+                   'status' => "false",
+                   'msg' => $validator->errors()
+               ], 422);
+           }
+
+           $customer_notification = Customer_Notification::find($request->noti_id);
+           $customer_notification->read_status = 1;
+           $customer_notification->save();
        }
        $result = Result::with(['animal6drs','animal1rs','animal2rs','animal3rs'])->where('draw',$request->draw)->get();
        return response()->json(['status' => true ,'data' => $result],200);

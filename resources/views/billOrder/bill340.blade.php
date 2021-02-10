@@ -73,15 +73,15 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($orders as $order)
+            @foreach($bills as $order)
                 <tr>
                     <td>{{$order->id}} </td>
                     <td><strong>{{$order->customers->phone}}</strong></td>
                     <td>{{$order->bill_number}}</td>
-                    <td><p>@foreach($order->bill340s as $code)
-                                <strong>[</strong><span>{{$code->animal1}}</span><span>@if($code->animal2),{{$code->animal2}}@endif</span>@if($code->animal3),{{$code->animal3}}@endif<strong>]</strong>
-                        @endforeach</p></td>
-                    <td><strong>{{number_format($order->bill340s->sum('money'))}}</strong></td>
+                    <td>@foreach($order->digit as $animal)
+                            [<strong>{{$animal}}</strong>]
+                        @endforeach</td>
+                    <td><strong>{{number_format($order->money)}}</strong></td>
                     <td>{{$order->draw}}</td>
                     <td>{{$order->updated_at}}</td>
                     <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>

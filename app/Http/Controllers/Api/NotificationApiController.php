@@ -11,10 +11,10 @@ class NotificationApiController extends Controller
 {
 
     public function notification($customerId,$type_id){
-        return $notification = Notification::with('typeNotifications')->orderBy('id','desc')
+        return $notification = Notification::with(['typeNotifications','notification_customers'])->orderBy('id','desc')
             ->whereHas('notification_customers', function ($q) use ($customerId) {
                 $q->where('customer_id', $customerId);
-            })->where('type_id',$type_id)->select('title','body','massages','type_id')->get();
+            })->where('type_id',$type_id)->select('id','title','body','massages','type_id')->get();
     }
 
     public function notificationList(Request $request)
@@ -22,10 +22,10 @@ class NotificationApiController extends Controller
         $customerId = $request->user()->currentAccessToken()->tokenable->id;
         return response()->json([
             'status' => true,
-            'data' => $notification = Notification::with('typeNotifications')->orderBy('id','desc')
+            'data' => $notification = Notification::with(['typeNotifications','notification_customers'])->orderBy('id','desc')
                 ->whereHas('notification_customers', function ($q) use ($customerId) {
                     $q->where('customer_id', $customerId);
-                })->select('title','body','massages','type_id')->get()
+                })->select('id','title','body','massages','type_id')->get()
         ]);
     }
 

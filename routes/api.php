@@ -52,7 +52,8 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     Route::post('sell-6d',[BillApiController::class,'sell6d']);
     Route::post('sell-340',[BillApiController::class,'sell340']);
-
+    Route::post('history-bill',[BillApiController::class,'billList']);
+    Route::post('history-bill-detail',[BillApiController::class,'billDetail']);
 
     Route::post('pull-result',[ResultApiController::class,'pullResult']);
     Route::post('show-result',[ResultApiController::class,'showResult']);

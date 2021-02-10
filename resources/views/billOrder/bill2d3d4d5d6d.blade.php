@@ -72,14 +72,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($orders as $order)
+                @foreach($bills as $order)
                     <tr>
                         <td> {{$order->id}}</td>
                         <td><strong>{{$order->customers->phone}}</strong></td>
                         <td>{{$order->bill_number}}</td>
-                        <td class="row">@foreach($order->billorder2d3d4d5d6ds as $code)<strong>{{$code->number_code}}</strong> @if($order->billorder2d3d4d5d6ds->last()->id != $code->id)& @endif @endforeach </td>
+                        <td class="row">@foreach($order->digit as $digit)<strong>{{$digit}}</strong>@endforeach</td>
 
-                        <td><strong>{{number_format($order->billorder2d3d4d5d6ds->sum('money'))}}</strong></td>
+                        <td><strong>{{number_format($order->money)}}</strong></td>
                         <td>{{$order->draw}}</td>
                         <td>{{$order->updated_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>

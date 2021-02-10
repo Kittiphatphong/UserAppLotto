@@ -77,7 +77,7 @@
                             <td>{{$notification->id}}</td>
                             <td>{{$notification->name}}</td>
                             <td><img src="{{$notification->icon}}" width="50px"></td>
-                            <td></td>
+                            <td>{{$notification->notifications->count()}}</td>
                             <td><a href="{{route('notification.icon.edit',$notification->id)}}"><i class="menu-icon fas fa-pen-alt"></i></a></td>
                         </tr>
                     @endforeach

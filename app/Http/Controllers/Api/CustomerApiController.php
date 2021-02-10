@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\OTP;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Http\Controllers\SendMassageController;
@@ -187,7 +189,8 @@ class CustomerApiController extends Controller
             'lastname' => 'required|string|max:255',
             'birthday' => 'required|date',
             'address' => 'required',
-            'gender' => 'required'
+            'gender' => 'required',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
         ]);
         if($validator->fails()){
             return response()->json([
@@ -196,11 +199,31 @@ class CustomerApiController extends Controller
             ],422);
 
         }
+
+
         $customerId = $request->user()->currentAccessToken()->tokenable->id;
         $customer = Customer::find($customerId);
         $customer->makeCustomer($request->firstname,$request->lastname,$request->birthday,$request->gender,$request->address);
         $customer->status = true ;
         $customer->save();
+
+
+        if($request->hasFile("image")){
+            if($customer->image == null){
+                $stringImageReformat = base64_encode('_'.time());
+                $ext = $request->file('image')->getClientOriginalExtension();
+                $imageName = $stringImageReformat.".".$ext;
+                $imageEncode = File::get($request->image);
+                $customer->image = "/storage/customer_image/".$imageName;
+                $customer->save();
+                Storage::disk('local')->put('public/customer_image/'.$imageName, $imageEncode);
+            }else{
+                Storage::delete("public/customer_image/".str_replace('/storage/customer_image/','',$customer->image));
+                $request->image->storeAs("public/customer_image",str_replace('/storage/customer_image/','',$customer->image));
+            }
+
+        }
+
         return response()->json(['status' => true , 'data' => $customer]);
     }
 
@@ -237,7 +260,9 @@ class CustomerApiController extends Controller
 
     public function customerInfo(Request $request){
         $customerId = $request->user()->currentAccessToken()->tokenable->id;
-        $customer = Customer::where('id',$customerId)->select('id','firstname','lastname','phone','birthday','gender','address','status')->get();
+        $customer = Customer::where('id',$customerId)
+            ->select('id','firstname','lastname','phone','birthday','gender','address','status','image')
+            ->withCount('notification')->first();
         return response()->json(['status' => true , 'data' => $customer]);
     }
 

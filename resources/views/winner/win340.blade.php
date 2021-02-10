@@ -79,12 +79,10 @@
                             <td><strong>{{$order->customers->phone}}</strong></td>
                             <td>{{$order->bill_number}}</td>
                             <td>{{$order->id}} </td>
-
-
-                            <td><p>@foreach($order->win340s as $code)
-                                        <strong>[</strong><span>{{$code->animal1}}</span><span>@if($code->animal2),{{$code->animal2}}@endif</span>@if($code->animal3),{{$code->animal3}}@endif<strong>]</strong>
-                                    @endforeach</p></td>
-                            <td><strong>{{number_format($order->winAmount340())}}</strong></td>
+                            <td>@foreach($order->digit as $animal)
+                                    [<strong>{{$animal}}</strong>]
+                                @endforeach</td>
+                            <td><strong>{{number_format($order->total_win)}}</strong></td>
 
                             <td>{{$order->created_at}}</td>
                             <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>

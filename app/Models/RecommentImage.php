@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class RecommentImage extends Model
 {
     use HasFactory;
+
 }

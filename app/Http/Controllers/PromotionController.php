@@ -86,7 +86,7 @@ class PromotionController extends Controller
 
     public function promotionDelete($id){
         $promotion = Promotion::find($id);
-        Storage::delete("public/promotion_image/".$promotion->image);
+        Storage::delete("public/promotion_image/".str_replace('/storage/promotion_image/','',$promotion->image));
         $promotion->delete();
         return redirect()->route('promotion.list')->with('success','Deleted promotion successful');
 

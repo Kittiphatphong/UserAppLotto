@@ -9,6 +9,8 @@ use App\Models\BillOrder;
 use App\Models\Billorder2d3d4d5d6d;
 use App\Models\Billorder340;
 use App\Models\Customer;
+use App\Models\Customer_Notification;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,9 +42,9 @@ class BillApiController extends Controller
 
         $type = "2d3d4d5d6d";
         $bill = new Bill();
-        $bill->newBill($customer->id,$request->bill_number,$request->draw,$type,$request->money,$request->digit);
+        $bill->newBill($customer->id,$request->bill_number,$request->draw,$type,$request->money,json_decode($request->digit));
 
-        $body = $bill->digit ." = ". number_format($bill->money). "Lak";
+        $body = str_replace('"','',implode(',',$bill->digit)) ." = ". number_format($bill->money). "Lak";
         $title = "Buy lotto 6D";
         $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$bill);
 
@@ -59,7 +61,7 @@ class BillApiController extends Controller
             'bill_number' => 'required|unique:bills',
             'draw' => 'numeric|required',
             'money' => 'numeric|required',
-            'digit' => 'required'
+            'digit' => 'required|json'
         ]);
         if($validator->fails()){
             return response()->json([
@@ -71,10 +73,10 @@ class BillApiController extends Controller
         $customer = Customer::where('phone',$request->phone_no)->first();
         $type = "3/40";
         $bill = new Bill();
-        $pieces = explode(",", $request->digit);
-        $bill->newBill($customer->id,$request->bill_number,$request->draw,$type,$request->money,$pieces);
 
-        $body = str_replace('"','',$bill->digit) ." = ". number_format($bill->money). "Lak";
+        $bill->newBill($customer->id,$request->bill_number,$request->draw,$type,$request->money,json_decode($request->digit));
+
+        $body = str_replace('"','',implode(',',$bill->digit)) ." = ". number_format($bill->money). "Lak";
         $title = "Buy lotto 3/40";
         $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$bill);
         return response()->json([
@@ -82,5 +84,40 @@ class BillApiController extends Controller
             'data'   => $bill
         ],201);
 
+    }
+    public function billList(Request $request){
+
+        $customerid = $request->user()->currentAccessToken();
+
+        $bills = Bill::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->get();
+
+        return response()->json([
+            'status' => true,
+            'data' =>  $bills
+        ]);
+    }
+
+    public function billDetail(Request $request){
+        $validator = Validator::make($request->all(),[
+            'bill' => 'required|exists:bill_orders,bill_number',
+            'noti_id' => 'required|exists:customer__notifications,id'
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'msg' => $validator->errors()
+            ],422);
+        }
+
+        $bills = BillOrder::where('bill_number',$request->bill)->first();
+        $customer_notification = Customer_Notification::find($request->noti_id);
+        $customer_notification->read_status = 1;
+        $customer_notification->save();
+
+
+        return response()->json([
+            'status' => true,
+            'data' => $bills
+        ]);
     }
 }

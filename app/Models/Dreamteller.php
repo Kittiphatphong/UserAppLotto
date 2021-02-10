@@ -16,4 +16,12 @@ class Dreamteller extends Model
     public function dreamTellerImages(){
         return $this->hasMany(DreamtellerImage::class,'dream_id')->select('id','image','dream_id');
     }
+
+    public function makeDreamTeller($recommendDigits,$title,$contentShow){
+        $pieces = explode(",", $recommendDigits);
+        $this->title = $title;
+        $this->content = $contentShow;
+        $this->recommend_digits = $pieces;
+        $this->save();
+    }
 }

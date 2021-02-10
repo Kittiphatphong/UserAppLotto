@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dreamteller;
 use App\Models\DreamtellerImage;
-use App\Models\RecommentImage;
-use App\Models\RecommentLotto;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +19,7 @@ class DreamTellerController extends Controller
     public function index()
     {
         return view('dreamTeller.dreamTellerList')
-            ->with('dream_teller_list','dream');
+            ->with('dream_teller_list',Dreamteller::orderBy('id','desc')->get());
     }
 
     /**
@@ -49,15 +48,11 @@ class DreamTellerController extends Controller
             'images' => 'required',
 
         ]);
-        $pieces = explode(",", $request->recommendDigits);
         $dreamTeller = new  Dreamteller();
-        $dreamTeller->title = $request->title;
-        $dreamTeller->content = $request->contentShow;
-        $dreamTeller->recommend_digits = $pieces;
-        $dreamTeller->save();
+        $dreamTeller->makeDreamTeller($request->recommendDigits,$request->title,$request->contentShow);
 
-        if($files=$request->file('images')){
-            foreach($files as $file){
+        if($file=$request->file('images')){
+
                 $dreamTellerImage = new DreamtellerImage();
                 $stringImageReformat = base64_encode('_'.time());
                 $ext = $file->getClientOriginalName();
@@ -68,10 +63,10 @@ class DreamTellerController extends Controller
                 $dreamTellerImage->image = "/storage/dream_teller_image/".$imageName;
                 $dreamTellerImage->save();
                 Storage::disk('local')->put('public/dream_teller_image/'.$imageName, $imageEncode);
-            }
+
 
         }
-        return back()->with('success','Upload success');
+        return redirect()->route('dream-teller.index')->with('success','Upload success');
     }
 
     /**
@@ -93,7 +88,11 @@ class DreamTellerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dreamTeller = Dreamteller::find($id);
+          return view('dreamTeller.dreamTellerCreate',compact(['dreamTeller']))
+              ->with('dream_teller_create','dream');
+
+
     }
 
     /**
@@ -105,7 +104,23 @@ class DreamTellerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'contentShow' => 'required',
+            'recommendDigits' =>'required',
+
+        ]);
+
+        $dreamTeller = Dreamteller::find($id);
+        $dreamTeller->makeDreamTeller($request->recommendDigits,$request->title,$request->contentShow);
+
+        if($request->hasFile("images")){
+            Storage::delete("public/dream_teller_image/".str_replace('/storage/dream_teller_image/','',$dreamTeller->dreamTellerImages->first()->image));
+            $request->images->storeAs("public/dream_teller_image",str_replace('/storage/dream_teller_image/','',$dreamTeller->dreamTellerImages->first()->image));
+        }
+
+
+        return redirect()->route('dream-teller.index')->with('success','Updated successful');
     }
 
     /**
@@ -116,6 +131,11 @@ class DreamTellerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dreamTeller = Dreamteller::find($id);
+
+        $dreamTeller->delete();
+        $dreamTeller->dreamTellerImages->first()->delete();
+        Storage::delete("public/dream_teller_image/".str_replace('/storage/dream_teller_image/','',$dreamTeller->dreamTellerImages->first()->image));
+        return back()->with('success','Delete successful');
     }
 }

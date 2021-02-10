@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\BillOrderController;
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\WinnerController;
 use App\Http\Controllers\ResultController;
@@ -28,8 +28,8 @@ Route::group(['middleware' =>'auth'],function(){
 
 
 //Bill order
-    Route::get('/bill2d3d4d5d6d',[BillOrderController::class,'bill2d3d4d5d6d'])->name('bill.2d3d4d5d6d');
-    Route::get('/bill340',[BillOrderController::class,'bill340'])->name('bill.340');
+    Route::get('/bill6d',[BillController::class,'bill6d'])->name('bill.2d3d4d5d6d');
+    Route::get('/bill340',[BillController::class,'bill340'])->name('bill.340');
 
 //Provider
     Route::get('/provider',[ProviderController::class,'providerList'])->name('provider.list');
@@ -68,7 +68,7 @@ Route::group(['middleware' =>'auth'],function(){
 
 //Dream Teller
    Route::resource('dream-teller',DreamTellerController::class,[
-       'only' => ['index', 'create','store','update']
+       'only' => ['index', 'create','store','update','edit','destroy']
    ]);
 
 //Notification

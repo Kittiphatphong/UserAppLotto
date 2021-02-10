@@ -25,6 +25,9 @@ class Customer extends Model
 
     }
 
+    public function bills(){
+        return $this->hasMany(Bill::class,'customers');
+    }
     public function otps(){
         return $this->hasOne(OTP::class);
     }
@@ -36,9 +39,12 @@ class Customer extends Model
     public function customer_notification(){
         return $this->hasMany(Customer_Notification::class,'customer_id');
     }
+    public function notification(){
+        return $this->hasMany(Customer_Notification::class,'customer_id')->where('read_status',false);
+
+    }
 
     public function requestNewOTP(){
-
         $otp = new OTP();
         $otp->customer_id = $this->id;
         $otp->otp_number = rand(1000,9999);
