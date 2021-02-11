@@ -74,5 +74,33 @@ class AnimalController extends Controller
         Storage::disk('local')->put('public/animal_image/'.$imageName, $imageEncode);
         return back()->with('success','success');
     }
+    public function animalEdit($id){
+        $animal = Animal::find($id);
+        return view('animal.animalCreate',compact('animal'))
+            ->with('animal_list','animal_create');
+    }
+
+    public function animalUpdate(Request $request,$id){
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'digit' => 'required',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
+        ]);
+
+
+        $pieces = explode(",", $request->digit);
+        $animal = Animal::find($id);
+        $animal->name = $request->name;
+        $animal->description = $request->description;
+        $animal->digit = $pieces;
+        $animal->save();
+
+        if($request->hasFile("image")){
+            Storage::delete("public/animal_image/".str_replace('/storage/animal_image/','',$animal->image));
+            $request->image->storeAs("public/animal_image",str_replace('/storage/animal_image/','',$animal->image));
+        }
+        return redirect()->route('animal.list')->with('success','Update success');
+    }
 
 }

@@ -48,12 +48,12 @@ class PushNotificationController extends Controller
     }
 
 
-    public function sendPush($body ,$title, $token)
+    public function sendPush($body ,$title, $tokend)
     {
 
         try {
 
-//            $token ="cjhazaXu_klkq87XTBUGQh:APA91bGVecpBY2yhh20Hm-U2kEzHfkXFaWTCyxc4tu-hEj6KXrHsKm-UK-8QTPV8iWBmC8A2-hZaDpz6_gZpnQZnz-PBQFSpvh2ls4pV-WDjhVkO1-1DZxnZsTfyEztSz8YGhuu6QtGy";
+            $token ="dg3ZK8niSJeSx1xMYIp_Pm:APA91bG9G-23gp9nFWvbED9bCzJ8bwGsHz80SL0dtp6_7MoMnjnWiKFFFukvPnva08ba-cTVxg5Q6ReX1NPIvRqFOceTFeJWMPvSYm9hrxg8G8_kZPbt8LJzu5RhKD-iTIA4HzaK1TuZ";
 
             $notification = [
 //                "to" => $request->device_token,//token
@@ -64,8 +64,8 @@ class PushNotificationController extends Controller
                     [
                         "title" => $title,
                         "body" => $body,
-                        "icon"  => "https://scontent.fbkk15-1.fna.fbcdn.net/v/t1.0-9/140317948_270623577819917_1398799135777551851_n.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEArrcihmDjHAOQqXdqIFLum30_-gmGOAebfT_6CYY4B45A8d-fL5YveW5EKf2q7QO_KapKptj8u6tV45BbaQOJ&_nc_ohc=wMo_ORi8zL4AX9gS94q&_nc_ht=scontent.fbkk15-1.fna&oh=4502219f6a1ec618ca8288fc1a2424e1&oe=602DC018",/*Default Icon*/
-                        "sound" => 'mySound'/*Default sound*/
+//                        "icon"  => "https://scontent.fbkk15-1.fna.fbcdn.net/v/t1.0-9/140317948_270623577819917_1398799135777551851_n.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEArrcihmDjHAOQqXdqIFLum30_-gmGOAebfT_6CYY4B45A8d-fL5YveW5EKf2q7QO_KapKptj8u6tV45BbaQOJ&_nc_ohc=wMo_ORi8zL4AX9gS94q&_nc_ht=scontent.fbkk15-1.fna&oh=4502219f6a1ec618ca8288fc1a2424e1&oe=602DC018",/*Default Icon*/
+//                        "sound" => 'mySound'/*Default sound*/
                     ],
 
             ];
@@ -92,11 +92,11 @@ class PushNotificationController extends Controller
     public function pushNotificationBuy($body ,$title,$type,$idCustomer,$massages){
         $customer = Customer::find($idCustomer);
         if($customer->device_token != null){
-            $notification = new Notification();
-            $notification->newNotification($title,$body,$type,$massages);
-            $customer_notification = new Customer_Notification();
+//            $notification = new Notification();
+//            $notification->newNotification($title,$body,$type,$massages);
+//            $customer_notification = new Customer_Notification();
             $this->sendPush($body,$title,$customer->device_token);
-            $customer_notification->newCustomerNotification($customer->id,$notification->id);
+//            $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
 
     }

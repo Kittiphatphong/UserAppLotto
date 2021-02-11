@@ -29,31 +29,39 @@
                         <h3 class="card-label">RECOMMEND
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-                    <form enctype="multipart/form-data"  method="post" height="1000px" class="pb-10 mb-10">
+                    <form enctype="multipart/form-data" action="{{isset($recommend)? route('recommend.update',$recommend->id):route('recommend.store')}}"  method="post" height="1000px" class="pb-10 mb-10">
                         @csrf
                         <div class="form-group">
                             <label>TITLE</label>
-                            <input type="text" class="form-control" name="title" >
+                            <input type="text" class="form-control" name="title" value="{{isset($recommend)?$recommend->title:''}}">
                         </div>
                         <div class="form-group ">
                             <label>CONTENT</label>
-                            <input type="text" class="form-control" name="contentShow" >
+                            <input type="text" class="form-control" name="contentShow" value="{{isset($recommend)?$recommend->content:''}}">
                         </div>
                         <div class="form-group ">
                             <label>DRAW</label>
-                            <input type="number" class="form-control" name="draw" >
+                            <input type="number" class="form-control" name="draw" value="{{isset($recommend)?$recommend->draw:''}}">
                         </div>
-
-
-
 
                         <div class="form-group">
                             <lable>IMAGES</lable>
                             <input type="file" class="form-control" name="images[]" multiple>
                         </div>
+                        @if(isset($recommend))
+                        <div class="d-flex col-12 border justify-content-center flex-wrap">
+                            @foreach($recommend->recommendImages as $images)
+                                <div class="col-3 py-2">
+                                <a href="{{$images->image}}" target="_blank" class="">
+                                    <img src="{{$images->image}}"  width="90%" class="border rounded">
+                                </a>
+                                </div>
+                            @endforeach
+                        </div>
+                        @endif
                         <br>
                         <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-success btn-block">SUBMIT</button>
+                            <button type="submit" class="btn btn-success btn-block">{{isset($recommend)?'UPDATE':'SUBMIT'}}</button>
                         </div>
                     </form>
                 </div>

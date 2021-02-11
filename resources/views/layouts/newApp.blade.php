@@ -156,7 +156,7 @@
                         <li class="menu-item menu-item-submenu @if(isset($bill_2d3d4d5d6d)|| isset($bill_340))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fa la-money-check"></i>
-                                <span class="menu-text">Bill order</span>
+                                <span class="menu-text">Bills </span>
                                 <i class="menu-arrow"></i>
                             </a>
                             <div class="menu-submenu">
@@ -185,7 +185,7 @@
                         </li>
                         <li class="menu-item menu-item-submenu @if(isset($win_2d3d4d5d6d)|| isset($win_340))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon fa la-won-sign"></i>
+                                <i class="menu-icon flaticon-medal"></i>
                                 <span class="menu-text">Winner</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -254,7 +254,7 @@
 
                         <li class="menu-item menu-item-submenu @if(isset($recommend_list)|| isset($recommend_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon fas fa-comment"></i>
+                                <i class="menu-icon fab fa-galactic-republic"></i>
                                 <span class="menu-text">Recommend lotto</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -318,7 +318,7 @@
 
                         <li class="menu-item menu-item-submenu @if(isset($dream_teller_list)|| isset($dream_teller_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon fas fa-pray"></i>
+                                <i class="menu-icon fas fa-cloud-moon"></i>
                                 <span class="menu-text">Dream teller</span>
                                 <i class="menu-arrow"></i>
                             </a>

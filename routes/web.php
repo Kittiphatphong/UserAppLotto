@@ -60,11 +60,16 @@ Route::group(['middleware' =>'auth'],function(){
     Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
     Route::get('recommend-create',[RecommentLottoController::class,'recommendCreate'])->name('recommend.create');
     Route::post('recommend-create',[RecommentLottoController::class,'recommendStore'])->name('recommend.store');
+    Route::get('recommend-edit/{id}',[RecommentLottoController::class,'recommendEdit'])->name('recommend.edit');
+    Route::post('recommend-update/{id}',[RecommentLottoController::class,'recommendUpdate'])->name('recommend.update');
+    Route::post('recommend-delete/{id}',[RecommentLottoController::class,'recommendDelete'])->name('recommend.delete');
 
 //40 Animal
     Route::get('animal-list',[AnimalController::class,'animalList'])->name('animal.list');
     Route::get('animal-create',[AnimalController::class,'animalCrate'])->name('animal.create');
     Route::post('animal-create',[AnimalController::class,'animalStore'])->name('animal.store');
+    Route::get('animal-edit/{id}',[AnimalController::class,'animalEdit'])->name('animal.edit');
+    Route::post('animal-update/{id}',[AnimalController::class,'animalUpdate'])->name('animal.update');
 
 //Dream Teller
    Route::resource('dream-teller',DreamTellerController::class,[

@@ -29,34 +29,40 @@
                         <h3 class="card-label">ANIMAL
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-                    <form enctype="multipart/form-data"  method="post" height="1000px" class="pb-10 mb-10">
+                    <form enctype="multipart/form-data" action="{{isset($animal)?route('animal.update',$animal->id) : route('animal.store')}}"  method="post" height="1000px" class="pb-10 mb-10">
                         @csrf
                         <div class="form-group">
                             <label >NAME</label>
-                            <input type="text" class="form-control" name="name" value="">
+                            <input type="text" class="form-control" name="name" value="{{isset($animal)?$animal->name:''}}">
                         </div>
                         <div class="form-group ">
                             <label>ANIMAL DIGIT</label>
-                            <input type="text" class="form-control" name="animalDigit" value="" maxlength="2">
+                            <input type="text" class="form-control" name="animalDigit"  value="{{isset($animal)?implode(',',$animal->animals_digit):''}}" {{isset($animal)?'Readonly':''}}>
                         </div>
 
 
                         <div class="form-group">
                             <label>DESCRIPTION</label>
-                            <input type="text" class="form-control" name="description" value="">
+                            <input type="text" class="form-control" name="description" value="{{isset($animal)?$animal->description:''}}">
                         </div>
                         <div class="form-group">
                             <label>DIGIT</label>
-                            <input type="text" class="form-control" name="digit" value="" onkeyup="format(this)">
+                            <input type="text" class="form-control" name="digit"  onkeyup="format(this)" value="{{isset($animal)?implode(',',$animal->digit):''}}">
                         </div>
 
                         <div class="form-group">
                             <lable>IMAGE</lable>
                             <input type="file" class="form-control" name="image" >
                         </div>
+                        @if(isset($animal))
+                            <div class="d-flex justify-content-center border rounded">
+                                <img src="{{$animal->image}}" width="40%">
+
+                            </div>
+                        @endif
                         <br>
                         <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-success btn-block">SUBMIT</button>
+                            <button type="submit" class="btn btn-success btn-block">{{isset($animal)?'UPDATE':'SUBMIT'}}</button>
                         </div>
                     </form>
                 </div>

@@ -99,7 +99,7 @@ class BillApiController extends Controller
 
     public function billDetail(Request $request){
         $validator = Validator::make($request->all(),[
-            'bill' => 'required|exists:bill_orders,bill_number',
+            'id' => 'required|exists:bills,id',
             'noti_id' => 'required|exists:customer__notifications,id'
         ]);
         if($validator->fails()){
@@ -109,7 +109,7 @@ class BillApiController extends Controller
             ],422);
         }
 
-        $bills = BillOrder::where('bill_number',$request->bill)->first();
+        $bills = Bill::find($request->id);
         $customer_notification = Customer_Notification::find($request->noti_id);
         $customer_notification->read_status = 1;
         $customer_notification->save();

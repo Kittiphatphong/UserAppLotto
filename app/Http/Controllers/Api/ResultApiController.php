@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\BillOrder;
+use App\Models\Bill;
 use App\Models\Customer_Notification;
 use App\Models\Result;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class ResultApiController extends Controller
            ],422);
 
        }
-       if(BillOrder::where('draw',$request->get('draw'))->count() <= 0 ){
+       if(Bill::where('draw',$request->get('draw'))->count() <= 0 ){
            return response()->json([
                'status' => "false",
                'msg' => ["draw"=> ["This draw is not exist"]]
@@ -58,7 +58,7 @@ class ResultApiController extends Controller
 
    public function filterResult(Request $request){
        $validator = Validator::make($request->all(),[
-           'draw' => 'required|numeric|exists:results,draw',
+           'id' => 'required|numeric|exists:results,id',
        ]);
        if($validator->fails()) {
            return response()->json([
@@ -81,7 +81,7 @@ class ResultApiController extends Controller
            $customer_notification->read_status = 1;
            $customer_notification->save();
        }
-       $result = Result::with(['animal6drs','animal1rs','animal2rs','animal3rs'])->where('draw',$request->draw)->get();
+       $result = Result::with(['animal6drs','animal1rs','animal2rs','animal3rs'])->where('id',$request->id)->get();
        return response()->json(['status' => true ,'data' => $result],200);
    }
 

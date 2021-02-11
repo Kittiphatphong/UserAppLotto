@@ -56,7 +56,7 @@
             </div>
 
             <!--begin: Datatable-->
-            <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
+            <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
                 <thead>
                 <tr>
 

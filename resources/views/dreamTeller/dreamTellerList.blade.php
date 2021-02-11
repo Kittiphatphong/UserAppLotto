@@ -82,7 +82,7 @@
                     <td><img src="{{$dream->dreamTellerImages->first()->image}}" width="60px" class="rounded-pill"></td>
                     <td>
                         <div class="d-flex justify-content-start m-0">
-                            <a href="{{route('dream-teller.edit',$dream->id)}}" class="btn btn-link" ><i class="fas fa-pen-alt"></i></a>
+                            <a href="{{route('dream-teller.edit',$dream->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
                             <form action="{{route('dream-teller.destroy',$dream->id)}}" method="post" class="delete_form">
                                 @csrf
                                 @method('DELETE')

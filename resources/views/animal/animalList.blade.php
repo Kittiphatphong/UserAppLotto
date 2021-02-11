@@ -66,6 +66,7 @@
                         <th>IMAGE</th>
                         <th>DESCRIPTION</th>
                         <th>DIGIT</th>
+                        <th>EDIT</th>
                         <th>UPDATED AT</th>
 
 
@@ -76,9 +77,10 @@
                         <tr>
                             <td>{{$animal->name}}</td>
                             <td>{{str_replace('"','',$animal->animalNos->pluck('animal_digit'))}}</td>
-                            <td><img src="{{$animal->image}}" width="80%" ></td>
+                            <td><img src="{{$animal->image}}" width="100%" ></td>
                             <td>{{$animal->description}}</td>
                             <td>@foreach($animal->digit as $digit) [{{$digit}}] @endforeach</td>
+                            <td><a href="{{route('animal.edit',$animal->id)}}" class="btn btn-link"><i class="far fa-edit"></i></a></td>
                             <td>{{$animal->updated_at}}</td>
 
 

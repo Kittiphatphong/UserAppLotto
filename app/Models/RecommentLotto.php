@@ -12,4 +12,11 @@ class RecommentLotto extends Model
     public function recommendImages(){
         return $this->hasMany(RecommentImage::class,'recommend_id');
     }
+
+    public function makeRecommend($title,$contentShow,$draw){
+        $this->title = $title;
+        $this->content = $contentShow;
+        $this->draw = $draw;
+        $this->save();
+    }
 }
