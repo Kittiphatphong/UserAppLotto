@@ -48,7 +48,7 @@ class PushNotificationController extends Controller
     }
 
 
-    public function sendPush($body ,$title, $token,$message)
+    public function sendPush($body ,$title)
     {
 
         try {
@@ -56,7 +56,7 @@ class PushNotificationController extends Controller
 
             $notification = [
                 "condition" => "'Events' in topics", //multi topics : "'TopicA' in topics && ('TopicB' in topics || 'TopicC' in topics)";
-                "data"=>["message"=> "$message"],
+                "data"=>["message"=> 'message'],
                 "notification" =>
                     [
                         "title" => $title,
@@ -139,9 +139,10 @@ class PushNotificationController extends Controller
         $notification->newNotification($title,$body,$type,$massages);
         foreach($customers as $customer){
             $customer_notification = new Customer_Notification();
-            $this->sendPush($body,$title,$customer->device_token);
+
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
+        $this->sendPush($body,$title);
 
     }
 
