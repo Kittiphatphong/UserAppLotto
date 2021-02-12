@@ -48,7 +48,7 @@ class PushNotificationController extends Controller
     }
 
 
-    public function sendPush($body ,$title)
+    public function sendPush($body ,$title, $massages)
     {
 
         try {
@@ -56,7 +56,7 @@ class PushNotificationController extends Controller
 
             $notification = [
                 "condition" => "'Events' in topics", //multi topics : "'TopicA' in topics && ('TopicB' in topics || 'TopicC' in topics)";
-                "data"=>["message"=> 'message'],
+                "data"=>["message"=> $massages],
                 "notification" =>
                     [
                         "title" => $title,
@@ -83,21 +83,19 @@ class PushNotificationController extends Controller
         }
 
     }
-    public function sendPushDevice($body ,$title, $token,$message)
+    public function sendPushDevice($body ,$title, $token,$massages)
     {
 
         try {
 
 
             $notification = [
-                "to" => $token,//token
-                "data"=>["message"=> $message],
+                "to" => [$token],
+                "data"=>["message"=> $massages],
                 "notification" =>
                     [
                         "title" => $title,
                         "body" => $body,
-//                        "icon"  => "https://scontent.fbkk15-1.fna.fbcdn.net/v/t1.0-9/140317948_270623577819917_1398799135777551851_n.jpg?_nc_cat=110&ccb=2&_nc_sid=09cbfe&_nc_eui2=AeEArrcihmDjHAOQqXdqIFLum30_-gmGOAebfT_6CYY4B45A8d-fL5YveW5EKf2q7QO_KapKptj8u6tV45BbaQOJ&_nc_ohc=wMo_ORi8zL4AX9gS94q&_nc_ht=scontent.fbkk15-1.fna&oh=4502219f6a1ec618ca8288fc1a2424e1&oe=602DC018",/*Default Icon*/
-//                        "sound" => 'mySound'/*Default sound*/
                     ],
 
             ];
@@ -124,11 +122,11 @@ class PushNotificationController extends Controller
     public function pushNotificationBuy($body ,$title,$type,$idCustomer,$massages){
         $customer = Customer::find($idCustomer);
         if($customer->device_token != null){
-//            $notification = new Notification();
-//            $notification->newNotification($title,$body,$type,$massages);
-//            $customer_notification = new Customer_Notification();
-            $this->sendPush($body,$title,$customer->device_token);
-//            $customer_notification->newCustomerNotification($customer->id,$notification->id);
+            $notification = new Notification();
+            $notification->newNotification($title,$body,$type,$massages);
+            $customer_notification = new Customer_Notification();
+            $this->sendPushDevice($body,$title,$customer->device_token,$massages);
+            $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
 
     }
@@ -139,11 +137,9 @@ class PushNotificationController extends Controller
         $notification->newNotification($title,$body,$type,$massages);
         foreach($customers as $customer){
             $customer_notification = new Customer_Notification();
-
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
-        $this->sendPush($body,$title);
-
+        $this->sendPush($body,$title,$massages);
     }
 
     public function pushNotificationWin($draw){
@@ -157,7 +153,7 @@ class PushNotificationController extends Controller
             $notification = new Notification();
             $notification->newNotification($title,$body,2,$bill);
             $customer_notification = new Customer_Notification();
-            $this->sendPush($body,$title,$bill->customers->device_token);
+            $this->sendPushDevice($body,$title,$bill->customers->device_token,$bill);
             $customer_notification->newCustomerNotification($bill->customers->id,$notification->id);
 
         }
