@@ -48,18 +48,50 @@ class PushNotificationController extends Controller
     }
 
 
-    public function sendPush($body ,$title, $tokend)
+    public function sendPush($body ,$title, $token,$message)
     {
 
         try {
 
-            $token ="dg3ZK8niSJeSx1xMYIp_Pm:APA91bG9G-23gp9nFWvbED9bCzJ8bwGsHz80SL0dtp6_7MoMnjnWiKFFFukvPnva08ba-cTVxg5Q6ReX1NPIvRqFOceTFeJWMPvSYm9hrxg8G8_kZPbt8LJzu5RhKD-iTIA4HzaK1TuZ";
 
             $notification = [
-//                "to" => $request->device_token,//token
-                "registration_ids" => [$token], //[token,token,token]
-//                "condition" => "'Events' in topics", //multi topics : "'TopicA' in topics && ('TopicB' in topics || 'TopicC' in topics)";
-                "data"=>["message"=> "message"],
+                "condition" => "'Events' in topics", //multi topics : "'TopicA' in topics && ('TopicB' in topics || 'TopicC' in topics)";
+                "data"=>["message"=> "$message"],
+                "notification" =>
+                    [
+                        "title" => $title,
+                        "body" => $body,
+                    ],
+
+            ];
+
+            $dataString = json_encode($notification, JSON_THROW_ON_ERROR);
+            $headers = [
+                'Authorization: key=' . $this->serverKey,
+                'Content-Type: application/json',
+            ];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+            curl_exec($ch);
+            return response()->json(['message', 'Notification sent!']);
+        } catch (Throwable $e) {
+            return response($e);
+        }
+
+    }
+    public function sendPushDevice($body ,$title, $token,$message)
+    {
+
+        try {
+
+
+            $notification = [
+                "to" => $token,//token
+                "data"=>["message"=> $message],
                 "notification" =>
                     [
                         "title" => $title,
