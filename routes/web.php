@@ -11,6 +11,7 @@ use App\Http\Controllers\RecommentLottoController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\DreamTellerController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\BuyLottoController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -19,6 +20,10 @@ Route::group(['middleware' =>'auth'],function(){
         return view('dashboard')->with('dashboard','dashboard');})
         ->name('dashboard');
 
+
+    Route::get('/buy-lotto',[BuyLottoController::class,'buy'])->name('buy.buy');
+    Route::post('/buy-lotto-6d',[BuyLottoController::class,'store6d'])->name('buy.store6d');
+    Route::post('/buy-lotto-40',[BuyLottoController::class,'store40'])->name('buy.store40');
 
     Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
 

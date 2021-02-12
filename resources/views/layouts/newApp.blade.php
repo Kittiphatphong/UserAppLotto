@@ -385,6 +385,12 @@
                             </a>
                         </li>
 
+                        <li class="menu-item  @isset($buy) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('buy.buy')}}" class="menu-link">
+                                <i class="menu-icon fa fa-shopping-cart"></i>
+                                <span class="menu-text">Buy lottory</span>
+                            </a>
+                        </li>
 
                         <li class="menu-item" aria-haspopup="true">
                             <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">
