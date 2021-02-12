@@ -90,7 +90,7 @@ class PushNotificationController extends Controller
 
 
             $notification = [
-                "to" => [$token],
+                "registration_ids" => [$token],
                 "data"=>["message"=> $massages],
                 "notification" =>
                     [

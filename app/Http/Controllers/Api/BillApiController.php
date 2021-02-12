@@ -120,4 +120,16 @@ class BillApiController extends Controller
             'data' => $bills
         ]);
     }
+
+    public function billWining(Request $request){
+
+        $customerid = $request->user()->currentAccessToken();
+
+        $bills = Bill::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->where('status_win',true)->get();
+
+        return response()->json([
+            'status' => true,
+            'data' =>  $bills
+        ]);
+    }
 }
