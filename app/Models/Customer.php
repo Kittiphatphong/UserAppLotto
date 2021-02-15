@@ -26,7 +26,7 @@ class Customer extends Model
     }
 
     public function bills(){
-        return $this->hasMany(Bill::class,'customers');
+        return $this->hasMany(Bill::class,'customer_id');
     }
     public function otps(){
         return $this->hasOne(OTP::class);

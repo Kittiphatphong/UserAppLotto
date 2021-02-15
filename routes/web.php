@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ProviderController;
@@ -16,8 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['middleware' =>'auth'],function(){
-    Route::get('/dashboard', function () {
-        return view('dashboard')->with('dashboard','dashboard');})
+    Route::get('/dashboard', [DashboardController::class,'dashboard'])
         ->name('dashboard');
 
 

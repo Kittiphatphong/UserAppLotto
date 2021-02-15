@@ -38,4 +38,19 @@ class PromotionApiController extends Controller
         ]);
     }
 
+    public function promotionNotification(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:promotions,id',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => "false",
+                'msg' => $validator->errors()
+            ], 422);
+        }
+        $customerid = $request->user()->currentAccessToken();
+
+    }
+
 }

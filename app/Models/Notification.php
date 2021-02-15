@@ -28,5 +28,6 @@ class Notification extends Model
         $this->type_id =$type_id;
         $this->massages =$massages;
         $this->save();
+
     }
 }

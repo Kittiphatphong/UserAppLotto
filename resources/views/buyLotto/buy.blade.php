@@ -25,7 +25,7 @@
 
                 <div class="p-6 bg-white border-b border-gray-200 pb-4">
                     <div class="card-title">
-                        <h3 class="card-label">BUY LOTTO {{$draw}}
+                        <h3 class="card-label">BUY LOTTO DRAW {{$draw}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                     <div class="mt-4 col-12">

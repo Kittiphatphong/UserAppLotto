@@ -152,11 +152,11 @@
                     <th>NAME</th>
                     <th>GENDER</th>
                     <th>BIRTHDAY</th>
-
                     <th>TOTAL BUY</th>
-                    <th >AMOUNT BUY</th>
-                    <th>Or Date</th>
-                    <th >Status</th>
+                    <th>AMOUNT BUY</th>
+                    <th>AMOUNT WIN</th>
+                    <th>Status</th>
+                    <th>CREATED AT</th>
 
                 </tr>
                 </thead>
@@ -166,19 +166,20 @@
 
                    <td class="row"> <span class="float-left">{{$customer->phone}}</span>
                           </td>
-                   <td><form action="{{route('customer.delete',$customer->id)}}" method="post" class="delete_form">
+                   <td>
+                       <form action="{{route('customer.delete',$customer->id)}}" method="post" class="delete_form">
                            @csrf <button type="submit" class="btn btn-link text-danger m-0 p-0 " ><i class="fa fa-trash-alt text-danger"></i></button></form></td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->firstname}} {{$customer->lastname}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->gender}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->birthday}}@endif</td>
 
-                   <td>10</td>
-                   <td>2.000.000</td>
+                   <td>{{$customer->bills->count()}}</td>
+                   <td>{{number_format($customer->bills->sum('money'))}}</td>
 
-                   <td>2016-11-29</td>
 
+                    <td>{{number_format($customer->bills->sum('total_win'))}}</td>
                    <td class="text-right"> @if($customer->otps->status == 0) 1 @else 4 @endif </td>
-
+                   <td>{{$customer->created_at}}</td>
                </tr>
                @endforeach
                </tbody>
