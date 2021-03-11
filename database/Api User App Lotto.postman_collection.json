@@ -1,0 +1,944 @@
+{
+	"info": {
+		"_postman_id": "a43552fe-da7a-442f-bb50-2ff1dc62dac6",
+		"name": "Api User App Lotto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sell",
+			"item": [
+				{
+					"name": "sell2d3d4d5d6d",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "70|wZqOHjO3o9XchYxLdj1ZLKklzJOD9CsozJGVe5lb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone_no",
+									"value": "2055188559",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "[{\"code\":\"45\",\"money\":\"100000\"},{\"code\":\"345\",\"money\":\"2000\"},{\"code\":\"12345\",\"money\":\"3000\"},\n{\"code\":\"78789\",\"money\":\"100000\"},\n{\"code\":\"2345\",\"money\":\"100000\"},\n{\"code\":\"32322\",\"money\":\"100000\"},\n{\"code\":\"32323\",\"money\":\"100000\"},\n{\"code\":\"32324\",\"money\":\"100000\"}]\n",
+									"type": "text"
+								},
+								{
+									"key": "bill_number",
+									"value": "8234532",
+									"type": "text"
+								},
+								{
+									"key": "draw",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/sell-2d3d4d5d6d",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"sell-2d3d4d5d6d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sell340",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|uaKYPHoMREZzm65NUnYcONg6T6EqMmrhMYXaV7Og",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone_no",
+									"value": "2055188559",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "[{\"code\":\" 22,12\",\"money\":\"2000\"},{\"code\":\"30,35\",\"money\":\"2000\"},{\"code\":\"30,35,20\",\"money\":\"10000\"},{\"code\":\"30\",\"money\":\"2000\"}\n,{\"code\":\"31,35,20\",\"money\":\"10000\"}\n,{\"code\":\"32,35,20\",\"money\":\"10000\"}\n,{\"code\":\"11,22,12\",\"money\":\"10000\"}\n\n]",
+									"type": "text"
+								},
+								{
+									"key": "bill_number",
+									"value": "1654332",
+									"type": "text"
+								},
+								{
+									"key": "draw",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/sell-340",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"sell-340"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bill-order",
+			"item": [
+				{
+					"name": "bill6d",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "53|sOsbtr9OjvpF858IB2BDKDCfXdy44NYtGqveNQqb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.10.21/api/bill6d-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"bill6d-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bill3/40",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "53|sOsbtr9OjvpF858IB2BDKDCfXdy44NYtGqveNQqb",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.10.21/api/bill340-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"bill340-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "billAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "69|iuKa2XrT73qQWriSlEg7to5M8NscXnrHm1dBSLsz",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "2091442424",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/all-bill-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"all-bill-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "billDetail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "69|iuKa2XrT73qQWriSlEg7to5M8NscXnrHm1dBSLsz",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "2092442424",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/all-bill-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"all-bill-customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "register",
+			"item": [
+				{
+					"name": "RegisterPassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirm",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "2058058595",
+									"type": "text"
+								},
+								{
+									"key": "device_token",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/set-password",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"set-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "2092442424",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/register-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"register-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "moreAccount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "2091442424",
+									"type": "text"
+								},
+								{
+									"key": "firstname",
+									"value": "jay",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "chowder",
+									"type": "text"
+								},
+								{
+									"key": "birthday",
+									"value": "1999-09-09",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/set-Account",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"set-Account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "25|nsLfSW8XmDVLSsbCriYFFB6mqliT2jGLRoMDqiCn",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.10.21/api/logout-customer",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"logout-customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "requestOTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "2058058595",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/register-otp",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"register-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyOTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "otp_verify",
+									"value": "3141",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "2092442424",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.10.21/api/verify-otp",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"21"
+							],
+							"path": [
+								"api",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phone",
+							"value": "2091442424",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "device_name",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.10.21/api/login-customer",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"login-customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "provider",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "provider_name",
+							"value": "jay",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "device_name",
+							"value": "test_device_name",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.10.21/api/login-provider",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"login-provider"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pullResult",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "1|rZyTAeHtPL9YitJCXnldxisvv5bKB4ROIce2eicn",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "draw",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "l2d3d4d5d6d",
+							"value": "912345",
+							"type": "text"
+						},
+						{
+							"key": "animal1",
+							"value": "11",
+							"type": "text"
+						},
+						{
+							"key": "animal2",
+							"value": "12",
+							"type": "text"
+						},
+						{
+							"key": "animal3",
+							"value": "22",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.10.21/api/pull-result",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"pull-result"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "showResult",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "53|sOsbtr9OjvpF858IB2BDKDCfXdy44NYtGqveNQqb",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.10.21/api/show-result",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"show-result"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "40animal",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "53|sOsbtr9OjvpF858IB2BDKDCfXdy44NYtGqveNQqb",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.10.21/api/show-result",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"show-result"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "promotion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "70|wZqOHjO3o9XchYxLdj1ZLKklzJOD9CsozJGVe5lb",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.10.21/api/promotion",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"promotion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recommendLotto",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "70|wZqOHjO3o9XchYxLdj1ZLKklzJOD9CsozJGVe5lb",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.10.21/api/promotion",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"promotion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dreamTeller",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "70|wZqOHjO3o9XchYxLdj1ZLKklzJOD9CsozJGVe5lb",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.10.21/api/promotion",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"path": [
+						"api",
+						"promotion"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

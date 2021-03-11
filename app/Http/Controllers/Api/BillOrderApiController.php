@@ -11,12 +11,24 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 class BillOrderApiController extends Controller
 {
     protected $PushNotificationController;
     public function __construct(PushNotificationController $pushNotificationController)
     {
         $this->PushNotificationController = $pushNotificationController;
+    }
+
+
+    public function getDraw(){
+        //Api form iPro get draw
+        $getDraw = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=other/get-all-draw',[
+            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+            'draw_type' => 1
+        ]);
+        return json_decode($getDraw,false)->data->draw_lotto[0]->draw_no ;
+
     }
 
     public function billOrder($bill_number,$draw,$customer,$type){
@@ -30,10 +42,9 @@ class BillOrderApiController extends Controller
     }
 
     public function sell2d3d4d5d6d(Request $request){
+         $customer = $request->user()->currentAccessToken()->tokenable;
+
          $validator = Validator::make($request->all(),[
-        'phone_no' => 'required|min:10|max:10|exists:customers,phone',
-        'bill_number' => 'required|unique:bill_orders|min:7|max:7',
-        'draw' => 'numeric|required',
         'code' =>'required|json',
         ]);
          if($validator->fails()){
@@ -42,16 +53,17 @@ class BillOrderApiController extends Controller
                 'msg' => $validator->errors()
              ],422);
          }
-
-        $customer = Customer::where('phone',$request->phone_no)->first();
-
+         //Create bill order
         $type = "2d3d4d5d6d";
-        $order = $this->billOrder($request->bill_number,$request->draw,$customer->id,$type);
+        $order = $this->billOrder(null,$this->getDraw(),$customer->id,$type);
+        $order->transaction_id= 'ncc'.$order->id;
+        $order->save();
 
-       $arr = json_decode($request->code);
+        //Create digit form bill order
+        $arr = json_decode($request->code);
        foreach($arr as $code_money){
        $bill2d3d4d5d6d = new Billorder2d3d4d5d6d();
-       $bill2d3d4d5d6d->number_code = $code_money->code;
+       $bill2d3d4d5d6d->digit = $code_money->code;
        $bill2d3d4d5d6d->money = $code_money->money;
        $bill2d3d4d5d6d->order_id = $order->id;
        $bill2d3d4d5d6d->save();
@@ -59,24 +71,72 @@ class BillOrderApiController extends Controller
        $order->total = $order->billorder2d3d4d5d6ds->sum('money');
        $order->save();
 
-        foreach ($order->billorder2d3d4d5d6ds as $bill6d){
-            $list[] = $bill6d->number_code."=".number_format($bill6d->money)."LAK";
-        }
-        $body = collect($list)->implode(' ');
-        $title = "Buy lotto 6D";
-        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
+        //Api from iPro buy lotto
+        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto/sell',[
+            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+            'phone_number' => $customer->phone,
+            'code' => $request->code,
+            'transaction_id' => $order->transaction_id
+        ]);
 
-       return response()->json([
-           'status' => true,
-           'data'   => $order
-       ],201);
+        //Check a quota
+       $buyData = json_decode($buyLotto,false) ;
+       if($buyData->status == false){
+           return response()->json([
+               'status' => false,
+               'msg' => $buyData->description
+           ],422);
+       }elseif ($buyData->status == 2){
+           return response()->json([
+               'status' => false,
+               'msg' => $buyData->description
+           ],422);
+       }
+       else{
+       if($order->total == $buyData->data->total_amount){
+           $order->bill_number = $buyData->data->bill_number;
+           $order->status_buy = true;
+           $order->save();
+       }else {
+           $order->bill_number = $buyData->data->bill_number;
+           $order->status_buy = true;
+           $order->total = $buyData->data->total_amount;
+           $order->save();
+           foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
+               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
+               $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;
+               $bill2d3d4d5d6d->save();
+           }
+       }
+
+           $bill = Billorder2d3d4d5d6d::where('order_id',$order->id)->select('digit','money')->get();
+           $orderBill = BillOrder::find($order->id);
+
+           //Send notification
+           foreach ($bill as $bill6d){
+               $list[] = $bill6d->digit."=".number_format($bill6d->money)."LAK";
+           }
+           $body = collect($list)->implode(' ');
+           $title = "Buy lotto 6D";
+           $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
+
+
+           return response()->json([
+               'status' => true,
+               'data'   => $bill,
+               'bill_number' => $orderBill->bill_number,
+               'total_amount' => $orderBill->total,
+               'draw' => $orderBill->draw
+           ],201);
+       }
+
+
+
 
     }
     public function sell340(Request $request){
+        $customer = $request->user()->currentAccessToken()->tokenable;
         $validator = Validator::make($request->all(),[
-            'phone_no' => 'required|min:10|max:10|exists:customers,phone',
-            'bill_number' => 'required|unique:bill_orders|min:7|max:7',
-            'draw' => 'numeric|required',
             'code' =>'required|json',
         ]);
         if($validator->fails()){
@@ -86,11 +146,14 @@ class BillOrderApiController extends Controller
             ],422);
         }
 
-        $customer = Customer::where('phone',$request->phone_no)->first();
+
         $type = "3/40";
-        $order = $this->billOrder($request->bill_number,$request->draw,$customer->id,$type);
+        $order = $this->billOrder(null,$this->getDraw(),$customer->id,$type);
+        $order->transaction_id= 'ncc'.$order->id;
+        $order->save();
 
         $arr = json_decode($request->code);
+
         foreach($arr as $code_money){
             $bill340 = new Billorder340();
 
@@ -108,25 +171,78 @@ class BillOrderApiController extends Controller
                 $bill340->animal2 = str_replace(" ", "",(string) $animal[1]);
                 $bill340->animal3 = str_replace(" ", "",(string) $animal[2]);
             }
-
-
+            $bill340->digit = $code_money->code;
             $bill340->money = $code_money->money;
             $bill340->order_id = $order->id;
             $bill340->save();
         }
-
         $order->total = $order->bill340s->sum('money');
         $order->save();
-        foreach ($arr as $bill340){
-         $list[] = $bill340->code."=".number_format($bill340->money)."Lak";
+
+        //Api from iPro buy lotto
+        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto-340/sell',[
+            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+            'phone_number' => $customer->phone,
+            'code' => $request->code,
+            'transaction_id' => $order->transaction_id
+        ]);
+        //Check a quota
+        $buyData = json_decode($buyLotto,false) ;
+        if($buyData->status == false){
+            return response()->json([
+                'status' => false,
+                'msg' => $buyData->description
+            ],422);
+        }elseif ($buyData->status == 2){
+            return response()->json([
+                'status' => false,
+                'msg' => $buyData->description
+            ],422);
         }
-        $body = collect($list)->implode(' ');
-        $title = "Buy lotto 3/40";
-        $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
-        return response()->json([
-            'status' => true,
-            'data'   => $order
-        ],201);
+        else{
+            if($order->total == $buyData->data->total_amount){
+
+                $order->bill_number = $buyData->data->bill_number;
+                $order->status_buy = true;
+                $order->save();
+
+            }else {
+
+                $order->bill_number = $buyData->data->bill_number;
+                $order->status_buy = true;
+                $order->total = $buyData->data->total_amount;
+                $order->save();
+
+                foreach ($order->bill340s as $key => $bill) {
+                    $bill340 = Billorder340::find($bill->id);
+                    $bill340->money = $buyData->data->data[$key]->money;
+                    $bill340->save();
+                }
+            }
+
+            $bill = Billorder340::where('order_id',$order->id)->select('digit','money')->get();
+            $orderBill = BillOrder::find($order->id);
+
+            //Send notification
+            foreach ($bill as $bill340){
+                $list[] = $bill340->digit."=".number_format($bill340->money)."Lak";
+            }
+            $body = collect($list)->implode(' ');
+            $title = "Buy lotto 3/40";
+            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
+            return response()->json([
+                'status' => true,
+                'data'   => $bill,
+                'bill_number' => $orderBill->bill_number,
+                'total_amount' => $orderBill->total,
+                'draw' => $orderBill->draw
+            ],201);
+
+
+        }
+
+
+
 
     }
 

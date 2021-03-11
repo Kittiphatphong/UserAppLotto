@@ -131,6 +131,7 @@ var KTDatatablesBasicBasic = function() {
 					width: '75px',
 					render: function(data, type, full, meta) {
 						var status = {
+
 							1: {'title': 'Pending', 'class': 'label-light-success'},
 							2: {'title': 'Delivered', 'class': ' label-light-danger'},
 							3: {'title': 'Canceled', 'class': ' label-light-primary'},

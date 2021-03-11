@@ -51,4 +51,6 @@ class Customer extends Model
         $otp->save();
 
     }
+
+
 }

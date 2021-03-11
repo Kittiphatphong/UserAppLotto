@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBillOrdersTable extends Migration
+class AddColumnToTableBillOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateBillOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('bill_orders', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->double('bill_number')->nullable();
-            $table->integer('draw');
-            $table->timestamps();
+        Schema::table('bill_orders', function (Blueprint $table) {
+            $table->boolean('status_buy')->default(false)->after('total_win');
+            $table->string('transaction_id')->after('total_win')->nullable();
         });
     }
 
@@ -29,6 +26,8 @@ class CreateBillOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bill_orders');
+        Schema::table('bill_orders', function (Blueprint $table) {
+            //
+        });
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\DreamTellerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BuyLottoController;
+use App\Http\Controllers\BillOrderController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,8 +34,10 @@ Route::group(['middleware' =>'auth'],function(){
 
 
 //Bill order
-    Route::get('/bill6d',[BillController::class,'bill6d'])->name('bill.2d3d4d5d6d');
-    Route::get('/bill340',[BillController::class,'bill340'])->name('bill.340');
+    Route::get('/bill6d',[BillOrderController::class,'bill6d'])->name('bill.2d3d4d5d6d');
+    Route::get('/bill340',[BillOrderController::class,'bill340'])->name('bill.340');
+//    Route::get('/bill6d',[BillController::class,'bill6d'])->name('bill.2d3d4d5d6d');
+//    Route::get('/bill340',[BillController::class,'bill340'])->name('bill.340');
 
 //Provider
     Route::get('/provider',[ProviderController::class,'providerList'])->name('provider.list');

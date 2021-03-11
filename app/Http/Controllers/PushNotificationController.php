@@ -3,13 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\BillOrder;
 use App\Models\Customer;
 use App\Models\Customer_Notification;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PushNotificationController extends Controller
 {
+    public function getDraw(){
+        //Api form iPro get draw
+        $getDraw = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=other/get-all-draw',[
+            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+            'draw_type' => 1
+        ]);
+        return json_decode($getDraw,false)->data->draw_lotto[0]->draw_no ;
+
+    }
+
     protected $serverKey = 'AAAAj--EuJs:APA91bGwks5UxG8TkSIf3kCeeOzKhZS8PSFy_DtQjVzSG5-zUvV6fbMPQ9-TPKyEyGeHVpaiK4-zZ0h2kScrr-TS0RwrGG79EQaSkGedR4Kxkg5BhlbI7Fi_zJOThvLphJYkn_J0UFAi';
 
     public function pushNotification($body ,$title,$token){
@@ -144,11 +156,11 @@ class PushNotificationController extends Controller
 
     public function pushNotificationWin($draw){
 
-        $bills = Bill::where('status_win',1)->where('draw',$draw)->get();
+        $bills = BillOrder::where('status_win',1)->where('draw',$draw)->get();
 
         foreach ($bills as $bill){
             $title= "Congratulations You win";
-            $body= str_replace('"','',implode(',',$bill->digit)) ." = ". number_format($bill->total_win). "Lak";;
+            $body= "Type: ".$bill->type." || Total: ".number_format($bill->total_win);
 
             $notification = new Notification();
             $notification->newNotification($title,$body,2,$bill);

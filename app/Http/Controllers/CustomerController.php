@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OTP;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 class CustomerController extends Controller
 {
@@ -29,7 +30,11 @@ class CustomerController extends Controller
             'password' => 'required|string|min:8',
         ]);
           $customer = new Customer();
-       $customer->newCustomer($request->firstname,$request->lastname,$request->phone,$request->password,$request->birthday,$request->gender);
+       $customer->firstname = $request->firstname;
+       $customer->lastname= $request->lastname;
+       $customer->phone = $request->phone;
+       $customer->password = Hash::make($request->password);
+       $customer->birthday = $request->birthday;
        $customer->save();
        $otp = new OTP();
        $otp->status = 1;

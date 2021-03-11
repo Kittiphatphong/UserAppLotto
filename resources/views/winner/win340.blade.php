@@ -54,19 +54,17 @@
 
                 </div>
             </div>
-
             <!--begin: Datatable-->
             <div class="table-responsive">
                 <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
                     <thead>
                     <tr>
-
                         <th>DRAW </th>
                         <th>PHONE NO</th>
                         <th>BILL NUMBER</th>
                         <th>DRAW DATE</th>
-                        <th>CODE</th>
-                        <th>WIN</th>
+                        <th>DIGIT</th>
+                        <th>WIN AMOUNT</th>
                         <th>DATE BUY</th>
                         <th>Name</th>
 
@@ -77,11 +75,9 @@
                         <tr>
                             <td>{{$order->draw}}</td>
                             <td><strong>{{$order->customers->phone}}</strong></td>
-                            <td>{{$order->bill_number}}</td>
+                            <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
                             <td>{{$order->id}} </td>
-                            <td>@foreach($order->digit as $animal)
-                                    [<strong>{{$animal}}</strong>]
-                                @endforeach</td>
+                            <td>@foreach($order->win340s->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
                             <td><strong>{{number_format($order->total_win)}}</strong></td>
 
                             <td>{{$order->created_at}}</td>

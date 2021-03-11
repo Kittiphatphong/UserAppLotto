@@ -61,12 +61,13 @@
             <thead>
             <tr>
 
-                <th>RECORD ID </th>
+                <th>TRANSACTION ID </th>
                 <th>PHONE NO</th>
                 <th>BILL NUMBER</th>
                 <th>CODE</th>
                 <th>MONEY</th>
                 <th>DRAW</th>
+                <th>STATUS</th>
                 <th>DATE BUY</th>
                 <th>Name</th>
 
@@ -75,14 +76,13 @@
             <tbody>
             @foreach($bills as $order)
                 <tr>
-                    <td>{{$order->id}} </td>
+                    <td>{{$order->transaction_id}} </td>
                     <td><strong>{{$order->customers->phone}}</strong></td>
-                    <td>{{$order->bill_number}}</td>
-                    <td>@foreach($order->digit as $animal)
-                            [<strong>{{$animal}}</strong>]
-                        @endforeach</td>
-                    <td><strong>{{number_format($order->money)}}</strong></td>
+                    <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
+                    <td>@foreach($order->bill340s->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
+                    <td><strong>{{number_format($order->total)}}</strong></td>
                     <td>{{$order->draw}}</td>
+                    <td>@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
                     <td>{{$order->updated_at}}</td>
                     <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
                 </tr>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\RecommendApiLottoController;
 use App\Http\Controllers\Api\DreamTellerApiController;
 use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Controllers\Api\BillApiController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,18 +44,18 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('/logout-customer',[CustomerApiController::class,'logout']);
     Route::post('/change-password',[CustomerApiController::class,'changePassword']);
 
-//    Route::post('sell-2d3d4d5d6d',[BillOrderApiController::class,'sell2d3d4d5d6d']);
-//    Route::post('sell-340',[BillOrderApiController::class,'sell340']);
-//    Route::post('history-bill',[BillOrderApiController::class,'billAll']);
-//    Route::post('history-bill-detail',[BillOrderApiController::class,'billDetail']);
-//    Route::post('bill6d-customer',[BillOrderApiController::class,'bill6dCustomer']);
-//    Route::post('bill340-customer',[BillOrderApiController::class,'bil340Customer']);
+    Route::post('sell-2d3d4d5d6d',[BillOrderApiController::class,'sell2d3d4d5d6d']);
+    Route::post('sell-340',[BillOrderApiController::class,'sell340']);
+    Route::post('history-bill',[BillOrderApiController::class,'billAll']);
+    Route::post('history-bill-detail',[BillOrderApiController::class,'billDetail']);
+    Route::post('bill6d-customer',[BillOrderApiController::class,'bill6dCustomer']);
+    Route::post('bill340-customer',[BillOrderApiController::class,'bil340Customer']);
 
-    Route::post('sell-6d',[BillApiController::class,'sell6d']);
-    Route::post('sell-340',[BillApiController::class,'sell340']);
-    Route::post('history-bill',[BillApiController::class,'billList']);
-    Route::post('history-bill-detail',[BillApiController::class,'billDetail']);
-    Route::post('history-bill-wining',[BillApiController::class,'billWining']);
+//    Route::post('sell-6d',[BillApiController::class,'sell6d']);
+//    Route::post('sell-340',[BillApiController::class,'sell340']);
+//    Route::post('history-bill',[BillApiController::class,'billList']);
+//    Route::post('history-bill-detail',[BillApiController::class,'billDetail']);
+//    Route::post('history-bill-wining',[BillApiController::class,'billWining']);
 
     Route::post('pull-result',[ResultApiController::class,'pullResult']);
     Route::post('show-result',[ResultApiController::class,'showResult']);

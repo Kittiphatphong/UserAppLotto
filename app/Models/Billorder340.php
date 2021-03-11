@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Billorder340 extends Model
 {
     use HasFactory;
-
+    protected $casts = [
+        'digit' => 'array'
+    ];
     public function orders(){
         return $this->belongsTo(BillOrder::class,'order_id');
     }

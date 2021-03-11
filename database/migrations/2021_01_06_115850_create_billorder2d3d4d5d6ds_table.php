@@ -15,7 +15,7 @@ class CreateBillorder2d3d4d5d6dsTable extends Migration
     {
         Schema::create('billorder2d3d4d5d6ds', function (Blueprint $table) {
             $table->id();
-            $table->string('number_code');
+            $table->string('digit');
             $table->double('money');
             $table->unsignedBigInteger('order_id');
             $table->timestamps();

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PushNotificationController;
 use App\Models\Bill;
+use App\Models\BillOrder;
 use App\Models\Customer_Notification;
 use App\Models\Result;
 use Illuminate\Http\Request;
@@ -13,19 +15,19 @@ use Illuminate\Support\Facades\Validator;
 class ResultApiController extends Controller
 {
     protected $ResultController;
+    protected $PushNotificationController;
 
-    public function __construct(ResultController $resultController)
+    public function __construct(ResultController $resultController,PushNotificationController $pushNotificationController)
 {
     $this->ResultController =$resultController;
+    $this->PushNotificationController = $pushNotificationController;
 }
    public function pullResult(Request $request){
        $validator = Validator::make($request->all(),[
-           'draw' => 'required|unique:results',
            'l2d3d4d5d6d' => 'required|min:6|max:6',
            'animal1' => 'required|different:animal2|min:2|max:2',
            'animal2' => 'required||different:animal3|min:2|max:2',
            'animal3' => 'required|different:animal1|min:2|max:2',
-
        ]);
        if(round($request->animal1)>40 || round($request->animal2)>40 || round($request->animal3)>40){
            return response()->json([
@@ -34,13 +36,18 @@ class ResultApiController extends Controller
            ],422);
 
        }
-       if(Bill::where('draw',$request->get('draw'))->count() <= 0 ){
+       if(BillOrder::where('draw',$this->PushNotificationController->getDraw())->count() <= 0 ){
            return response()->json([
                'status' => "false",
                'msg' => ["draw"=> ["This draw is not exist"]]
            ],422);
        }
-
+       if(in_array($this->PushNotificationController->getDraw(),Result::pluck('draw')->toArray())) {
+           return response()->json([
+               'status' => "false",
+               'msg' => ["draw"=> ["This draw is have result already"]]
+           ],422);
+       }
        if($validator->fails()){
            return response()->json([
                'status' => "false",

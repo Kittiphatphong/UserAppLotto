@@ -1644,6 +1644,13 @@
 <script src="assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js"></script>
 
 
+<!--begin::Page Vendors(used by this page)-->
+<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<!--end::Page Vendors-->
+<!--begin::Page Scripts(used by this page)-->
+<script src="assets/js/pages/crud/datatables/extensions/buttons.js"></script>
+
+
 </body>
 <!--end::Body-->
 </html>
