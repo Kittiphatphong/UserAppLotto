@@ -76,8 +76,8 @@
                             <td>{{$order->draw}}</td>
                             <td><strong>{{$order->customers->phone}}</strong></td>
                             <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
-                            <td>{{$order->id}} </td>
-                            <td>@foreach($order->win340s->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
+                            <td>{{\Carbon\Carbon::parse(\App\Models\Result::where('draw','=',$order->draw)->pluck('created_at')->first())->toDateString() }}</td>
+                            <td>@foreach($order->win340s as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
                             <td><strong>{{number_format($order->total_win)}}</strong></td>
 
                             <td>{{$order->created_at}}</td>

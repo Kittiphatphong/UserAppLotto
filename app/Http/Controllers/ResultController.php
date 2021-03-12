@@ -21,11 +21,11 @@ class ResultController extends Controller
 
     public function resultList(){
         $result = new Result();
-        $billOrders = Bill::where('status_win',1)->get();
+        $billOrders = BillOrder::all();
         return view('result.resultList')
             ->with('result_list',$result)
             ->with('currently_draw',$this->PushNotificationController->getDraw())
-//            ->with('billOrders',$billOrders)
+            ->with('billOrders',$billOrders)
             ->with('results',Result::orderBy('draw','desc')->get());
     }
     public function resultStore(Request $request){

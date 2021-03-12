@@ -76,10 +76,10 @@
                         <td>{{$order->draw}}</td>
                         <td><strong>{{$order->customers->phone}}</strong></td>
                         <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
-                        <td>{{$order->id}}</td>
+                        <td>{{\Carbon\Carbon::parse(\App\Models\Result::where('draw','=',$order->draw)->pluck('created_at')->first())->toDateString() }}</td>
 
                         <td class="row">
-                            @foreach($order->win2d3d4d5d6ds->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
+                            @foreach($order->win2d3d4d5d6ds as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
                         </td>
                         <td>{{number_format($order->total_win)}}</td>
                         <td>{{$order->created_at}}</td>

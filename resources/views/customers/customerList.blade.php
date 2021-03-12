@@ -173,11 +173,11 @@
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->gender}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->birthday}}@endif</td>
 
-                   <td>{{$customer->bills->count()}}</td>
-                   <td>{{number_format($customer->bills->sum('money'))}}</td>
+                   <td>{{$customer->orders->where('status_buy',true)->count()}}</td>
+                   <td>{{number_format($customer->orders->where('status_buy',true)->sum('total'))}}</td>
 
 
-                    <td>{{number_format($customer->bills->sum('total_win'))}}</td>
+                    <td>{{number_format($customer->orders->where('status_buy',true)->sum('total_win'))}}</td>
                    <td class="text-right"> @if($customer->otps->status == 0) 1 @else 4 @endif </td>
                    <td>{{$customer->created_at}}</td>
                </tr>

@@ -78,8 +78,9 @@
                         <th>Draw</th>
                         <th>2D3D4D5D6D</th>
                         <th>3/40</th>
-                        <th>CREATED AT </th>
-{{--                        <th>TOTAL WIN</th>--}}
+
+                        <th>TOTAL BUY</th>
+                        <th>TOTAL WIN </th>
                         <th>ACTION </th>
                         <th>UPDATED BY</th>
                         <th>UPDATED AT</th>
@@ -94,8 +95,9 @@
                             <td>{{$result->draw}}</td>
                             <td>{{$result->l2d3d4d5d6d}} [{{$result->animal6ds->name}}]</td>
                             <td>[{{$result->animal1}} {{$result->animal1s->name}}], [{{$result->animal2}} {{$result->animal2s->name}}], [{{$result->animal3}} {{$result->animal3s->name}}]</td>
-                            <td>{{$result->created_at}}</td>
-{{--                            <td>{{$billOrders->where('draw',$result->draw)->count()}}</td>--}}
+
+                            <td>{{number_format($billOrders->where('status_buy',true)->where('draw',$result->draw)->sum('total'))}}</td>
+                            <td>{{number_format($billOrders->where('status_win',1)->where('status_buy',true)->where('draw',$result->draw)->sum('total_win'))}}</td>
                             <td><div class="d-flex justify-content-start m-0">
 
                                     <form action="{{route('win.restore',$result->id)}}" method="post" class="reset_form">

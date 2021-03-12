@@ -22,9 +22,9 @@ Route::group(['middleware' =>'auth'],function(){
         ->name('dashboard');
 
 
-    Route::get('/buy-lotto',[BuyLottoController::class,'buy'])->name('buy.buy');
-    Route::post('/buy-lotto-6d',[BuyLottoController::class,'store6d'])->name('buy.store6d');
-    Route::post('/buy-lotto-40',[BuyLottoController::class,'store40'])->name('buy.store40');
+//    Route::get('/buy-lotto',[BuyLottoController::class,'buy'])->name('buy.buy');
+//    Route::post('/buy-lotto-6d',[BuyLottoController::class,'store6d'])->name('buy.store6d');
+//    Route::post('/buy-lotto-40',[BuyLottoController::class,'store40'])->name('buy.store40');
 
     Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
 

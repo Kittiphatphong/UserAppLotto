@@ -156,7 +156,7 @@ class PushNotificationController extends Controller
 
     public function pushNotificationWin($draw){
 
-        $bills = BillOrder::where('status_win',1)->where('draw',$draw)->get();
+        $bills = BillOrder::where('status_win',1)->where('status_buy',true)->where('total_win','>',0)->where('draw',$draw)->get();
 
         foreach ($bills as $bill){
             $title= "Congratulations You win";
