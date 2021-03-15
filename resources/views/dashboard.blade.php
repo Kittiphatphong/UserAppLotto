@@ -42,24 +42,16 @@
                 </div>
                 <div class="col-xl-4">
                     <!--begin::Stats Widget 18-->
-                    <a href="#" class="card card-custom bg-dark bg-hover-state-dark card-stretch gutter-b">
+                    <a href="#" class="card card-custom bg-white bg-hover-state-dark card-stretch gutter-b bgi-no-repeat" style="background-position: right top; background-size: 30% auto; background-image: url(assets/media/svg/shapes/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body">
-												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24" />
-															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
-															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
-															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
-															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
-														</g>
-													</svg>
-                                                    <!--end::Svg Icon-->
-												</span>
-                            <div class="text-inverse-dark font-weight-bolder font-size-h5 mb-2 mt-5">Sales Stats</div>
-                            <div class="font-weight-bold text-inverse-dark font-size-sm">50% Increased for FY20</div>
+												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1 tee">
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cash-stack" viewBox="0 0 16 16">
+  <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+  <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
+</svg>
+                            <div class="font-weight-bolder font-size-h5 mb-2 mt-5">Amount buy</div>
+                            <div class="font-weight-bold font-size-sm ">{{number_format($billOrders->sum('total'))}} LAK</div>
                         </div>
                         <!--end::Body-->
                     </a>
@@ -67,29 +59,63 @@
                 </div>
                 <div class="col-xl-4">
                     <!--begin::Stats Widget 18-->
-                    <a href="#" class="card card-custom bg-dark bg-hover-state-dark card-stretch gutter-b">
+                    <a href="{{route('customer.list')}}" class="card card-custom bg-white bg-hover-state-dark card-stretch gutter-b bgi-no-repeat" style="background-position: right top; background-size: 30% auto; background-image: url(assets/media/svg/shapes/abstract-3.svg)">
                         <!--begin::Body-->
                         <div class="card-body">
-												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-													<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-															<rect x="0" y="0" width="24" height="24" />
-															<rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5" />
-															<rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
-															<rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
-															<rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
-														</g>
-													</svg>
-                                                    <!--end::Svg Icon-->
+												<span class="svg-icon svg-icon-white svg-icon-3x ml-n1 tee">
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-award-fill" viewBox="0 0 16 16">
+  <path d="M8 0l1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"/>
+  <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+</svg>
 												</span>
-                            <div class="text-inverse-dark font-weight-bolder font-size-h5 mb-2 mt-5">Sales Stats</div>
-                            <div class="font-weight-bold text-inverse-dark font-size-sm">50% Increased for FY20</div>
+                            <div class="font-weight-bolder font-size-h5 mb-2 mt-5">Amount win</div>
+                            <div class="font-weight-bold font-size-sm ">{{number_format($billOrders->sum('total_win'))}} LAK</div>
                         </div>
                         <!--end::Body-->
                     </a>
                     <!--end::Stats Widget 18-->
                 </div>
+            </div>
+
+            <div class="card card-custom gutter-b">
+                <!--begin::Header-->
+                <div class="card-header border-0 pt-5">
+                    <h3 class="card-title align-items-start flex-column">
+                        <span class="card-label font-weight-bolder text-primary">Result</span>
+
+                    </h3>
+                    <div class="card-toolbar">
+                    <select class="btn bg-primary">
+                        @foreach($results as $result)
+                        <option>{{$result->draw}}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body pt-2 pb-0 mt-n3">
+                    <h2 class="text-center"><span class="text-danger">ຜົນ​ອອກຫວຍ</span><span class="text-success">ງວດ​ວັນ​ທີ:</span> <span class="border  border-success rounded px-1">{{\Carbon\Carbon::parse($results->first()->created_at)->format('d')}}</span>
+                        <span class="border  border-success rounded px-1 ">{{\Carbon\Carbon::parse($results->first()->created_at)->format('m')}}</span>
+                        <span class="border  border-success rounded px-1">{{\Carbon\Carbon::parse($results->first()->created_at)->format('Y')}}</span></h2>
+                </div>
+                <div class="container p-4">
+                    <div class="d-flex justify-content-center">
+                        <h2 class="col-2 border border-success rounded p-2 text-center"><span class="text-success">ເລກ </span> <span class="text-danger">​6 ໂຕ:</span></h2>
+                        <h2 class="col-5 border border-success rounded p-2 text-center bg-success" >
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d6}} </span>
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d5}} </span>
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d4}} </span>
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d3}} </span>
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d2}} </span>
+                            <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d1}} </span>
+                        </h2>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <!--end::Body-->
             </div>
 
 

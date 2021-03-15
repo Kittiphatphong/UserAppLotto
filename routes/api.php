@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\RecommendApiLottoController;
 use App\Http\Controllers\Api\DreamTellerApiController;
 use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Controllers\Api\BillApiController;
+use App\Http\Controllers\Api\SaveOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,14 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('notification-result',[NotificationApiController::class,'notificationResult']);
     Route::post('notification-promotion',[NotificationApiController::class,'notificationPromotion']);
     Route::post('notification-news',[NotificationApiController::class,'notificationNews']);
+
+    //save order
+    Route::post('saveOrder',[SaveOrderController::class,'saveOrder6d']);
+    Route::post('updateIdOrder',[SaveOrderController::class,'update6d']);
+    Route::post('updateCustomerOrder',[SaveOrderController::class,'updateUser6d']);
+    Route::post('deleteIdOrder',[SaveOrderController::class,'deleteId6d']);
+    Route::post('deleteCustomerOrder',[SaveOrderController::class,'DeleteUser6d']);
+    Route::post('getSaveOrder',[SaveOrderController::class,'getSaveOrder']);
 
 });
 

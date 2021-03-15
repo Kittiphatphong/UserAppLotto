@@ -9,6 +9,10 @@ class BillOrder extends Model
 {
     use HasFactory;
 
+    public function msg($msg){
+        $this->msg = $msg;
+        $this->save();
+    }
     public function customers(){
         return $this->belongsTo(Customer::class,'customer_id');
     }

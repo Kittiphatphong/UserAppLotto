@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BillOrder;
 use App\Models\Billorder2d3d4d5d6d;
 use App\Models\Billorder340;
-use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 class BillOrderApiController extends Controller
@@ -82,11 +80,13 @@ class BillOrderApiController extends Controller
         //Check a quota
        $buyData = json_decode($buyLotto,false) ;
        if($buyData->status == false){
+           $order->msg($buyData->description);
            return response()->json([
                'status' => false,
                'msg' => $buyData->description
            ],422);
        }elseif ($buyData->status == 2){
+           $order->msg($buyData->description);
            return response()->json([
                'status' => false,
                'msg' => $buyData->description
@@ -97,11 +97,13 @@ class BillOrderApiController extends Controller
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
            $order->save();
+           $order->msg($buyData->description);
        }else {
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
            $order->total = $buyData->data->total_amount;
            $order->save();
+           $order->msg($buyData->description);
            foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
                $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
                $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;

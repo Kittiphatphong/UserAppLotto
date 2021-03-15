@@ -69,6 +69,7 @@
                     <th>STATUS</th>
                     <th>DATE BUY</th>
                     <th>Name</th>
+                    <th>msg</th>
 
                 </tr>
                 </thead>
@@ -87,7 +88,7 @@
                         <td>@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
                         <td>{{$order->updated_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
-
+                        <td>{{$order->msg}}</td>
 
                     </tr>
                 @endforeach

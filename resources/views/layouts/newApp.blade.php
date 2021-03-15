@@ -29,7 +29,19 @@
     <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <style>
+    @font-face {
+    font-family: 'Lao_LuangPhabang';
+    src: url("/assets/Lao_LuangPhabang.ttf");
+    }
+    @font-face {
+        font-family: 'Lao_Classic3';
+        src: url("/assets/Lao_Classic3.ttf");
+    }
+    body{
+        font-family: Lao_Classic3;
+    }
+    </style>
 
 </head>
 <!--end::Head-->
