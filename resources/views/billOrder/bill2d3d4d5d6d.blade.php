@@ -80,7 +80,7 @@
                         <td><strong>{{$order->customers->phone}}</strong></td>
                         <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
                         <td class="row">
-                            @foreach($order->billorder2d3d4d5d6ds->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
+                            @foreach($order->billorder2d3d4d5d6ds as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
                         </td>
 
                         <td><strong>{{number_format($order->total)}}</strong></td>

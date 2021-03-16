@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function dashboard(){
-        $customerActive = DB::table('bill_orders')->where('created_at','>=',Carbon::now()->subDay(7))->groupBy('customer_id')->pluck('customer_id')->toArray();
+        $customerActive = DB::table('bill_orders')->where('status_buy',true)->where('created_at','>=',Carbon::now()->subDay(7))->groupBy('customer_id')->pluck('customer_id')->toArray();
         return view('dashboard')
             ->with('dashboard','dashboard')
             ->with('customers',[count($customerActive),Customer::all()->count()])

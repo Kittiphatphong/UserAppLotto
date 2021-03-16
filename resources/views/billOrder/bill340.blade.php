@@ -70,6 +70,7 @@
                 <th>STATUS</th>
                 <th>DATE BUY</th>
                 <th>Name</th>
+                <th>msg</th>
 
             </tr>
             </thead>
@@ -79,12 +80,13 @@
                     <td>{{$order->transaction_id}} </td>
                     <td><strong>{{$order->customers->phone}}</strong></td>
                     <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
-                    <td>@foreach($order->bill340s->where('money','>',0) as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
+                    <td>@foreach($order->bill340s as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
                     <td><strong>{{number_format($order->total)}}</strong></td>
                     <td>{{$order->draw}}</td>
                     <td>@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
                     <td>{{$order->updated_at}}</td>
                     <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
+                    <td>{{$order->msg}}</td>
                 </tr>
             @endforeach
             </tbody>

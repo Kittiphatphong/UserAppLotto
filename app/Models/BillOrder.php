@@ -11,6 +11,7 @@ class BillOrder extends Model
 
     public function msg($msg){
         $this->msg = $msg;
+        $this->total = 0;
         $this->save();
     }
     public function customers(){

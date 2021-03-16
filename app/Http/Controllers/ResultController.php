@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Http;
 class ResultController extends Controller
 {
     protected $PushNotificationController;
+    protected $LottoController;
 
-    public function __construct(PushNotificationController $pushNotificationController)
+    public function __construct(PushNotificationController $pushNotificationController,LottoController $lottoController)
     {
         $this->PushNotificationController = $pushNotificationController;
+        $this->LottoController = $lottoController;
     }
 
     public function resultList(){
@@ -29,6 +31,7 @@ class ResultController extends Controller
             ->with('results',Result::orderBy('draw','desc')->get());
     }
     public function resultStore(Request $request){
+        //        dd($this->LottoController->getDraw());
         $request->validate([
             'l2d3d4d5d6d' => 'required|min:6|max:6',
             'animal1' => 'required|different:animal2|min:2|max:2',
@@ -36,6 +39,7 @@ class ResultController extends Controller
             'animal3' => 'required|different:animal1|min:2|max:2',
 
         ]);
+
         if(round($request->animal1)>40 || round($request->animal2)>40 || round($request->animal3)>40){
             return back()->with("warning","3/40 not more than 40");
         }

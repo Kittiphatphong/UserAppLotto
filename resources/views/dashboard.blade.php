@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <div class="card card-custom gutter-b">
+            <div class="card card-custom gutter-b" style="background-position: right top; background-size: 100% auto; background-image: url(assets/media/svg/shapes/abstract-3.svg)">
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-5">
                     <h3 class="card-title align-items-start flex-column">
@@ -101,8 +101,8 @@
                 </div>
                 <div class="container p-4">
                     <div class="d-flex justify-content-center">
-                        <h2 class="col-2 border border-success rounded p-2 text-center"><span class="text-success">ເລກ </span> <span class="text-danger">​6 ໂຕ:</span></h2>
-                        <h2 class="col-5 border border-success rounded p-2 text-center bg-success" >
+                        <h2 class="col-2 border border-success rounded p-2 text-center mr-1"><span class="text-success">ເລກ </span> <span class="text-danger">​6 ໂຕ:</span></h2>
+                        <h2 class="col-5 border border-success rounded p-2 text-center bg-success ml-1" >
                             <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d6}} </span>
                             <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d5}} </span>
                             <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d4}} </span>
@@ -111,15 +111,59 @@
                             <span class="text-danger bg-white border border-success rounded col-1">{{$results->first()->d1}} </span>
                         </h2>
                     </div>
+                    <div class="d-flex justify-content-center">
+
+                        <div class="col-2 border border-success rounded  mr-1">
+                        <h5 class="pt-2"><span class="text-success bg">ເລກ </span> <span class="text-danger">​5 ໂຕ: <span class="h2">{{substr($results->first()->l2d3d4d5d6d,1,5)}}</span></span></h5>
+                            <hr class="bg-success">
+                            <h5><span class="text-success bg">ເລກ </span> <span class="text-danger">​4 ໂຕ: <span class="h2">{{substr($results->first()->l2d3d4d5d6d,2,5)}}</span></span></h5>
+                            <hr class="bg-success">
+                            <h5><span class="text-success bg">ເລກ </span> <span class="text-danger">​3 ໂຕ: <span class="h2">{{substr($results->first()->l2d3d4d5d6d,3,5)}}</span></span></h5>
+                            <hr class="bg-success">
+                            <h5><span class="text-success bg">ເລກ </span> <span class="text-danger">​2 ໂຕ: <span class="h2">{{substr($results->first()->l2d3d4d5d6d,4,5)}}</span></span></h5>
+                            <hr class="bg-success">
+                            <h5><span class="text-success bg">ເລກ </span> <span class="text-danger">​1 ໂຕ: <span class="h2">{{substr($results->first()->l2d3d4d5d6d,5,5)}}</span></span></h5>
+
+                        </div>
+
+
+                            <div class="col-5 border border-success rounded p-2 text-center bg-white ml-1" >
+                            <img src="{{$results->first()->animal6drs->image}}" width="52%" class="bg-white px-3">
+                                <h2 class="mt-3"><span class="bg-success text-white px-4 rounded">{{$results->first()->animal6drs->name}}</span></h2>
+                            </div>
+                    </div>
                     <div>
 
                     </div>
+                </div>
+                <div class="d-flex justify-content-center mb-4">
+            <div class="border border-success rounded col-6 px-2">
+<h1 class="text-center pt-2"><span class="text-success">ຫວຍ​ເລກ​ນາມ​ສັດ</span><span class="text-danger"> 3/40</span></h1>
+                <div class="d-flex justify-content-center mb-3 mx-2">
+                    <div class="border border-success text-center mr-1 rounded">
+                        <h2 class="border border-success text-danger rounded-circle p-3 float-left m-1">{{$results->first()->animal1}}</h2>
+                        <img src="{{$results->first()->animal1rs->image}}" width="50%" class="">
+                        <h2 class="my-3"><span class="text-white bg-success rounded px-4">{{$results->first()->animal1rs->name}}</span></h2>
+                    </div>
+                    <div class="border border-success text-center mr-1 ml-1 rounded">
+                        <h2 class="border border-success text-danger rounded-circle p-3 float-left m-1">{{$results->first()->animal2}}</h2>
+                        <img src="{{$results->first()->animal2rs->image}}" width="50%" class="">
+                        <h2 class="my-3"><span class="text-white bg-success rounded px-4">{{$results->first()->animal2rs->name}}</span></h2>
+                    </div>
+                    <div class="border border-success text-center ml-1 rounded">
+                        <h2 class="border border-success text-danger rounded-circle p-3 float-left m-1">{{$results->first()->animal3}}</h2>
+                        <img src="{{$results->first()->animal3rs->image}}" width="50%" class="">
+                        <h2 class="my-3"><span class="text-white bg-success rounded px-4">{{$results->first()->animal3rs->name}}</span></h2>
+                    </div>
+                </div>
+            </div>
+
                 </div>
                 <!--end::Body-->
             </div>
 
 
-            <div class="row">
+            <div class="row" >
                 <div class="col-xl-6">
                     <!--begin::Engage Widget 11-->
                     <div class="card card-custom card-stretch gutter-b">
@@ -157,7 +201,7 @@
 
                                     @endforeach
                                 </ol>
-                                <div class="carousel-inner border rounded ">
+                                <div class="carousel-inner ">
                                     @foreach($promotions as $promotion)
 
                                         <div class="carousel-item @if($loop->first) active @endif">
@@ -165,7 +209,7 @@
                                                 <h6 class="text-center">{{$promotion->title}}</h6>
                                                 <p class="text-center">{{$promotion->content}}</p>
 
-                                            <img class="d-block w-100" src="{{$promotion->image}}">
+                                            <img class="d-block w-100 " src="{{$promotion->image}}">
 
                                         </div>
                                     @endforeach
@@ -187,14 +231,17 @@
                     <div class="card card-custom card-stretch card-stretch-half gutter-b overflow-hidden">
                         <div class="card-body p-0 d-flex rounded">
 
-                            <div id="animal" class="carousel slide" data-ride="carousel">
-                                <h6 class="text-success"><b>Animals</b></h6>
+                            <div id="animal" class="carousel slide " data-ride="carousel">
+                                <br>
+                                <h6 class="text-success p-2"><b>Animals</b></h6>
+                                <br>
+                                <br>
                                 <ol class="carousel-indicators">
                                     @foreach($animals as $animal)
                                         <li data-target="#animal" data-slide-to="{{$loop->index}}" class=" @if($loop->first) active @endif "></li>
                                     @endforeach
                                 </ol>
-                                <div class="carousel-inner border rounded  ml-3">
+                                <div class="carousel-inner   ml-3">
                                     @foreach($animals as $animal)
 
                                         <div class="carousel-item m @if($loop->first) active @endif">
@@ -202,8 +249,9 @@
                                                 <h5 class="text-success pt-2">{{$animal->name}}</h5>
                                                 <p>{{str_replace('"','',$animal->animalNos->pluck('animal_digit'))}}</p>
                                             </div>
-                                            <img class="w-50 float-left ml-4" src="{{$animal->image}}" alt="First slide">
-
+                                            <div class="d-flex justify-content-center">
+                                            <img class="w-50 float-left ml-3" src="{{$animal->image}}" alt="First slide">
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

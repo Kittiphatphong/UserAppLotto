@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\AirTimeController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
@@ -15,9 +16,11 @@ use App\Http\Controllers\SendMassageController;
 class CustomerApiController extends Controller
 {
     protected $SendMassageController;
-    public function __construct(SendMassageController $sendMassageController)
+    protected $AirTimeController;
+    public function __construct(SendMassageController $sendMassageController,AirTimeController $airTimeController)
     {
         $this->SendMassageController = $sendMassageController;
+        $this->AirTimeController = $airTimeController;
     }
 
     public function login(Request $request){
@@ -259,11 +262,12 @@ class CustomerApiController extends Controller
     }
 
     public function customerInfo(Request $request){
-        $customerId = $request->user()->currentAccessToken()->tokenable->id;
-        $customer = Customer::where('id',$customerId)
+        $customer = $request->user()->currentAccessToken()->tokenable;
+        $customerData = Customer::where('id',$customer->id)
             ->select('id','firstname','lastname','phone','birthday','gender','address','status','image')
             ->withCount('notification')->first();
-        return response()->json(['status' => true , 'data' => $customer]);
+        $balance = $this->AirTimeController->viewBalance($customer->phone);
+        return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
     }
 
 

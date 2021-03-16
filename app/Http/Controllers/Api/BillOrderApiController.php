@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\AirTimeController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LottoController;
+use App\Http\Controllers\SendMassageController;
 use App\Models\BillOrder;
 use App\Models\Billorder2d3d4d5d6d;
 use App\Models\Billorder340;
@@ -13,9 +16,15 @@ use Illuminate\Support\Facades\Http;
 class BillOrderApiController extends Controller
 {
     protected $PushNotificationController;
-    public function __construct(PushNotificationController $pushNotificationController)
+    protected $AirTime;
+    protected $Lotto;
+    protected $sms;
+    public function __construct(PushNotificationController $pushNotificationController,AirTimeController $airTimeController,LottoController $lottoController,SendMassageController $sendMassageController)
     {
         $this->PushNotificationController = $pushNotificationController;
+        $this->AirTime = $airTimeController;
+        $this->Lotto = $lottoController;
+        $this->sms = $sendMassageController;
     }
 
 
@@ -80,12 +89,22 @@ class BillOrderApiController extends Controller
         //Check a quota
        $buyData = json_decode($buyLotto,false) ;
        if($buyData->status == false){
+           foreach ($order->billorder2d3d4d5d6ds as $list){
+               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
+               $bill2d3d4d5d6d->money = 0;
+               $bill2d3d4d5d6d->save();
+           }
            $order->msg($buyData->description);
            return response()->json([
                'status' => false,
                'msg' => $buyData->description
            ],422);
        }elseif ($buyData->status == 2){
+           foreach ($order->billorder2d3d4d5d6ds as $list){
+               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
+               $bill2d3d4d5d6d->money = 0;
+               $bill2d3d4d5d6d->save();
+           }
            $order->msg($buyData->description);
            return response()->json([
                'status' => false,
@@ -97,13 +116,11 @@ class BillOrderApiController extends Controller
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
            $order->save();
-           $order->msg($buyData->description);
        }else {
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
            $order->total = $buyData->data->total_amount;
            $order->save();
-           $order->msg($buyData->description);
            foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
                $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
                $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;
@@ -191,11 +208,23 @@ class BillOrderApiController extends Controller
         //Check a quota
         $buyData = json_decode($buyLotto,false) ;
         if($buyData->status == false){
+            foreach ($order->bill340s as $list){
+                $bill340= Billorder340::find($list->id);
+                $bill340->money = 0;
+                $bill340->save();
+            }
+            $order->msg($buyData->description);
             return response()->json([
                 'status' => false,
                 'msg' => $buyData->description
             ],422);
         }elseif ($buyData->status == 2){
+            foreach ($order->bill340s as $list){
+                $bill340= Billorder340::find($list->id);
+                $bill340->money = 0;
+                $bill340->save();
+            }
+            $order->msg($buyData->description);
             return response()->json([
                 'status' => false,
                 'msg' => $buyData->description
@@ -203,7 +232,6 @@ class BillOrderApiController extends Controller
         }
         else{
             if($order->total == $buyData->data->total_amount){
-
                 $order->bill_number = $buyData->data->bill_number;
                 $order->status_buy = true;
                 $order->save();

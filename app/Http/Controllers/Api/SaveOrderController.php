@@ -50,7 +50,7 @@ class SaveOrderController extends Controller
         return response()->json([
             'status' => true ,
             'data' => $data
-        ],200);
+        ],201);
 
     }
     public function deleteId6d(Request $request){
@@ -68,7 +68,7 @@ class SaveOrderController extends Controller
         return response()->json([
             'status' => true ,
             'msg' => 'Delete success'
-        ],200);
+        ],202);
 
     }
     public function updateUser6d(Request $request){
@@ -107,7 +107,7 @@ class SaveOrderController extends Controller
             return response()->json([
                 'status' => true ,
                 'msg' => 'Delete success'
-            ],200);
+            ],202);
         }catch (\Throwable $e){
             return response()->json([
                 'status' => false ,
