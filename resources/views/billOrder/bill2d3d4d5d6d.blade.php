@@ -21,7 +21,9 @@
 
 @section('content')
     <div class="card card-custom">
+        <br>
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
+
             <div class="card-title">
                 <h3 class="card-label">Bill 2d3d4d5d6d
                     <span class="d-block text-muted pt-2 font-size-sm">List bill order 2d3d4d5d6d</span></h3>
@@ -33,30 +35,87 @@
             </div>
         </div>
         <div class="card-body">
+
+<br><br>
             <!--begin: Search Form-->
             <!--begin::Search Form-->
-            <div class="mb-7">
-                <div class="row align-items-center">
-                    <div class="col-lg-9 col-xl-8">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
-                                <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                    <span>
-																	<i class="flaticon2-search-1 text-muted"></i>
-																</span>
-                                </div>
+            <div class="mb-15">
+                <div class="row mb-6">
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col1" data-column="0">
+                        <label>TRANSACTION ID:</label>
+                        <input type="text" class="column_filter form-control" id="col0_filter" placeholder="Search transaction id" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col2" data-column="1">
+                        <label>PHONE NO:</label>
+                        <input type="text" class="column_filter form-control" id="col1_filter" placeholder="Search phone no" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col3" data-column="2">
+                        <label>BILL NUMBER:</label>
+                        <input type="text" class="column_filter form-control" id="col2_filter" placeholder="Search bill number" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col4" data-column="3">
+                        <label>CODE:</label>
+                        <input type="text" class="column_filter form-control" id="col3_filter" placeholder="Search code" />
+                    </div>
+                </div>
+                <div class="row mb-8">
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col5" data-column="4">
+                        <label>MONEY:</label>
+                        <input type="text" class="column_filter form-control" id="col4_filter" onkeyup="format(this)" placeholder="Search money" />
+                    </div>
+
+                    <div class="col-lg-3 mb-lg-0 mb-6">
+                        <label>DRAW:</label>
+                        <select class="form-control" id="select5" >
+                            <option value="">All</option>
+                            @foreach($draws as $draw)
+                            <option value="{{$draw->draw}}">{{$draw->draw}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6">
+                        <label>select6:</label>
+                        <select class="form-control" id="select6" >
+                            <option value="">All</option>
+                            <option value="Success">Success</option>
+                            <option value="Fail">Fail</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3 mb-lg-0 mb-6">
+                        <label>Ship Date:</label>
+                        <div class="input-daterange input-group" id="kt_datepicker">
+                            <input type="text" class="form-control datatable-input" name="start" placeholder="From" data-col-index="7" />
+                            <div class="input-group-append">
+															<span class="input-group-text">
+																<i class="la la-ellipsis-h"></i>
+															</span>
                             </div>
-
-
+                            <input type="text" class="form-control datatable-input" name="end" placeholder="To" data-col-index="7" />
                         </div>
                     </div>
 
                 </div>
+                <div class="row mt-8">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary btn-primary--icon" id="kt_search">
+													<span>
+														<i class="la la-search"></i>
+														<span>Search</span>
+													</span>
+                        </button>&#160;&#160;
+                        <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
+													<span>
+														<i class="la la-close"></i>
+														<span>Reset</span>
+													</span>
+                        </button></div>
+                </div>
+
             </div>
 
             <!--begin: Datatable-->
-            <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+            <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                 <thead>
                 <tr>
 
@@ -79,13 +138,14 @@
                         <td> {{$order->transaction_id}}</td>
                         <td><strong>{{$order->customers->phone}}</strong></td>
                         <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
-                        <td class="row">
+                        <td>
+
                             @foreach($order->billorder2d3d4d5d6ds as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
                         </td>
 
                         <td><strong>{{number_format($order->total)}}</strong></td>
                         <td>{{$order->draw}}</td>
-                        <td>@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
+                        <td class="statusJ">@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
                         <td>{{$order->updated_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
                         <td>{{$order->msg}}</td>
@@ -97,5 +157,6 @@
             <!--end: Datatable-->
         </div>
     </div>
+
 
 @endsection

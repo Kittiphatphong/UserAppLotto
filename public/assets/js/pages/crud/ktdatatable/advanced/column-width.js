@@ -6,28 +6,7 @@ var KTDatatableColumnWidthDemo = function() {
     var demo = function() {
         var datatable = $('#kt_datatable').KTDatatable({
             // datasource definition
-            data: {
-                type: 'remote',
-                source: {
-                    read: {
-                        url: HOST_URL + '/api/datatables/demos/default.php',
-                        // sample custom headers
-                        // headers: {'x-my-custom-header': 'some value', 'x-test-header': 'the value'},
-                        map: function(raw) {
-                            // sample data mapping
-                            var dataSet = raw;
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-                            return dataSet;
-                        },
-                    },
-                },
-                pageSize: 10,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-            },
+
 
             // layout definition
             layout: {

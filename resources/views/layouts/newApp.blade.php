@@ -19,6 +19,9 @@
     <link href="assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
+    <!--begin::Page Vendors Styles(used by this page)-->
+    <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Page Vendors Styles-->
 
     <!--begin::Layout Themes(used by all pages)-->
     <link href="assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css" />
@@ -42,6 +45,12 @@
         font-family: Lao_Classic3;
     }
     </style>
+
+
+
+
+
+
 
 </head>
 <!--end::Head-->
@@ -1649,19 +1658,20 @@
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="assets/js/pages/widgets.js"></script>
-<script src="assets/js/pages/crud/ktdatatable/base/html-table.js"></script>
+
 <script src="assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
 <!--end::Page Scripts-->
 
 <script src="assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js"></script>
 
-
 <!--begin::Page Vendors(used by this page)-->
 <script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
-<script src="assets/js/pages/crud/datatables/extensions/buttons.js"></script>
+<script src="assets/js/pages/crud/datatables/data-sources/html.js"></script>
+<!--end::Page Scripts-->
 
+<script src="assets/js/myScript.js"></script>
 
 </body>
 <!--end::Body-->

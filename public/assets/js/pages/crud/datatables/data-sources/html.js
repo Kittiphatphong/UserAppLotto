@@ -1,77 +1,112 @@
 "use strict";
+
+function filterColumn ( i ) {
+    $('#kt_datatable').DataTable().column( i ).search(
+        $('#col'+i+'_filter').val(),
+    ).draw();
+}
+
+
+
+
 var KTDatatablesDataSourceHtml = function() {
 
+
 	var initTable1 = function() {
+
+
+        $('input.column_filter').on( 'keyup click change', function () {
+            filterColumn( $(this).parents('div').attr('data-column') );
+        } );
+
+        $('input.column_select').on( 'keyup click change', function () {
+            filterColumn( $(this).parents('div').attr('data-column') );
+        } );
+
 		var table = $('#kt_datatable');
+
+
+		$('#select6').on( 'change', function () {
+                table.DataTable()
+                    .columns(6)
+                    .search( this.value )
+                    .draw();
+
+            } );
+        $('#select5').on( 'change', function () {
+            table.DataTable()
+                .columns(5)
+                .search( this.value )
+                .draw();
+
+        } );
+
+
+
+
+
+
+
 
 		// begin first table
 		table.DataTable({
+            dom:'<"float-left"l><"float-right"B>t<"d-flex justify-content-between" ip>',
+            "pagingType": "full_numbers",
+            "order": [[ 0, "desc" ]],
+            buttons: [
+
+                {
+                    text:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">\n' +
+                        '  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>\n' +
+                        '  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>\n' +
+                        '</svg>',
+                    extend: 'excel',
+                    className:'btn btn-outline-link'
+
+                },
+
+            ],
 			responsive: true,
-			columnDefs: [
-				{
-					targets: -1,
-					title: 'Actions',
-					orderable: false,
-					render: function(data, type, full, meta) {
-						return '\
-							<div class="dropdown dropdown-inline">\
-								<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">\
-	                                <i class="la la-cog"></i>\
-	                            </a>\
-							  	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">\
-									<ul class="nav nav-hoverable flex-column">\
-							    		<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-edit"></i><span class="nav-text">Edit Details</span></a></li>\
-							    		<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-leaf"></i><span class="nav-text">Update Status</span></a></li>\
-							    		<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-print"></i><span class="nav-text">Print</span></a></li>\
-									</ul>\
-							  	</div>\
-							</div>\
-							<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Edit details">\
-								<i class="la la-edit"></i>\
-							</a>\
-							<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" title="Delete">\
-								<i class="la la-trash"></i>\
-							</a>\
-						';
-					},
-				},
-				{
-					width: '75px',
-					targets: 8,
-					render: function(data, type, full, meta) {
-						var status = {
-							1: {'title': 'Pending', 'class': 'label-light-primary'},
-							2: {'title': 'Delivered', 'class': ' label-light-danger'},
-							3: {'title': 'Canceled', 'class': ' label-light-primary'},
-							4: {'title': 'Success', 'class': ' label-light-success'},
-							5: {'title': 'Info', 'class': ' label-light-info'},
-							6: {'title': 'Danger', 'class': ' label-light-danger'},
-							7: {'title': 'Warning', 'class': ' label-light-warning'},
-						};
-						if (typeof status[data] === 'undefined') {
-							return data;
-						}
-						return '<span class="label label-lg font-weight-bold' + status[data].class + ' label-inline">' + status[data].title + '</span>';
-					},
-				},
-				{
-					width: '75px',
-					targets: 9,
-					render: function(data, type, full, meta) {
-						var status = {
-							1: {'title': 'Online', 'state': 'danger'},
-							2: {'title': 'Retail', 'state': 'primary'},
-							3: {'title': 'Direct', 'state': 'success'},
-						};
-						if (typeof status[data] === 'undefined') {
-							return data;
-						}
-						return '<span class="label label-' + status[data].state + ' label-dot mr-2"></span>' +
-							'<span class="font-weight-bold text-' + status[data].state + '">' + status[data].title + '</span>';
-					},
-				},
-			],
+
 		});
+
+
+        $('#kt_datepicker').datepicker({
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<i class="la la-angle-left"></i>',
+                rightArrow: '<i class="la la-angle-right"></i>',
+            },
+        });
+
+
+        $('#kt_search').on('click', function(e) {
+            e.preventDefault();
+            var params = {};
+            $('.datatable-input').each(function() {
+                var i = $(this).data('col-index');
+                if (params[i]) {
+                    params[i] += '|' + $(this).val();
+                }
+                else {
+                    params[i] = $(this).val();
+                }
+            });
+            $.each(params, function(i, val) {
+                // apply search params to datatable
+                table.DataTable().column(i).search(val ? val : '', false, false);
+            });
+            table.DataTable().table().draw();
+        });
+
+        $('#kt_reset').on('click', function(e) {
+            e.preventDefault();
+            $('.datatable-input').each(function() {
+                $(this).val('');
+                table.DataTable().column($(this).data('col-index')).search('', false, false);
+            });
+            table.DataTable().table().draw();
+        });
 
 	};
 
@@ -80,6 +115,8 @@ var KTDatatablesDataSourceHtml = function() {
 		//main function to initiate the module
 		init: function() {
 			initTable1();
+
+
 		},
 
 	};
