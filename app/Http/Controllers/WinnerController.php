@@ -14,6 +14,7 @@ class WinnerController extends Controller
 
         return view('winner.win2d3d4d5d6d')
             ->with('win_2d3d4d5d6d','win_2d3d4d5d6d')
+            ->with('draws',Result::select('draw')->orderBy('id','desc')->get())
             ->with('orders',$winOrders);
     }
 
@@ -21,6 +22,7 @@ class WinnerController extends Controller
         $winOrders = BillOrder::orderBy('id','desc')->where('status_buy',true)->where('status_win',1)->where('type','3/40')->get();
         return view('winner.win340')
             ->with('win_340','win_340')
+            ->with('draws',Result::select('draw')->orderBy('id','desc')->get())
             ->with('orders',$winOrders);
     }
 }

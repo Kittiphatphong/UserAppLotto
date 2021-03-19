@@ -21,7 +21,12 @@ class BillOrder extends Model
     public function billorder2d3d4d5d6ds(){
         return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id');
     }
-
+    public function bill340s(){
+        return $this->hasMany(Billorder340::class,'order_id');
+    }
+    public function billSelect340s(){
+        return $this->hasMany(Billorder340::class,'order_id')->select('id','digit','money','order_id','type_win','created_at','updated_at');
+    }
 
     public function win2d3d4d5d6ds(){
         return $this->hasMany(Billorder2d3d4d5d6d::class,'order_id')->whereNotNull('type_win');
@@ -63,9 +68,7 @@ class BillOrder extends Model
 
     }
 
-    public function bill340s(){
-        return $this->hasMany(Billorder340::class,'order_id');
-    }
+
 
     public function win340s(){
         return $this->hasMany(Billorder340::class,'order_id')->whereNotNull('type_win');

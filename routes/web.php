@@ -14,9 +14,10 @@ use App\Http\Controllers\DreamTellerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BuyLottoController;
 use App\Http\Controllers\BillOrderController;
+use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('guest');
 Route::group(['middleware' =>'auth'],function(){
     Route::get('/dashboard', [DashboardController::class,'dashboard'])
         ->name('dashboard');
@@ -26,8 +27,11 @@ Route::group(['middleware' =>'auth'],function(){
 //    Route::post('/buy-lotto-6d',[BuyLottoController::class,'store6d'])->name('buy.store6d');
 //    Route::post('/buy-lotto-40',[BuyLottoController::class,'store40'])->name('buy.store40');
 
-    Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
+//User
+    Route::resource('/users',UserController::class);
 
+//Customer
+    Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
     Route::get('/customer-register',[CustomerController::class,'customerRegister'])->name('customer.register');
     Route::post('customers',[CustomerController::class,'customerStore'])->name('customer.store');
     Route::post('/customer-delete/{id}',[CustomerController::class,'customerDelete'])->name('customer.delete');

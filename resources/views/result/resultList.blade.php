@@ -24,10 +24,10 @@
                     <span class="d-block text-muted pt-2 font-size-sm">Result lottory </span></h3>
                 <span class="float-right"></span>
             </div>
-            <div class="card-toolbar">
+            <div class="card-toolbar d-flex justify-content-center">
 
                 <!--begin::Button-->
-                <form action="{{route('result.store')}}" class="d-flex justify-content-end" method="post">
+                <form action="{{route('result.store')}}" class="d-flex justify-content-end mr-3" method="post">
                 @csrf
                         <input type="hidden" value="{{$currently_draw}}" name="draw">
                         <span class="form-control col-2 bg-info text-center">2d4d5d5d6d</span>
@@ -47,30 +47,11 @@
         </div>
         <div class="card-body">
             <!--begin: Search Form-->
-            <!--begin::Search Form-->
-            <div class="mb-7">
-                <div class="row align-items-center">
-                    <div class="col-lg-9 col-xl-8">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
-                                <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                    <span>
-																	<i class="flaticon2-search-1 text-muted"></i>
-																</span>
-                                </div>
-                            </div>
 
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <!--begin: Datatable-->
             <div class="table-responsive">
-                <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
+                <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
                     <tr>
 

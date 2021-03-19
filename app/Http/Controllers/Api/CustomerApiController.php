@@ -69,6 +69,10 @@ class CustomerApiController extends Controller
     }
         $customer = new Customer();
         $customer->phone =$request->phone;
+        $customer->firstname = 'N/A';
+        $customer->lastname = 'N/A';
+        $customer->gender = 'N/A';
+        $customer->address= 'N/A';
         $customer->save();
         $customer->requestNewOTP();
 
@@ -185,7 +189,27 @@ class CustomerApiController extends Controller
         return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
 
     }
+    public function profileupload(Request $request)
+    {
 
+        $customerId = $request->user()->currentAccessToken()->tokenable->id;
+        $customer = Customer::find($customerId);
+        if ($request->hasFile("image")) {
+            $imageNames = time().'.'.$request->image->extension();
+            $stringImageReformat = base64_encode('_' . time());
+            $ext = $request->file('image')->getClientOriginalExtension();
+            Storage::delete("public/customer_image/".str_replace('/storage/customer_image/','',$customer->image));
+
+            
+            $imageEncode = File::get($request->image);
+            $customer->image = "/storage/customer_image/" . $imageNames;
+            $customer->save();
+            Storage::disk('local')->put('public/customer_image/' . $imageNames, $imageEncode);
+
+        }
+
+        return response()->json(['status' => true, 'msg' => 'Success']);
+    }
     public function moreAccount(Request $request){
         $validator = Validator::make($request->all(),[
             'firstname' => 'required|string|max:255',

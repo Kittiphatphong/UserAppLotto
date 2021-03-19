@@ -399,6 +399,38 @@
 
                             </div>
                         </li>
+
+                        <li class="menu-item menu-item-submenu @if(isset($user_list)|| isset($user_register))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-house-user"></i>
+                                <span class="menu-text">Users</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+                                    <li class="menu-item @isset($user_register) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('users.create')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Register</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($user_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('users.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">List</span>
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+                        </li>
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
                                 <i class="menu-icon flaticon-users-1"></i>
@@ -1392,7 +1424,6 @@
                 <div class="text-muted mt-1">Application Developer</div>
                 <div class="navi mt-2">
                     <a href="#" class="navi-item">
-								<span class="navi-link p-0 pb-2">
 									<span class="navi-icon mr-1">
 										<span class="svg-icon svg-icon-lg svg-icon-primary">
 											<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Mail-notification.svg-->

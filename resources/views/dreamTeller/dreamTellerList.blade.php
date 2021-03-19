@@ -33,35 +33,16 @@
         </div>
         <div class="card-body">
             <!--begin: Search Form-->
-            <!--begin::Search Form-->
-            <div class="mb-7">
-                <div class="row align-items-center">
-                    <div class="col-lg-9 col-xl-8">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
-                                <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                    <span>
-																	<i class="flaticon2-search-1 text-muted"></i>
-																</span>
-                                </div>
-                            </div>
 
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <!--begin: Datatable-->
             <div class="table-responsive">
-                <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
+                <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
                     <tr>
 
 
-
+                        <th>ID</th>
                         <th>TITLE</th>
                         <th>CONTENT</th>
                         <th>DIGIT</th>
@@ -76,10 +57,11 @@
                     <tbody>
                     @foreach($dream_teller_list as $dream)
                         <tr>
+                     <td>{{$dream->id}}</td>
                     <td>{{$dream->title}}</td>
                     <td>{{$dream->content}}</td>
                     <td>{{str_replace('"','',implode(',',$dream->recommend_digits))}}</td>
-                    <td><img src="{{$dream->dreamTellerImages->first()->image}}" width="60px" class="rounded-pill"></td>
+                    <td class="text-center"><img src="{{$dream->dreamTellerImages->first()->image}}" width="80px" class="rounded-pill"></td>
                     <td>
                         <div class="d-flex justify-content-start m-0">
                             <a href="{{route('dream-teller.edit',$dream->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>

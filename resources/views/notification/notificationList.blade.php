@@ -33,40 +33,21 @@
         </div>
         <div class="card-body">
             <!--begin: Search Form-->
-            <!--begin::Search Form-->
-            <div class="mb-7">
-                <div class="row align-items-center">
-                    <div class="col-lg-9 col-xl-8">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
-                                <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                    <span>
-																	<i class="flaticon2-search-1 text-muted"></i>
-																</span>
-                                </div>
-                            </div>
 
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <!--begin: Datatable-->
             <div class="table-responsive">
-                <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
+                <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
                     <tr>
 
 
-
+                         <th>ID</th>
                         <th>TYPE</th>
                         <th>TITLE</th>
                         <th>CONTENT</th>
                         <th>TO</th>
-
+                        <th>STATUS</th>
                         <th>UPDATED AT</th>
 
 
@@ -75,11 +56,17 @@
                     <tbody>
                     @foreach($notification_list as $list)
                     <tr>
-
-                        <td>{{$list->notifications->typeNotifications->name}}<img src="{{$list->notifications->typeNotifications->icon}}" width="30px" class="float-right"></td>
+<td>{{$list->id}}</td>
+                        <td><div class="d-flex justify-content-between"><p>{{$list->notifications->typeNotifications->name}}</p><img src="{{$list->notifications->typeNotifications->icon}}" width="30px" ></div></td>
                     <td>{{$list->notifications->title}}</td>
                         <td>{{$list->notifications->body}}</td>
                         <td>{{$list->customers->phone}}</td>
+                        <td class="text-center">
+
+                            @if($list->read_status == true)<span class="label label-lg font-weight-bold label-light-success label-inline ">Read</span>
+                            @else<span class="label label-lg font-weight-bold label-light-warning label-inline ">Not yet</span>
+                            @endif
+                        </td>
                         <td>{{$list->updated_at}}</td>
 
                     </tr>

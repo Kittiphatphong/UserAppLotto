@@ -9,6 +9,7 @@ use App\Http\Controllers\SendMassageController;
 use App\Models\BillOrder;
 use App\Models\Billorder2d3d4d5d6d;
 use App\Models\Billorder340;
+use App\Models\Customer_Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +51,6 @@ class BillOrderApiController extends Controller
 
     public function sell2d3d4d5d6d(Request $request){
          $customer = $request->user()->currentAccessToken()->tokenable;
-
          $validator = Validator::make($request->all(),[
         'code' =>'required|json',
         ]);
@@ -290,18 +290,42 @@ class BillOrderApiController extends Controller
 
         $customerid = $request->user()->currentAccessToken();
 
-        $bills = BillOrder::with('billorder2d3d4d5d6ds','bill340s')->where('customer_id',$customerid->tokenable->id)->get();
+        $bills = BillOrder::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->get();
 
         return response()->json([
            'status' => true,
            'data' =>  $bills
         ]);
     }
+    public function billAllWin(Request $request){
+
+        $customerid = $request->user()->currentAccessToken();
+
+        $bills = BillOrder::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->where('status_win',true)->get();
+
+        return response()->json([
+            'status' => true,
+            'data' =>  $bills
+        ]);
+    }
 
     public function billDetail(Request $request){
-        $validator = Validator::make($request->all(),[
-            'bill' => 'required|exists:bill_orders,bill_number',
-        ]);
+
+
+        if($request->noti_id == null){
+            $validator = Validator::make($request->all(),[
+                'id' => 'required|exists:bill_orders,id',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(),[
+                'id' => 'required|exists:bill_orders,id',
+                'noti_id' => 'exists:customer__notifications,id'
+            ]);
+            $customer_notification = Customer_Notification::find($request->noti_id);
+            $customer_notification->read_status = 1;
+            $customer_notification->save();
+        }
+
         if($validator->fails()){
             return response()->json([
                 'status' => false,
@@ -309,20 +333,24 @@ class BillOrderApiController extends Controller
             ],422);
         }
 
-        $bills = BillOrder::where('bill_number',$request->bill)->first();
+        $bills = BillOrder::find($request->id);
+
 
         if($bills->type == "3/40"){
+
+
             $win = $bills->winAmount340();
-            $detail = $bills->bill340s;
+            $detail = $bills->billSelect340s;
         }else{
             $win = $bills->winAmount2d3d4d5d6d();
             $detail = $bills->billorder2d3d4d5d6ds;
         }
-
+        $data = BillOrder::find($bills->id);
 
         return response()->json([
             'status' => true,
-            'data' => $bills
+            'data' => ['bill'=>$data,'digits' => $detail]
+
         ]);
     }
 

@@ -36,6 +36,7 @@ class ResultApiController extends Controller
            ],422);
 
        }
+
        if(BillOrder::where('draw',$this->PushNotificationController->getDraw())->count() <= 0 ){
            return response()->json([
                'status' => "false",

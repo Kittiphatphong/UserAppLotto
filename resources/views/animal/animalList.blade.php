@@ -33,34 +33,14 @@
         </div>
         <div class="card-body">
             <!--begin: Search Form-->
-            <!--begin::Search Form-->
-            <div class="mb-7">
-                <div class="row align-items-center">
-                    <div class="col-lg-9 col-xl-8">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 my-2 my-md-0">
-                                <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-                                    <span>
-																	<i class="flaticon2-search-1 text-muted"></i>
-																</span>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <!--begin: Datatable-->
             <div class="table-responsive">
-                <table class="datatable datatable-bordered datatable-head-custom " id="kt_datatable">
+                <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
                     <tr>
 
-
+                        <th>ID</th>
                         <th>NAME</th>
                         <th>ANIMAL DIGIT</th>
                         <th>IMAGE</th>
@@ -75,9 +55,10 @@
                     <tbody>
                     @foreach($animal_list as $animal)
                         <tr>
+                            <td>{{$animal->id}}</td>
                             <td>{{$animal->name}}</td>
                             <td>{{str_replace('"','',$animal->animalNos->pluck('animal_digit'))}}</td>
-                            <td><img src="{{$animal->image}}" width="100%" ></td>
+                            <td class="text-center"><img src="{{$animal->image}}" width="80px" ></td>
                             <td>{{$animal->description}}</td>
                             <td>@foreach($animal->digit as $digit) [{{$digit}}] @endforeach</td>
                             <td><a href="{{route('animal.edit',$animal->id)}}" class="btn btn-link"><i class="far fa-edit"></i></a></td>

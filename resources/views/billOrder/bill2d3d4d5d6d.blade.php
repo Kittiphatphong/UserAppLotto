@@ -35,11 +35,8 @@
             </div>
         </div>
         <div class="card-body">
-
 <br><br>
-            <!--begin: Search Form-->
-            <!--begin::Search Form-->
-            <div class="mb-15">
+            <div class="mb-15 border rounded p-3">
                 <div class="row mb-6">
                     <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col1" data-column="0">
                         <label>TRANSACTION ID:</label>
@@ -54,8 +51,8 @@
                         <input type="text" class="column_filter form-control" id="col2_filter" placeholder="Search bill number" />
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col4" data-column="3">
-                        <label>CODE:</label>
-                        <input type="text" class="column_filter form-control" id="col3_filter" placeholder="Search code" />
+                        <label>DIGIT:</label>
+                        <input type="text" class="column_filter form-control" id="col3_filter" placeholder="Search digit" />
                     </div>
                 </div>
                 <div class="row mb-8">
@@ -74,7 +71,7 @@
                         </select>
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">
-                        <label>select6:</label>
+                        <label>STATUS</label>
                         <select class="form-control" id="select6" >
                             <option value="">All</option>
                             <option value="Success">Success</option>
@@ -83,7 +80,7 @@
                     </div>
 
                     <div class="col-lg-3 mb-lg-0 mb-6">
-                        <label>Ship Date:</label>
+                        <label>DATE BUY:</label>
                         <div class="input-daterange input-group" id="kt_datepicker">
                             <input type="text" class="form-control datatable-input" name="start" placeholder="From" data-col-index="7" />
                             <div class="input-group-append">
@@ -96,25 +93,13 @@
                     </div>
 
                 </div>
-                <div class="row mt-8">
-                    <div class="col-lg-12">
-                        <button class="btn btn-primary btn-primary--icon" id="kt_search">
-													<span>
-														<i class="la la-search"></i>
-														<span>Search</span>
-													</span>
-                        </button>&#160;&#160;
-                        <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
-													<span>
-														<i class="la la-close"></i>
-														<span>Reset</span>
-													</span>
-                        </button></div>
-                </div>
+
 
             </div>
 
             <!--begin: Datatable-->
+
+            <div class="table-responsive">
             <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                 <thead>
                 <tr>
@@ -122,7 +107,7 @@
                     <th>TRANSACTION ID </th>
                     <th>PHONE NO</th>
                     <th>BILL NUMBER</th>
-                    <th>CODE</th>
+                    <th>DIGIT</th>
                     <th>MONEY</th>
                     <th>DRAW</th>
                     <th>STATUS</th>
@@ -145,7 +130,7 @@
 
                         <td><strong>{{number_format($order->total)}}</strong></td>
                         <td>{{$order->draw}}</td>
-                        <td class="statusJ">@if($order->status_buy == true)<span class="badge rounded-pill bg-success col-6 text-white">Success</span>@else <span class="badge rounded-pill bg-danger col-6 text-white ">Fail</span> @endif</td>
+                        <td class="statusJ">@if($order->status_buy == true)<span class="label label-lg font-weight-bold label-light-success label-inline">Success</span>@else <span class="label label-lg font-weight-bold label-light-danger label-inline">Fail</span> @endif</td>
                         <td>{{$order->updated_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
                         <td>{{$order->msg}}</td>
@@ -154,6 +139,7 @@
                 @endforeach
                 </tbody>
             </table>
+            </div>
             <!--end: Datatable-->
         </div>
     </div>

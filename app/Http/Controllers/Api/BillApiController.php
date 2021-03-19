@@ -100,7 +100,7 @@ class BillApiController extends Controller
     public function billDetail(Request $request){
         $validator = Validator::make($request->all(),[
             'id' => 'required|exists:bills,id',
-            'noti_id' => 'required|exists:customer__notifications,id'
+            'noti_id' => 'exists:customer__notifications,id'
         ]);
         if($validator->fails()){
             return response()->json([
