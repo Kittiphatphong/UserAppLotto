@@ -57,7 +57,7 @@
                     @foreach($notification_list as $list)
                     <tr>
 <td>{{$list->id}}</td>
-                        <td><div class="d-flex justify-content-between"><p>{{$list->notifications->typeNotifications->name}}</p><img src="{{$list->notifications->typeNotifications->icon}}" width="30px" ></div></td>
+                        <td><div class="d-flex justify-content-start"><p>{{$list->notifications->typeNotifications->name}}</p><img src="{{$list->notifications->typeNotifications->icon}}" width="35px" height="35px"></div></td>
                     <td>{{$list->notifications->title}}</td>
                         <td>{{$list->notifications->body}}</td>
                         <td>{{$list->customers->phone}}</td>
