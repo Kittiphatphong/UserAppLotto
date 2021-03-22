@@ -47,8 +47,11 @@
                             <span class="d-block text-muted pt-2 font-size-sm">{{isset($user)?'Edit user':'Register new user'}}</span></h3>
 
                     </div>
-                    <form  action="{{route('users.store')}}" method="post">
+                    <form  action="{{isset($user)?route('users.update',$user_register->id):route('users.store')}}" method="post">
                         @csrf
+                        @isset($user)
+                            @method('PUT')
+                        @endisset
                         <div>
                             <x-label for="name" :value="__('Name')" />
 
@@ -69,7 +72,7 @@
                             <x-input id="password" class="block mt-1 w-full form-control"
                                      type="password"
                                      name="password"
-                                     required autocomplete="new-password" />
+                                      autocomplete="new-password" />
                         </div>
 
                         <!-- Confirm Password -->
@@ -78,7 +81,17 @@
 
                             <x-input id="password_confirmation" class="block mt-1 w-full form-control"
                                      type="password"
-                                     name="password_confirmation" required />
+                                     name="password_confirmation"  />
+                        </div>
+                        <div class="mt-4">
+                            <select class="form-control" name="role">
+                                <option disabled selected>Select role</option>
+                            @foreach($roles as $role)
+                                <option value="{{$role->name}}"
+                                        @if($user_register->roles->count()>=1) @if($role->name==$user_register->roles->first()->name) Selected @endif @endif>
+                                    {{$role->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
 

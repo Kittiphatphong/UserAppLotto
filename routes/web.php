@@ -19,82 +19,119 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
 Route::group(['middleware' =>'auth'],function(){
+
+
+
     Route::get('/dashboard', [DashboardController::class,'dashboard'])
         ->name('dashboard');
-
-
 //    Route::get('/buy-lotto',[BuyLottoController::class,'buy'])->name('buy.buy');
 //    Route::post('/buy-lotto-6d',[BuyLottoController::class,'store6d'])->name('buy.store6d');
 //    Route::post('/buy-lotto-40',[BuyLottoController::class,'store40'])->name('buy.store40');
 
 //User
-    Route::resource('/users',UserController::class);
+    Route::group(['middleware' => ['permission:users management']], function () {
+        Route::resource('/users',UserController::class);
+        Route::get('/role',[UserController::class,'role'])->name('users.role');
+        Route::get('/newRole',[UserController::class,'newRole'])->name('new.role');
+        Route::post('/newRole',[UserController::class,'storePermission'])->name('store.permission');
+        Route::get('/editRole/{id}',[UserController::class,'editRole'])->name('edit.role');
+        Route::post('/editRole/{id}',[UserController::class,'updatePermission'])->name('update.permission');
+    });
+
 
 //Customer
-    Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list');
-    Route::get('/customer-register',[CustomerController::class,'customerRegister'])->name('customer.register');
-    Route::post('customers',[CustomerController::class,'customerStore'])->name('customer.store');
-    Route::post('/customer-delete/{id}',[CustomerController::class,'customerDelete'])->name('customer.delete');
+    Route::group(['middleware'=>['permission:customer register']],function(){
+        Route::get('/customer-register',[CustomerController::class,'customerRegister'])->name('customer.register');
+        Route::post('customers',[CustomerController::class,'customerStore'])->name('customer.store');
+    });
+    Route::get('/customers',[Customercontroller::class,'customerList'])->name('customer.list')->middleware('permission:customer list');
+    Route::post('/customer-delete/{id}',[CustomerController::class,'customerDelete'])->name('customer.delete')->middleware('permission:customer delete');
 
 
 //Bill order
-    Route::get('/bill6d',[BillOrderController::class,'bill6d'])->name('bill.2d3d4d5d6d');
-    Route::get('/bill340',[BillOrderController::class,'bill340'])->name('bill.340');
+    Route::group(['middleware'=>['permission:bills']],function() {
+        Route::get('/bill6d', [BillOrderController::class, 'bill6d'])->name('bill.2d3d4d5d6d');
+        Route::get('/bill340', [BillOrderController::class, 'bill340'])->name('bill.340');
+    });
+
 //    Route::get('/bill6d',[BillController::class,'bill6d'])->name('bill.2d3d4d5d6d');
 //    Route::get('/bill340',[BillController::class,'bill340'])->name('bill.340');
 
-//Provider
-    Route::get('/provider',[ProviderController::class,'providerList'])->name('provider.list');
-    Route::post('/provider',[ProviderController::class,'providerStore'])->name('provider.store');
 
 //Winner
+    Route::group(['middleware'=>['permission:winner']],function() {
     Route::get('win-2d3d4d5d6d',[WinnerController::class,'win2d3d4d5d6d'])->name('win.2d3d4d5d6d');
     Route::get('win-340',[WinnerController::class,'win340'])->name('win.340');
-
-//Result
-    Route::get('result-list',[ResultController::class,'resultList'])->name('result.list');
-    Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store');
-    Route::post('result-delete/{id}',[ResultController::class,'resultDelete'])->name('result.delete');
-    Route::get('win-store/{id}',[ResultController::class,'winStore'])->name('win.store');
-    Route::post('win-restore/{id}',[ResultController::class,'winRestore'])->name('win.restore');
+    });
 
 //Promotion
-    Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list');
-    Route::get('promotion-create',[PromotionController::class,'promotionCreate'])->name('promotion.create');
-    Route::post('promotion-create',[PromotionController::class,'promotionStore'])->name('promotion.store');
-    Route::get('promotion-edit/{id}',[PromotionController::class,'promotionEdit'])->name('promotion.edit');
-    Route::post('promotion-edit/{id}',[PromotionController::class,'promotionUpdate'])->name('promotion.update');
-    Route::post('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete');
-    Route::post('promotion-notification/{id}',[PromotionController::class,'promotionNotification'])->name('promotion.notification');
+    Route::group(['middleware'=>['permission:promotion new']],function() {
+        Route::get('promotion-create', [PromotionController::class, 'promotionCreate'])->name('promotion.create');
+        Route::post('promotion-create', [PromotionController::class, 'promotionStore'])->name('promotion.store');
+    });
+    Route::get('promotion-list',[PromotionController::class,'promotionList'])->name('promotion.list')->middleware('permission:promotion list');
+    Route::group(['middleware'=>['permission:promotion edit']],function() {
+        Route::get('promotion-edit/{id}', [PromotionController::class, 'promotionEdit'])->name('promotion.edit');
+        Route::post('promotion-edit/{id}', [PromotionController::class, 'promotionUpdate'])->name('promotion.update');
+    });
+    Route::post('promotion-delete/{id}',[PromotionController::class,'promotionDelete'])->name('promotion.delete')->middleware('permission:promotion delete');
+    Route::post('promotion-notification/{id}',[PromotionController::class,'promotionNotification'])->name('promotion.notification')->middleware('permission:promotion notification');
+
+
+//Result
+    Route::get('result-list',[ResultController::class,'resultList'])->name('result.list')->middleware('permission:result list');
+    Route::post('result-store',[ResultController::class,'resultStore'])->name('result.store')->middleware('permission:result put');
+    Route::group(['middleware'=>['permission:result action']],function() {
+        Route::post('result-delete/{id}', [ResultController::class, 'resultDelete'])->name('result.delete');
+        Route::get('win-store/{id}', [ResultController::class, 'winStore'])->name('win.store');
+        Route::post('win-restore/{id}', [ResultController::class, 'winRestore'])->name('win.restore');
+    });
 
 //Recommend lotto
 
-    Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list');
-    Route::get('recommend-create',[RecommentLottoController::class,'recommendCreate'])->name('recommend.create');
-    Route::post('recommend-create',[RecommentLottoController::class,'recommendStore'])->name('recommend.store');
-    Route::get('recommend-edit/{id}',[RecommentLottoController::class,'recommendEdit'])->name('recommend.edit');
-    Route::post('recommend-update/{id}',[RecommentLottoController::class,'recommendUpdate'])->name('recommend.update');
-    Route::post('recommend-delete/{id}',[RecommentLottoController::class,'recommendDelete'])->name('recommend.delete');
+    Route::get('recommend-list',[RecommentLottoController::class,'recommendList'])->name('recommend.list')->middleware('permission:recommend list');
+    Route::group(['middleware'=>['permission:recommend new']],function() {
+        Route::get('recommend-create', [RecommentLottoController::class, 'recommendCreate'])->name('recommend.create');
+        Route::post('recommend-create', [RecommentLottoController::class, 'recommendStore'])->name('recommend.store');
+    });
+    Route::group(['middleware'=>['permission:recommend edit']],function() {
+        Route::get('recommend-edit/{id}', [RecommentLottoController::class, 'recommendEdit'])->name('recommend.edit');
+        Route::post('recommend-update/{id}', [RecommentLottoController::class, 'recommendUpdate'])->name('recommend.update');
+    });
+    Route::post('recommend-delete/{id}',[RecommentLottoController::class,'recommendDelete'])->name('recommend.delete')->middleware('permission:recommend delete');
 
 //40 Animal
-    Route::get('animal-list',[AnimalController::class,'animalList'])->name('animal.list');
-    Route::get('animal-create',[AnimalController::class,'animalCrate'])->name('animal.create');
-    Route::post('animal-create',[AnimalController::class,'animalStore'])->name('animal.store');
-    Route::get('animal-edit/{id}',[AnimalController::class,'animalEdit'])->name('animal.edit');
-    Route::post('animal-update/{id}',[AnimalController::class,'animalUpdate'])->name('animal.update');
-
+    Route::get('animal-list',[AnimalController::class,'animalList'])->name('animal.list')->middleware('permission:animal list');
+    Route::group(['middleware'=>['permission:animal new']],function() {
+        Route::get('animal-create', [AnimalController::class, 'animalCrate'])->name('animal.create');
+        Route::post('animal-create', [AnimalController::class, 'animalStore'])->name('animal.store');
+    });
+    Route::group(['middleware'=>['permission:animal edit']],function() {
+        Route::get('animal-edit/{id}', [AnimalController::class, 'animalEdit'])->name('animal.edit');
+        Route::post('animal-update/{id}', [AnimalController::class, 'animalUpdate'])->name('animal.update');
+    });
 //Dream Teller
    Route::resource('dream-teller',DreamTellerController::class,[
        'only' => ['index', 'create','store','update','edit','destroy']
    ]);
 
 //Notification
-   Route::get('notification-list',[NotificationController::class,'notificationList'])->name('notification.list');
-   Route::get('notification-type',[NotificationController::class,'notificationType'])->name('notification.type');
-   Route::get('notification-icon',[NotificationController::class,'notificationIcon'])->name('notification.icon');
-   Route::post('notification-icon',[NotificationController::class,'notificationStore'])->name('notification.store');
-    Route::get('notification-icon-edit/{id}',[NotificationController::class,'notificationIconEdit'])->name('notification.icon.edit');
-    Route::post('notification-icon-edit/{id}',[NotificationController::class,'notificationUpdate'])->name('notification.update');
+    Route::get('notification-type',[NotificationController::class,'notificationType'])->name('notification.type')->middleware('permission:notification type list');
+    Route::group(['middleware'=>['permission:notification type new']],function() {
+        Route::get('notification-icon', [NotificationController::class, 'notificationIcon'])->name('notification.icon');
+        Route::post('notification-icon', [NotificationController::class, 'notificationStore'])->name('notification.store');
+    });
+    Route::group(['middleware'=>['permission:notification type edit']],function() {
+        Route::get('notification-icon-edit/{id}', [NotificationController::class, 'notificationIconEdit'])->name('notification.icon.edit');
+        Route::post('notification-icon-edit/{id}', [NotificationController::class, 'notificationUpdate'])->name('notification.update');
+    });
+   Route::get('notification-list',[NotificationController::class,'notificationList'])->name('notification.list')->middleware('permission:notification transaction');
+
+    //Provider
+    Route::group(['middleware'=>['permission:provider management']],function() {
+        Route::get('/provider', [ProviderController::class, 'providerList'])->name('provider.list');
+        Route::post('/provider', [ProviderController::class, 'providerStore'])->name('provider.store');
+    });
 });
 
 

@@ -1,17 +1,17 @@
 @extends('layouts.newApp')
-@section('title','User list')
+@section('title','User role')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">USER LIST PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">USER ROLE PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <span class="text-muted">User list</span>
+                <span class="text-muted">User role</span>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('users.index')}}"class="text-muted">List</a>
+                <a href="{{route('users.index')}}"class="text-muted">Role</a>
             </li>
         </ul>
         <!--end::Breadcrumb-->
@@ -23,14 +23,14 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Users
-                    <span class="d-block text-muted pt-2 font-size-sm">User list </span></h3>
+                <h3 class="card-label">Role
+                    <span class="d-block text-muted pt-2 font-size-sm">User role </span></h3>
                 <span class="float-right"></span>
             </div>
             <div class="card-toolbar">
 
                 <!--begin::Button-->
-                <a href="{{route('users.create')}}" class="btn btn-primary font-weight-bolder">
+                <a href="{{route('new.role')}}" class="btn btn-primary font-weight-bolder">
 											<span class="svg-icon svg-icon-md">
 												<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
 												<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -41,7 +41,7 @@
 													</g>
 												</svg>
                                                 <!--end::Svg Icon-->
-											</span>Register</a>
+											</span>New role</a>
                 <!--end::Button-->
             </div>
         </div>
@@ -56,37 +56,32 @@
 
                         <th>ID</th>
                         <th>NAME</th>
-                        <th>EMAIL</th>
-                        <th>ROLE</th>
-                        <th>ACTION</th>
-                        <th>CREATED AT</th>
-                        <th>UPDATED AT</th>
+                        <th>PERMISSIONS</th>
+                        <th>EDIT</th>
 
 
 
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($user_list as $user)
-<tr>
-    <td>{{$user->id}}</td>
-    <td>{{$user->name}}</td>
-    <td>{{$user->email}}</td>
-    <td>@foreach($user->roles as $role) <a href="{{route('edit.role',$role->id)}}" class="btn btn-link" >{{$role->name}} </a> @endforeach</td>
-    <td>
-        <div class="d-flex justify-content-start m-0">
-            <a href="{{route('users.edit',$user->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
-            <form action="{{route('users.destroy',$user->id)}}" method="post" class="delete_form">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
-            </form>
-        </div>
-    </td>
-    <td>{{$user->created_at}}</td>
-    <td>{{$user->updated_at}}</td>
-</tr>
-                    @endforeach
+@foreach($user_role as $role)
+    <tr>
+        <td>{{$role->id}}</td>
+        <td>{{$role->name}}</td>
+        <td>
+            @foreach($role->getAllPermissions() as $permission)
+                {{ucfirst($permission->name)}} @if(!$loop->last)<b>,</b>@endif
+            @endforeach
+        </td>
+        <td>
+            <div class="d-flex justify-content-center">
+                <a href="{{route('edit.role',$role->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
+
+            </div>
+        </td>
+    </tr>
+@endforeach
+
                     </tbody>
                 </table>
             </div>

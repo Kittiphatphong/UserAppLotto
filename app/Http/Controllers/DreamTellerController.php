@@ -6,6 +6,7 @@ use App\Models\Dreamteller;
 use App\Models\DreamtellerImage;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +19,10 @@ class DreamTellerController extends Controller
      */
     public function index()
     {
+
+        if(!Auth::user()->hasPermissionTo('dream teller list')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         return view('dreamTeller.dreamTellerList')
             ->with('dream_teller_list',Dreamteller::orderBy('id','desc')->get());
     }
@@ -29,6 +34,9 @@ class DreamTellerController extends Controller
      */
     public function create()
     {
+        if(!Auth::user()->hasPermissionTo('dream teller new')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         return view('dreamTeller.dreamTellerCreate')
             ->with('dream_teller_create','dream');;
     }
@@ -41,6 +49,9 @@ class DreamTellerController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::user()->hasPermissionTo('dream teller new')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         $request->validate([
             'title' => 'required',
             'contentShow' => 'required',
@@ -88,6 +99,9 @@ class DreamTellerController extends Controller
      */
     public function edit($id)
     {
+        if(!Auth::user()->hasPermissionTo('dream teller edit')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         $dreamTeller = Dreamteller::find($id);
           return view('dreamTeller.dreamTellerCreate',compact(['dreamTeller']))
               ->with('dream_teller_create','dream');
@@ -104,6 +118,9 @@ class DreamTellerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if(!Auth::user()->hasPermissionTo('dream teller edit')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         $request->validate([
             'title' => 'required',
             'contentShow' => 'required',
@@ -131,8 +148,10 @@ class DreamTellerController extends Controller
      */
     public function destroy($id)
     {
+        if(!Auth::user()->hasPermissionTo('dream teller delete')){
+            return abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS.');
+        }
         $dreamTeller = Dreamteller::find($id);
-
         $dreamTeller->delete();
         $dreamTeller->dreamTellerImages->first()->delete();
         Storage::delete("public/dream_teller_image/".str_replace('/storage/dream_teller_image/','',$dreamTeller->dreamTellerImages->first()->image));

@@ -69,14 +69,12 @@
     <!--begin::Toolbar-->
     <div class="d-flex align-items-center">
         <!--begin::Aside Mobile Toggle-->
-        <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
+        <button class="btn p-0 burger-icon burger-icon" id="kt_aside_mobile_toggle">
             <span></span>
         </button>
         <!--end::Aside Mobile Toggle-->
         <!--begin::Header Menu Mobile Toggle-->
-        <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
-            <span></span>
-        </button>
+
         <!--end::Header Menu Mobile Toggle-->
         <!--begin::Topbar Mobile Toggle-->
         <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
@@ -97,6 +95,22 @@
     <!--end::Toolbar-->
 </div>
 <!--end::Header Mobile-->
+
+<!--begin::Scrolltop-->
+<div id="kt_scrolltop" class="scrolltop">
+			<span class="svg-icon">
+				<!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg-->
+				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+					<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+						<polygon points="0 0 24 0 24 24 0 24" />
+						<rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+						<path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+					</g>
+				</svg>
+                <!--end::Svg Icon-->
+			</span>
+</div>
+<!--end::Scrolltop-->
 <div class="d-flex flex-column flex-root">
     <!--begin::Page-->
     <div class="d-flex flex-row flex-column-fluid page">
@@ -400,7 +414,7 @@
                             </div>
                         </li>
 
-                        <li class="menu-item menu-item-submenu @if(isset($user_list)|| isset($user_register))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                        <li class="menu-item menu-item-submenu @if(isset($user_list)|| isset($user_register) || isset($user_role))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fas fa-house-user"></i>
                                 <span class="menu-text">Users</span>
@@ -423,6 +437,14 @@
                                                 <span></span>
                                             </i>
                                             <span class="menu-text">List</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($user_role) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('users.role')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">Role</span>
                                         </a>
                                     </li>
 
@@ -1701,6 +1723,8 @@
 <!--begin::Page Scripts(used by this page)-->
 <script src="assets/js/pages/crud/datatables/data-sources/html.js"></script>
 <!--end::Page Scripts-->
+
+<script src="assets/js/pages/crud/forms/editors/quill.js"></script>
 
 <script src="assets/js/myScript.js"></script>
 

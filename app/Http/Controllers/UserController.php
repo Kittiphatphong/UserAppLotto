@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -29,7 +31,8 @@ class UserController extends Controller
     public function create()
     {
         return view('user.userRegister')
-            ->with('user_register',new User());
+            ->with('user_register',new User())
+            ->with('roles',Role::all());
     }
 
     /**
@@ -46,11 +49,13 @@ class UserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-       User::create([
+
+       $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->assignRole($request->role);
        return redirect()->route('users.index')->with('success','Created new user successful');
     }
 
@@ -75,6 +80,7 @@ class UserController extends Controller
     {
         return view('user.userRegister')
             ->with('user_register',User::find($id))
+            ->with('roles',Role::all())
             ->with('user','user');
     }
 
@@ -87,7 +93,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'confirmed',
+        ]);
+        $user = User::find($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if($request->password != null){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        $user->syncRoles($request->get('role'));
+        return redirect()->route('users.index')->with('success','Updated user successful');
     }
 
     /**
@@ -100,5 +120,46 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return back()->with('success','Deleted user successful');
+    }
+
+    public function role(){
+        return view('user.userRole')
+            ->with('user_role',Role::all());
+    }
+
+    public function newRole(){
+        return view('user.newRole')
+            ->with('user_role','user_role')
+            ->with('permissions',Permission::all());
+    }
+    public function storePermission(Request $request){
+        $request->validate([
+         'role' => 'required|unique:roles,name'
+        ]);
+
+        $role = Role::create(['name' => $request->role]);
+        $role->givePermissionTo($request->permissions);
+        return redirect()->route('users.role')
+            ->with('success','Created role successful');
+    }
+    public function editRole($id){
+
+        return view('user.newRole')
+            ->with('user_role','user_role')
+            ->with('permissions',Permission::all())
+            ->with('role',Role::findById($id));
+    }
+    public function updatePermission(Request $request ,$id){
+        $request->validate([
+            'role' => 'required'
+        ]);
+        $role = Role::findById($id);
+        $role->name = $request->role;
+        $role->save();
+        $role->revokePermissionTo($role->permissions()->pluck('name')->toArray());
+        $role->givePermissionTo($request->permissions);
+        return redirect()->route('users.role')
+            ->with('success','Updated role successful');
+
     }
 }

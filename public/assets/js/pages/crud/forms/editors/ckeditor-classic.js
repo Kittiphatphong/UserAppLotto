@@ -1,7 +1,7 @@
 "use strict";
 // Class definition
 
-var KTCkeditor = function () {    
+var KTCkeditor = function () {
     // Private functions
     var demos = function () {
         ClassicEditor
@@ -46,14 +46,14 @@ var KTCkeditor = function () {
 				console.log( editor );
 			} )
 			.catch( error => {
-				console.error( error );
+				// console.error( error );
 			} );
     }
 
     return {
         // public functions
         init: function() {
-            demos(); 
+            demos();
         }
     };
 }();
