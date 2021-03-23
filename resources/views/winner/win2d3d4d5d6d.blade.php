@@ -125,13 +125,8 @@
                         <td>{{number_format($order->total_win)}}</td>
                         <td>{{$order->draw}}</td>
                         <td>{{\Carbon\Carbon::parse(\App\Models\Result::where('draw','=',$order->draw)->pluck('created_at')->first())->toDateString() }}</td>
-
-
-
                         <td>{{$order->created_at}}</td>
                         <td>{{$order->customers->firstname}} {{$order->customers->lastname}}</td>
-
-
                     </tr>
                 @endforeach
                 </tbody>

@@ -77,6 +77,7 @@ class CustomerApiController extends Controller
         try {
             $validator=  Validator::make($request->all(), [
                 'phone' => 'required|max:10|min:10|unique:customers',
+
             ]);
             if ($validator->fails()) {
                 return response()->json([
