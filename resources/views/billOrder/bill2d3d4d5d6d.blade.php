@@ -125,7 +125,11 @@
                         <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
                         <td>
 
-                            @foreach($order->billorder2d3d4d5d6ds as $digit)@if(!$loop->first)=@endif{{$digit->digit}}@endforeach
+                            @if($order->status_buy== false)
+                            @foreach($order->billorder2d3d4d5d6ds as $digit) @if(!$loop->first)=@endif{{$digit->digit}}@endforeach
+                            @else
+                                @foreach($order->billorder2d3d4d5d6ds as $digit) @if($digit->money>0)@if(!$loop->first)=@endif{{$digit->digit}}@endif @endforeach
+                            @endif
                         </td>
 
                         <td><strong>{{number_format($order->total)}}</strong></td>

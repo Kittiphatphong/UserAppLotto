@@ -1,5 +1,5 @@
 @extends('layouts.newApp')
-@section('title','Dashboard')
+@section('title','Bill 3/40')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
@@ -125,7 +125,17 @@
                     <td>{{$order->transaction_id}} </td>
                     <td><strong>{{$order->customers->phone}}</strong></td>
                     <td>{{str_replace(',','',number_format($order->bill_number))}}</td>
-                    <td>@foreach($order->bill340s as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach</td>
+                    <td>
+
+                        @if($order->status_buy== false)
+                            @foreach($order->bill340s as $digit)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endforeach
+                        @else
+                            @foreach($order->bill340s as $digit)@if($digit->money>0)@if(!$loop->first)=@endif{{str_replace(',','-',$digit->digit)}}@endif @endforeach
+
+                        @endif
+
+
+                    </td>
                     <td><strong>{{number_format($order->total)}}</strong></td>
                     <td>{{$order->draw}}</td>
                     <td>@if($order->status_buy == true)<span class="label label-lg font-weight-bold label-light-success label-inline">Success</span>@else <span class="label label-lg font-weight-bold label-light-danger label-inline">Fail</span> @endif</td>
