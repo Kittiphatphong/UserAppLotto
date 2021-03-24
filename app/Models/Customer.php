@@ -19,6 +19,10 @@ class Customer extends Model
         $this->gender = $gender;
         $this->address = $address;
     }
+    public function makeCustomerV2($gender,$address){
+        $this->gender = $gender;
+        $this->address = $address;
+    }
     public function newCustomer($phone,$password){
         $this->phone = $phone;
         $this->password = Hash::make($password);
@@ -50,6 +54,12 @@ class Customer extends Model
         $otp->otp_number = rand(1000,9999);
         $otp->save();
 
+    }
+    public function requestNewOTPAgain(){
+        $otps = OTP::where('customer_id',$this->id)->pluck('id');
+        $otp = OTP::find($otps->first());
+        $otp->otp_number = rand(1000,9999);
+        $otp->save();
     }
 
 

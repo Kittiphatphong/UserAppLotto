@@ -12,6 +12,7 @@ use App\Models\Billorder340;
 use App\Models\Customer_Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PushNotificationController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 class BillOrderApiController extends Controller
@@ -116,6 +117,7 @@ class BillOrderApiController extends Controller
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
            $order->save();
+           DB::table('billorder2d3d4d5d6ds')->where('order_id',$order->id)->update(['status_buy' => 1]);
        }else {
            $order->bill_number = $buyData->data->bill_number;
            $order->status_buy = true;
@@ -123,6 +125,11 @@ class BillOrderApiController extends Controller
            $order->save();
            foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
                $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
+               if($bill2d3d4d5d6d->money==$buyData->data->data[$key]->money){
+                   $bill2d3d4d5d6d->status_buy =1;
+               }elseif ($bill2d3d4d5d6d->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
+                   $bill2d3d4d5d6d->status_buy =2;
+               }
                $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;
                $bill2d3d4d5d6d->save();
            }
@@ -235,7 +242,7 @@ class BillOrderApiController extends Controller
                 $order->bill_number = $buyData->data->bill_number;
                 $order->status_buy = true;
                 $order->save();
-
+                DB::table('billorder340s')->where('order_id',$order->id)->update(['status_buy' => 1]);
             }else {
 
                 $order->bill_number = $buyData->data->bill_number;
@@ -243,8 +250,15 @@ class BillOrderApiController extends Controller
                 $order->total = $buyData->data->total_amount;
                 $order->save();
 
+
+
                 foreach ($order->bill340s as $key => $bill) {
                     $bill340 = Billorder340::find($bill->id);
+                    if($bill340->money==$buyData->data->data[$key]->money){
+                        $bill340->status_buy =1;
+                    }elseif ($bill340->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
+                        $bill340->status_buy =2;
+                    }
                     $bill340->money = $buyData->data->data[$key]->money;
                     $bill340->save();
                 }

@@ -30,10 +30,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone']);
+Route::post('/v2/register-customer',[CustomerApiController::class,'RegisterPhoneV2']);
 Route::post('/register-otp',[CustomerApiController::class,'requestOTP']);
 Route::post('/verify-otp',[CustomerApiController::class,'verifyOTP']);
 Route::post('/set-password',[CustomerApiController::class,'setPassword']);
 Route::post('/login-customer',[CustomerApiController::class,'login']);
+Route::post('/forgot-password',[CustomerApiController::class,'forgotPassword']);
 
 //Provider
 Route::post('/login-provider',[ProviderApiController::class,'login']);
@@ -41,10 +43,12 @@ Route::post('/login-provider',[ProviderApiController::class,'login']);
 
 Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('/set-account',[CustomerApiController::class,'moreAccount']);
+    Route::post('/v2/set-account',[CustomerApiController::class,'moreAccountV2']);
     Route::post('/customer-info',[CustomerApiController::class,'customerInfo']);
     Route::post('/logout-customer',[CustomerApiController::class,'logout']);
     Route::post('/change-password',[CustomerApiController::class,'changePassword']);
     Route::post('/profileupload',[CustomerApiController::class,'profileupload']);
+    Route::post('/background-upload',[CustomerApiController::class,'backgroundUpload']);
 
     Route::post('sell-2d3d4d5d6d',[BillOrderApiController::class,'sell2d3d4d5d6d']);
     Route::post('sell-340',[BillOrderApiController::class,'sell340']);
