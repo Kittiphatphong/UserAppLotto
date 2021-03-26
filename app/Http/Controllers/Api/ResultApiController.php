@@ -71,7 +71,7 @@ class ResultApiController extends Controller
        if($validator->fails()) {
            return response()->json([
                'status' => "false",
-               'msg' => $validator->errors()
+               'msg' => $validator->errors()->first()
            ], 422);
        }
        if($request->noti_id != null){

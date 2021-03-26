@@ -87,7 +87,7 @@ class CustomerApiController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
             }
             $customer = new Customer();
@@ -117,10 +117,13 @@ class CustomerApiController extends Controller
             $validator=  Validator::make($request->all(), [
                 'phone' => 'required|max:10|min:10|unique:customers',
             ]);
+            foreach ($validator->errors() as $error){
+
+            }
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
             }
             $customer = new Customer();
@@ -170,7 +173,7 @@ class CustomerApiController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
             }
 
@@ -230,7 +233,7 @@ class CustomerApiController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
             }
 
@@ -288,7 +291,7 @@ class CustomerApiController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
             }
 
@@ -379,7 +382,7 @@ class CustomerApiController extends Controller
             if($validator->fails()){
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors()  ,
+                    "msg" => $validator->errors()->first()  ,
                 ],422);
 
             }
@@ -431,7 +434,7 @@ class CustomerApiController extends Controller
             if($validator->fails()){
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors()  ,
+                    "msg" => $validator->errors()->first()  ,
                 ],422);
 
             }
@@ -481,7 +484,7 @@ class CustomerApiController extends Controller
             if($validator->fails()){
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors() ,
+                    "msg" => $validator->errors()->first() ,
                 ],422);
 
             }
@@ -539,7 +542,7 @@ class CustomerApiController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     "status" => false,
-                    "msg" => $validator->errors(),
+                    "msg" => $validator->errors()->first(),
                 ], 422);
 
             }

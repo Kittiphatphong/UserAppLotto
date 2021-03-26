@@ -24,7 +24,7 @@ class PromotionApiController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => "false",
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
         $promotion =  Promotion::find($request->id);
@@ -46,7 +46,7 @@ class PromotionApiController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status' => "false",
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ], 422);
         }
         $customerid = $request->user()->currentAccessToken();

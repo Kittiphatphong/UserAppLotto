@@ -53,7 +53,7 @@
                             @foreach($recommend->recommendImages as $images)
                                 <div class="col-3 py-2">
                                 <a href="{{$images->image}}" target="_blank" class="">
-                                    <img src="{{$images->image}}"  width="90%" class="border rounded">
+                                    <img src="{{$images->image}}"  loading="lazy" width="90%" class="border rounded">
                                 </a>
                                 </div>
                             @endforeach

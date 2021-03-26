@@ -45,7 +45,12 @@
                 </div>
                 <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col2" data-column="1">
                     <label>PHONE NO:</label>
-                    <input type="text" class="column_filter form-control" id="col1_filter" placeholder="Search phone no" />
+                    <input list="phone" class="column_filter form-control" id="col1_filter" placeholder="Search phone no" />
+                    <datalist id="phone" >
+                        @foreach($customers as $customer)
+                            <option value="{{$customer->phone}}" class="form-control">
+                        @endforeach
+                    </datalist>
                 </div>
                 <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col3" data-column="2">
                     <label>BILL NUMBER:</label>

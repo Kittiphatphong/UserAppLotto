@@ -18,7 +18,7 @@ class SaveOrderController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
         $customer = $request->user()->currentAccessToken()->tokenable;
@@ -41,7 +41,7 @@ class SaveOrderController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
         $data = SaveOrder6d::find($request->id);
@@ -60,7 +60,7 @@ class SaveOrderController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
         $data = SaveOrder6d::find($request->id);

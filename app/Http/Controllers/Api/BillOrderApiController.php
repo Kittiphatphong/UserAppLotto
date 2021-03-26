@@ -58,7 +58,7 @@ class BillOrderApiController extends Controller
          if($validator->fails()){
              return response()->json([
                'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
              ],422);
          }
          //Create bill order
@@ -168,7 +168,7 @@ class BillOrderApiController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
 
@@ -343,7 +343,7 @@ class BillOrderApiController extends Controller
         if($validator->fails()){
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()
+                'msg' => $validator->errors()->first()
             ],422);
         }
 

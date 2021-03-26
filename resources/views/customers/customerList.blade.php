@@ -132,11 +132,16 @@
 
                     <td>{{number_format($customer->orders->where('status_buy',true)->sum('total_win'))}}</td>
                    <td class="text-center">
+                       @if($customer->otps != null)
+
                        @if($customer->otps->status == 1)<span class="label label-lg font-weight-bold label-light-success label-inline ">Success</span>
                        @elseif($customer->otps->status == 0)<span class="label label-lg font-weight-bold label-light-primary label-inline ">Pending</span>
                        @else    <span class="label label-lg font-weight-bold label-light-danger label-inline ">Cancle</span>
                        @endif
+
+                           @endif
                    </td>
+
                    <td>{{$customer->created_at}}</td>
                </tr>
                @endforeach
