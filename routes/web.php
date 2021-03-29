@@ -18,6 +18,11 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
+
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+})->name('lang');
 Route::group(['middleware' =>'auth'],function(){
 
 

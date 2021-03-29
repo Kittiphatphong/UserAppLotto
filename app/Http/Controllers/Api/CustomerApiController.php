@@ -108,7 +108,7 @@ class CustomerApiController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
-                'msg' => 'Server Error'
+                'msg' => $e->getMessage()
             ],500);
         }
     }
