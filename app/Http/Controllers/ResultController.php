@@ -177,8 +177,8 @@ class ResultController extends Controller
         $billOrderDraw340 = BillOrder::where('draw',$result->draw)->where('type','3/40')->pluck('id');
         DB::table('bill_orders')->where('draw',$result->draw)->update(['status_win' => 0]);
         DB::table('bill_orders')->where('draw',$result->draw)->update(['total_win' => 0]);
-        DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['type_win' => null]);
-        DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['type_win' => null]);
+        DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['type_win' => 0]);
+        DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['type_win' => 0]);
         DB::table('notifications')->where('title','Result draw '.$result->draw)->delete();
 
     }
