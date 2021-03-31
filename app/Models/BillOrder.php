@@ -25,10 +25,7 @@ class BillOrder extends Model
         return $this->hasMany(Billorder340::class,'order_id');
     }
     public function billSelect340s(){
-        return $this->hasMany(Billorder340::class,'order_id')->select('id','digit','money','order_id','type_win','status_buy
-
-
-        ','created_at','updated_at');
+        return $this->hasMany(Billorder340::class,'order_id')->select('id','digit','money','order_id','type_win','status_buy','created_at','updated_at');
     }
 
     public function win2d3d4d5d6ds(){
