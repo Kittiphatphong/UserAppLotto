@@ -36,15 +36,17 @@ class BillOrderApiController extends Controller
             'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
             'draw_type' => 1
         ]);
-        return json_decode($getDraw,false)->data->draw_lotto[0]->draw_no ;
+
+        return ['draw_no'=>json_decode($getDraw,false)->data->draw_lotto[0]->draw_no,'draw_date'=>json_decode($getDraw,false)->data->draw_lotto[0]->draw_date] ;
 
     }
 
-    public function billOrder($bill_number,$draw,$customer,$type){
+    public function billOrder($bill_number,$draw,$draw_date,$customer,$type){
         $order = new BillOrder();
         $order->customer_id = $customer;
         $order->bill_number = $bill_number;
         $order->draw = $draw;
+        $order->draw_date = $draw_date;
         $order->type = $type;
         $order->save();
         return $order;
@@ -63,8 +65,8 @@ class BillOrderApiController extends Controller
          }
          //Create bill order
         $type = "2d3d4d5d6d";
-        $order = $this->billOrder(null,$this->getDraw(),$customer->id,$type);
-        $order->transaction_id= 'ncc'.$order->id;
+        $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
+        $order->transaction_id= 'ncctest'.$order->id;
         $order->save();
 
         //Create digit form bill order
@@ -152,7 +154,8 @@ class BillOrderApiController extends Controller
                'data'   => $bill,
                'bill_number' => $orderBill->bill_number,
                'total_amount' => $orderBill->total,
-               'draw' => $orderBill->draw
+               'draw' => $orderBill->draw,
+               'draw_date' => $orderBill->draw_date
            ],201);
        }
 
@@ -174,8 +177,8 @@ class BillOrderApiController extends Controller
 
 
         $type = "3/40";
-        $order = $this->billOrder(null,$this->getDraw(),$customer->id,$type);
-        $order->transaction_id= 'ncc'.$order->id;
+        $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
+        $order->transaction_id= 'ncctest'.$order->id;
         $order->save();
 
         $arr = json_decode($request->code);
@@ -279,7 +282,8 @@ class BillOrderApiController extends Controller
                 'data'   => $bill,
                 'bill_number' => $orderBill->bill_number,
                 'total_amount' => $orderBill->total,
-                'draw' => $orderBill->draw
+                'draw' => $orderBill->draw,
+                'draw_date' => $orderBill->draw_date
             ],201);
 
 
