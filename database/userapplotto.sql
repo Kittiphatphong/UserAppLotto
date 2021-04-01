@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2021 at 06:20 AM
+-- Generation Time: Apr 01, 2021 at 04:48 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.3.18
 
@@ -215,7 +215,7 @@ CREATE TABLE `billorder2d3d4d5d6ds` (
   `digit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `money` double NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
-  `type_win` int(11) DEFAULT NULL,
+  `type_win` int(11) DEFAULT 0,
   `status_buy` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -226,73 +226,12 @@ CREATE TABLE `billorder2d3d4d5d6ds` (
 --
 
 INSERT INTO `billorder2d3d4d5d6ds` (`id`, `digit`, `money`, `order_id`, `type_win`, `status_buy`, `created_at`, `updated_at`) VALUES
-(973, '74', 7000, 377, NULL, 0, '2021-03-23 02:48:55', '2021-03-23 02:48:55'),
-(974, '791', 5000, 377, NULL, 0, '2021-03-23 02:48:55', '2021-03-23 02:48:55'),
-(975, '1008', 50000, 377, NULL, 0, '2021-03-23 02:48:55', '2021-03-23 02:48:57'),
-(976, '78789', 2000, 377, NULL, 0, '2021-03-23 02:48:55', '2021-03-23 02:48:57'),
-(977, '323232', 1000, 377, NULL, 0, '2021-03-23 02:48:55', '2021-03-23 02:48:57'),
-(978, '74', 100000, 378, NULL, 0, '2021-03-23 02:50:09', '2021-03-23 02:50:09'),
-(979, '6691', 5000, 378, NULL, 0, '2021-03-23 02:50:09', '2021-03-23 02:50:09'),
-(980, '2008', 50000, 378, NULL, 0, '2021-03-23 02:50:09', '2021-03-23 02:50:10'),
-(981, '787892', 1000, 378, NULL, 0, '2021-03-23 02:50:09', '2021-03-23 02:50:10'),
-(982, '923232', 1000, 378, NULL, 0, '2021-03-23 02:50:09', '2021-03-23 02:50:10'),
-(983, '74', 100000, 379, NULL, 0, '2021-03-23 02:50:28', '2021-03-23 02:50:28'),
-(984, '6691', 5000, 379, NULL, 0, '2021-03-23 02:50:28', '2021-03-23 02:50:28'),
-(985, '2008', 0, 379, NULL, 0, '2021-03-23 02:50:28', '2021-03-23 02:50:30'),
-(986, '787892', 0, 379, NULL, 0, '2021-03-23 02:50:28', '2021-03-23 02:50:30'),
-(987, '923232', 0, 379, NULL, 0, '2021-03-23 02:50:28', '2021-03-23 02:50:30'),
-(988, '923232', 0, 380, NULL, 0, '2021-03-23 02:55:19', '2021-03-23 02:55:20'),
-(989, '722', 10000, 382, 3, 0, '2021-03-23 03:28:27', '2021-03-23 03:32:19'),
-(990, '455575', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:28'),
-(991, '31769', 2000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:28'),
-(992, '2222', 5000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(993, '333333', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:28'),
-(994, '15555', 2000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:28'),
-(995, '241183', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(996, '49656', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(997, '675994', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(998, '80826', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(999, '77483', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(1000, '123123', 1000, 382, NULL, 0, '2021-03-23 03:28:27', '2021-03-23 03:28:27'),
-(1001, '8157', 50000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:57'),
-(1002, '97096', 2000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:59'),
-(1003, '251721', 1000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:59'),
-(1004, '18387', 2000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:59'),
-(1005, '9973', 50000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:57'),
-(1006, '62513', 2000, 384, NULL, 0, '2021-03-23 03:45:57', '2021-03-23 03:45:59'),
-(1007, '251721', 0, 385, NULL, 0, '2021-03-23 03:47:35', '2021-03-23 03:47:36'),
-(1008, '251721', 0, 386, NULL, 0, '2021-03-23 03:47:51', '2021-03-23 03:47:53'),
-(1009, '369117', 1000, 386, NULL, 0, '2021-03-23 03:47:51', '2021-03-23 03:47:51'),
-(1010, '159485', 1000, 387, NULL, 0, '2021-03-23 03:51:52', '2021-03-23 03:51:52'),
-(1011, '41333', 1000, 387, NULL, 0, '2021-03-23 03:51:52', '2021-03-23 03:51:52'),
-(1012, '691434', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1013, '551907', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1014, '947207', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1015, '944759', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1016, '467237', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1017, '824337', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1018, '565859', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1019, '100020', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1020, '686922', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1021, '994058', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1022, '426679', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1023, '137681', 1000, 388, NULL, 0, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(1024, '923232', 0, 391, NULL, 0, '2021-03-24 06:25:29', '2021-03-24 06:25:31'),
-(1025, '923232', 0, 392, NULL, 0, '2021-03-24 06:32:26', '2021-03-24 06:32:28'),
-(1026, '923232', 0, 393, NULL, 0, '2021-03-24 06:32:49', '2021-03-24 06:32:51'),
-(1027, '9232', 50000, 393, NULL, 2, '2021-03-24 06:32:49', '2021-03-24 06:32:51'),
-(1028, '923232', 0, 394, NULL, 0, '2021-03-24 06:35:11', '2021-03-24 06:35:12'),
-(1029, '1232', 50000, 394, NULL, 2, '2021-03-24 06:35:11', '2021-03-24 06:35:12'),
-(1030, '92323', 2000, 395, NULL, 2, '2021-03-24 06:42:16', '2021-03-24 06:42:18'),
-(1031, '1232', 0, 395, NULL, 0, '2021-03-24 06:42:16', '2021-03-24 06:42:18'),
-(1032, '92323', 0, 396, NULL, 0, '2021-03-24 06:42:28', '2021-03-24 06:42:30'),
-(1033, '12320', 2000, 396, NULL, 2, '2021-03-24 06:42:28', '2021-03-24 06:42:30'),
-(1034, '923', 100000, 397, NULL, 1, '2021-03-24 06:42:45', '2021-03-24 06:42:47'),
-(1035, '1320', 50000, 397, NULL, 2, '2021-03-24 06:42:45', '2021-03-24 06:42:47'),
-(1036, '923', 100000, 398, NULL, 1, '2021-03-24 06:45:06', '2021-03-24 06:45:06'),
-(1037, '320', 100000, 398, NULL, 1, '2021-03-24 06:45:06', '2021-03-24 06:45:06'),
-(1038, '923', 100000, 400, NULL, 1, '2021-03-25 06:22:13', '2021-03-25 06:22:13'),
-(1039, '320', 100000, 400, NULL, 1, '2021-03-25 06:22:13', '2021-03-25 06:22:13');
+(1050, '923', 0, 407, 0, 0, '2021-04-01 02:42:32', '2021-04-01 02:42:34'),
+(1051, '320', 0, 407, 0, 0, '2021-04-01 02:42:32', '2021-04-01 02:42:34'),
+(1052, '923', 100000, 408, 0, 1, '2021-04-01 02:43:32', '2021-04-01 02:43:32'),
+(1053, '320', 100000, 408, 0, 1, '2021-04-01 02:43:32', '2021-04-01 02:43:32'),
+(1054, '923', 100000, 410, 0, 1, '2021-04-01 02:45:41', '2021-04-01 02:45:41'),
+(1055, '320', 100000, 410, 0, 1, '2021-04-01 02:45:41', '2021-04-01 02:45:41');
 
 -- --------------------------------------------------------
 
@@ -308,7 +247,7 @@ CREATE TABLE `billorder340s` (
   `digit` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`digit`)),
   `money` double NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
-  `type_win` int(11) DEFAULT NULL,
+  `type_win` int(11) DEFAULT 0,
   `status_buy` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -319,19 +258,8 @@ CREATE TABLE `billorder340s` (
 --
 
 INSERT INTO `billorder340s` (`id`, `animal1`, `animal2`, `animal3`, `digit`, `money`, `order_id`, `type_win`, `status_buy`, `created_at`, `updated_at`) VALUES
-(201, '10', '11', '12', '\"10,11,12\"', 5000, 381, NULL, 0, '2021-03-23 03:08:27', '2021-03-23 03:08:27'),
-(202, '17', '18', '19', '\"17,18,19\"', 5000, 381, NULL, 0, '2021-03-23 03:08:27', '2021-03-23 03:08:27'),
-(203, '06', '10', '14', '\"06,10,14\"', 5000, 381, NULL, 0, '2021-03-23 03:08:27', '2021-03-23 03:08:27'),
-(204, '10', '14', '15', '\"10,14,15\"', 5000, 381, NULL, 0, '2021-03-23 03:08:27', '2021-03-23 03:08:27'),
-(205, '06', '07', '08', '\"06,07,08\"', 2000, 383, 3, 0, '2021-03-23 03:30:45', '2021-03-23 03:32:19'),
-(206, '06', '11', '15', '\"06,11,15\"', 2000, 383, NULL, 0, '2021-03-23 03:30:45', '2021-03-23 03:30:45'),
-(207, '10', '14', NULL, '\"10,14\"', 2000, 383, NULL, 0, '2021-03-23 03:30:45', '2021-03-23 03:30:45'),
-(208, '15', NULL, NULL, '\"15\"', 2000, 383, NULL, 0, '2021-03-23 03:30:45', '2021-03-23 03:30:45'),
-(209, '14', '15', '19', '\"14,15,19\"', 1000, 389, NULL, 0, '2021-03-23 04:53:10', '2021-03-23 04:53:10'),
-(210, '15', '16', '19', '\"15,16,19\"', 1000, 390, NULL, 0, '2021-03-23 04:54:06', '2021-03-23 04:54:06'),
-(211, '27', NULL, NULL, '\"27\"', 1000, 390, NULL, 0, '2021-03-23 04:54:06', '2021-03-23 04:54:06'),
-(212, '30', '12', NULL, '\"30,12\"', 2000, 399, NULL, 1, '2021-03-24 06:45:35', '2021-03-24 06:45:35'),
-(213, '30', '11', NULL, '\"30,11\"', 9000, 399, NULL, 1, '2021-03-24 06:45:35', '2021-03-24 06:45:35');
+(216, '30', '12', NULL, '\"30,12\"', 0, 409, 0, 0, '2021-04-01 02:45:30', '2021-04-01 02:45:30'),
+(217, '30', '11', NULL, '\"30,11\"', 0, 409, 0, 0, '2021-04-01 02:45:30', '2021-04-01 02:45:30');
 
 -- --------------------------------------------------------
 
@@ -426,6 +354,7 @@ CREATE TABLE `bill_orders` (
   `customer_id` bigint(20) UNSIGNED NOT NULL,
   `bill_number` double DEFAULT NULL,
   `draw` int(11) NOT NULL,
+  `draw_date` date NOT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_win` tinyint(1) NOT NULL DEFAULT 0,
   `total` double DEFAULT NULL,
@@ -441,31 +370,11 @@ CREATE TABLE `bill_orders` (
 -- Dumping data for table `bill_orders`
 --
 
-INSERT INTO `bill_orders` (`id`, `customer_id`, `bill_number`, `draw`, `type`, `status_win`, `total`, `total_win`, `transaction_id`, `status_buy`, `msg`, `created_at`, `updated_at`) VALUES
-(377, 5, 385952144894905, 737373, '2d3d4d5d6d', 0, 65000, 0, 'ncc377', 1, NULL, '2021-03-23 02:48:55', '2021-03-23 02:48:57'),
-(378, 5, 385954204895019, 737373, '2d3d4d5d6d', 0, 157000, 0, 'ncc378', 1, NULL, '2021-03-23 02:50:09', '2021-03-23 02:50:10'),
-(379, 5, 385958994895038, 737373, '2d3d4d5d6d', 0, 105000, 0, 'ncc379', 1, NULL, '2021-03-23 02:50:28', '2021-03-23 02:50:30'),
-(380, 5, NULL, 737373, '2d3d4d5d6d', 0, 0, 0, 'ncc380', 0, 'This number is already full', '2021-03-23 02:55:19', '2021-03-23 02:55:20'),
-(381, 1, 385596814440836, 737373, '3/40', 0, 20000, 0, 'ncc381', 1, NULL, '2021-03-23 03:08:27', '2021-03-23 03:08:27'),
-(382, 1, 385598884892837, 737373, '2d3d4d5d6d', 1, 27000, 5000000, 'ncc382', 1, NULL, '2021-03-23 03:28:27', '2021-03-23 03:32:19'),
-(383, 1, 385594844443054, 737373, '3/40', 1, 8000, 12000000, 'ncc383', 1, NULL, '2021-03-23 03:30:45', '2021-03-23 03:32:19'),
-(384, 1, 385592604894608, 737373, '2d3d4d5d6d', 0, 107000, 0, 'ncc384', 1, NULL, '2021-03-23 03:45:57', '2021-03-23 03:45:59'),
-(385, 1, NULL, 737373, '2d3d4d5d6d', 0, 0, 0, 'ncc385', 0, 'This number is already full', '2021-03-23 03:47:35', '2021-03-23 03:47:36'),
-(386, 1, 385595184894802, 737373, '2d3d4d5d6d', 0, 1000, 0, 'ncc386', 1, NULL, '2021-03-23 03:47:51', '2021-03-23 03:47:53'),
-(387, 1, 385593224895202, 737373, '2d3d4d5d6d', 0, 2000, 0, 'ncc387', 1, NULL, '2021-03-23 03:51:52', '2021-03-23 03:51:54'),
-(388, 1, 385595504894309, 737373, '2d3d4d5d6d', 0, 12000, 0, 'ncc388', 1, NULL, '2021-03-23 04:42:58', '2021-03-23 04:43:00'),
-(389, 1, 385597834445319, 737373, '3/40', 0, 1000, 0, 'ncc389', 1, NULL, '2021-03-23 04:53:10', '2021-03-23 04:53:10'),
-(390, 1, 385591414445415, 737373, '3/40', 0, 2000, 0, 'ncc390', 1, NULL, '2021-03-23 04:54:06', '2021-03-23 04:54:06'),
-(391, 5, NULL, 737373, '2d3d4d5d6d', 0, 0, 0, 'ncc391', 0, 'This number is already full', '2021-03-24 06:25:29', '2021-03-24 06:25:31'),
-(392, 5, NULL, 737373, '2d3d4d5d6d', 0, 0, 0, 'ncc392', 0, 'This number is already full', '2021-03-24 06:32:26', '2021-03-24 06:32:28'),
-(393, 5, 385956464893301, 737373, '2d3d4d5d6d', 0, 50000, 0, 'ncc393', 1, NULL, '2021-03-24 06:32:49', '2021-03-24 06:32:51'),
-(394, 5, 385952954893523, 737373, '2d3d4d5d6d', 0, 50000, 0, 'ncc394', 1, NULL, '2021-03-24 06:35:11', '2021-03-24 06:35:12'),
-(395, 5, 385958104894228, 737373, '2d3d4d5d6d', 0, 2000, 0, 'ncc395', 1, NULL, '2021-03-24 06:42:16', '2021-03-24 06:42:18'),
-(396, 5, 385956304894240, 737373, '2d3d4d5d6d', 0, 2000, 0, 'ncc396', 1, NULL, '2021-03-24 06:42:28', '2021-03-24 06:42:30'),
-(397, 5, 385952904894257, 737373, '2d3d4d5d6d', 0, 150000, 0, 'ncc397', 1, NULL, '2021-03-24 06:42:45', '2021-03-24 06:42:47'),
-(398, 5, 385953724894518, 737373, '2d3d4d5d6d', 0, 200000, 0, 'ncc398', 1, NULL, '2021-03-24 06:45:06', '2021-03-24 06:45:07'),
-(399, 5, 385959024444545, 737373, '3/40', 0, 11000, 0, 'ncc399', 1, NULL, '2021-03-24 06:45:35', '2021-03-24 06:45:35'),
-(400, 5, 385957624892228, 737373, '2d3d4d5d6d', 0, 200000, 0, 'ncc400', 1, NULL, '2021-03-25 06:22:13', '2021-03-25 06:22:15');
+INSERT INTO `bill_orders` (`id`, `customer_id`, `bill_number`, `draw`, `draw_date`, `type`, `status_win`, `total`, `total_win`, `transaction_id`, `status_buy`, `msg`, `created_at`, `updated_at`) VALUES
+(407, 5, NULL, 747474, '2021-04-03', '2d3d4d5d6d', 0, 0, 0, 'ncc407', 0, 'Transaction Id already exists', '2021-04-01 02:42:32', '2021-04-01 02:42:34'),
+(408, 5, 385959824904345, 747474, '2021-04-03', '2d3d4d5d6d', 0, 200000, 0, 'ncctest408', 1, NULL, '2021-04-01 02:43:32', '2021-04-01 02:43:34'),
+(409, 5, NULL, 747474, '2021-04-03', '3/40', 0, 0, 0, 'ncctest409', 0, 'No draw', '2021-04-01 02:45:30', '2021-04-01 02:45:30'),
+(410, 5, 385953984904553, 747474, '2021-04-03', '2d3d4d5d6d', 0, 200000, 0, 'ncctest410', 1, NULL, '2021-04-01 02:45:41', '2021-04-01 02:45:43');
 
 -- --------------------------------------------------------
 
@@ -496,8 +405,8 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `firstname`, `lastname`, `phone`, `password`, `birthday`, `gender`, `address`, `status`, `image`, `background_image`, `remember_token`, `device_token`, `created_at`, `updated_at`) VALUES
-(1, 'ບຸນເຖິງ', 'ເພັດລາສີ', '2055188559', '$2y$10$Z4hlZ5IKVWdQlx5TXOUhD.tyfFr5n2f0DkxOCNvxJaZZu1Zw3zbOC', '1999-09-09', 'male', 'phonexai', 1, '/storage/customer_image/1616127723.jpg', NULL, NULL, 'f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKGBHeY6I7T8x68Wr2h42riHSLenIfHwp9h4KsuYgmhLp7JG7WIizIIiGMH4v94ZUPu-byC94AxsUoKs4RqJ4q7Afb5RGlm', '2021-02-05 04:33:43', '2021-03-25 03:12:30'),
-(5, 'Sounatda', 'Champaphanh', '2058058595', '$2y$10$VPjJN4wmht.Qj3J9OLzCUOceWOnMh6tmxEp6oA10mQtpW3cM5mVmG', '2020-11-01', NULL, NULL, 0, NULL, '/storage/customer_background_image/1616559897.jpg', NULL, 'test', '2021-02-17 03:52:06', '2021-03-24 04:24:57'),
+(1, 'ບຸນເຖິງ', 'ເພັດລາສີ', '2055188559', '$2y$10$Z4hlZ5IKVWdQlx5TXOUhD.tyfFr5n2f0DkxOCNvxJaZZu1Zw3zbOC', '1999-09-09', 'male', 'phonexai', 1, '/storage/customer_image/1616127723.jpg', NULL, NULL, 'test', '2021-02-05 04:33:43', '2021-03-31 01:43:54'),
+(5, 'Sounatda', 'Champaphanh', '2058058595', '$2y$10$ZpXUT9gMN.TqUQhEtQ8EjeQmMmz3WVcKKGDsZSfmT28ZGfirbUaSK', '2020-11-01', NULL, NULL, 0, NULL, '/storage/customer_background_image/1616559897.jpg', NULL, 'test', '2021-02-17 03:52:06', '2021-03-31 01:44:18'),
 (7, 'N/A', 'N/A', '2077444099', '$2y$10$w6BIFYy758DKuR/EtJ4kn.7T4eV28MI3NXvq2FRZxG/UzMcfRaoIm', '2021-03-26', 'N/A', 'N/A', 0, NULL, NULL, NULL, 'ePMKSoAXxU8fg8JW3f3xlT:APA91bHNvf5nyQb-bF8Qu6zqNj1zmCynclwC2SIiSjh2NgL4gAmgnDMsr48sdSsF6huN3QMGKyCYxoyDf96vuEHFrFddzn-H7bIpqPXUV-EV6TPAZJP6gtptGs_vSyLLDfmv1dRax6ng', '2021-03-23 03:37:32', '2021-03-23 03:38:14'),
 (8, 'N/A', 'N/A', '2091442424', NULL, NULL, 'N/A', 'N/A', 0, NULL, NULL, NULL, NULL, '2021-03-24 03:03:48', '2021-03-24 03:03:48'),
 (59, 'kito', 'alone', '2091611560', NULL, '1996-01-29', 'N/A', 'N/A', 0, NULL, NULL, NULL, NULL, '2021-03-29 03:02:31', '2021-03-29 03:02:31'),
@@ -627,7 +536,10 @@ INSERT INTO `customer__notifications` (`id`, `customer_id`, `notification_id`, `
 (633, 5, 550, 0, '2021-03-24 06:42:47', '2021-03-24 06:42:47'),
 (634, 5, 551, 0, '2021-03-24 06:45:08', '2021-03-24 06:45:08'),
 (635, 5, 552, 0, '2021-03-24 06:45:35', '2021-03-24 06:45:35'),
-(636, 5, 553, 0, '2021-03-25 06:22:16', '2021-03-25 06:22:16');
+(636, 5, 553, 0, '2021-03-25 06:22:16', '2021-03-25 06:22:16'),
+(637, 5, 554, 0, '2021-03-31 01:45:12', '2021-03-31 01:45:12'),
+(638, 5, 555, 0, '2021-04-01 02:43:34', '2021-04-01 02:43:34'),
+(639, 5, 556, 0, '2021-04-01 02:45:43', '2021-04-01 02:45:43');
 
 -- --------------------------------------------------------
 
@@ -754,7 +666,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (74, '2021_03_24_083748_add_limit_request_and_limit_input_to_table_o_t_p_s', 16),
 (75, '2021_03_24_110147_add_background_image_to_table_customers', 17),
 (76, '2021_03_24_115131_add_status_buy_to_table_billorder2d3d4d5d6ds', 18),
-(77, '2021_03_24_115224_add_status_buy_to_table_billorder340s', 18);
+(77, '2021_03_24_115224_add_status_buy_to_table_billorder340s', 18),
+(78, '2021_04_01_090449_add_draw_date_to_table_bill_orders', 19);
 
 -- --------------------------------------------------------
 
@@ -919,7 +832,10 @@ INSERT INTO `notifications` (`id`, `title`, `body`, `type_id`, `created_at`, `up
 (550, 'Buy lotto 6D', '923=100,000LAK 1320=50,000LAK', 1, '2021-03-24 06:42:47', '2021-03-24 06:42:47', '{\"customer_id\":5,\"bill_number\":\"385952904894257\",\"draw\":737373,\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-03-24T06:42:47.000000Z\",\"created_at\":\"2021-03-24T06:42:45.000000Z\",\"id\":397,\"transaction_id\":\"ncc397\",\"total\":150000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1034,\"digit\":\"923\",\"money\":100000,\"order_id\":397,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:42:45.000000Z\",\"updated_at\":\"2021-03-24T06:42:45.000000Z\"},{\"id\":1035,\"digit\":\"1320\",\"money\":100000,\"order_id\":397,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:42:45.000000Z\",\"updated_at\":\"2021-03-24T06:42:45.000000Z\"}]}', 0),
 (551, 'Buy lotto 6D', '923=100,000LAK 320=100,000LAK', 1, '2021-03-24 06:45:07', '2021-03-24 06:45:07', '{\"customer_id\":5,\"bill_number\":\"385953724894518\",\"draw\":737373,\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-03-24T06:45:07.000000Z\",\"created_at\":\"2021-03-24T06:45:06.000000Z\",\"id\":398,\"transaction_id\":\"ncc398\",\"total\":200000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1036,\"digit\":\"923\",\"money\":100000,\"order_id\":398,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:45:06.000000Z\",\"updated_at\":\"2021-03-24T06:45:06.000000Z\"},{\"id\":1037,\"digit\":\"320\",\"money\":100000,\"order_id\":398,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:45:06.000000Z\",\"updated_at\":\"2021-03-24T06:45:06.000000Z\"}]}', 0),
 (552, 'Buy lotto 3/40', '30,12=2,000Lak 30,11=9,000Lak', 1, '2021-03-24 06:45:35', '2021-03-24 06:45:35', '{\"customer_id\":5,\"bill_number\":\"385959024444545\",\"draw\":737373,\"type\":\"3\\/40\",\"updated_at\":\"2021-03-24T06:45:35.000000Z\",\"created_at\":\"2021-03-24T06:45:35.000000Z\",\"id\":399,\"transaction_id\":\"ncc399\",\"total\":11000,\"status_buy\":true,\"bill340s\":[{\"id\":212,\"animal1\":\"30\",\"animal2\":\"12\",\"animal3\":null,\"digit\":\"30,12\",\"money\":2000,\"order_id\":399,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:45:35.000000Z\",\"updated_at\":\"2021-03-24T06:45:35.000000Z\"},{\"id\":213,\"animal1\":\"30\",\"animal2\":\"11\",\"animal3\":null,\"digit\":\"30,11\",\"money\":9000,\"order_id\":399,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-24T06:45:35.000000Z\",\"updated_at\":\"2021-03-24T06:45:35.000000Z\"}]}', 0),
-(553, 'Buy lotto 6D', '923=100,000LAK 320=100,000LAK', 1, '2021-03-25 06:22:15', '2021-03-25 06:22:15', '{\"customer_id\":5,\"bill_number\":\"385957624892228\",\"draw\":737373,\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-03-25T06:22:15.000000Z\",\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"id\":400,\"transaction_id\":\"ncc400\",\"total\":200000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1038,\"digit\":\"923\",\"money\":100000,\"order_id\":400,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"updated_at\":\"2021-03-25T06:22:13.000000Z\"},{\"id\":1039,\"digit\":\"320\",\"money\":100000,\"order_id\":400,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"updated_at\":\"2021-03-25T06:22:13.000000Z\"}]}', 0);
+(553, 'Buy lotto 6D', '923=100,000LAK 320=100,000LAK', 1, '2021-03-25 06:22:15', '2021-03-25 06:22:15', '{\"customer_id\":5,\"bill_number\":\"385957624892228\",\"draw\":737373,\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-03-25T06:22:15.000000Z\",\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"id\":400,\"transaction_id\":\"ncc400\",\"total\":200000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1038,\"digit\":\"923\",\"money\":100000,\"order_id\":400,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"updated_at\":\"2021-03-25T06:22:13.000000Z\"},{\"id\":1039,\"digit\":\"320\",\"money\":100000,\"order_id\":400,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-25T06:22:13.000000Z\",\"updated_at\":\"2021-03-25T06:22:13.000000Z\"}]}', 0),
+(554, 'Buy lotto 3/40', '30,12=2,000Lak 30,11=9,000Lak', 1, '2021-03-31 01:45:11', '2021-03-31 01:45:11', '{\"customer_id\":5,\"bill_number\":\"385959794454519\",\"draw\":747474,\"type\":\"3\\/40\",\"updated_at\":\"2021-03-31T01:45:11.000000Z\",\"created_at\":\"2021-03-31T01:45:11.000000Z\",\"id\":402,\"transaction_id\":\"ncc402\",\"total\":11000,\"status_buy\":true,\"bill340s\":[{\"id\":214,\"animal1\":\"30\",\"animal2\":\"12\",\"animal3\":null,\"digit\":\"30,12\",\"money\":2000,\"order_id\":402,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-31T01:45:11.000000Z\",\"updated_at\":\"2021-03-31T01:45:11.000000Z\"},{\"id\":215,\"animal1\":\"30\",\"animal2\":\"11\",\"animal3\":null,\"digit\":\"30,11\",\"money\":9000,\"order_id\":402,\"type_win\":null,\"status_buy\":0,\"created_at\":\"2021-03-31T01:45:11.000000Z\",\"updated_at\":\"2021-03-31T01:45:11.000000Z\"}]}', 0),
+(555, 'Buy lotto 6D', '923=100,000LAK 320=100,000LAK', 1, '2021-04-01 02:43:34', '2021-04-01 02:43:34', '{\"customer_id\":5,\"bill_number\":\"385959824904345\",\"draw\":747474,\"draw_date\":\"2021-04-03 00:00:00\",\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-04-01T02:43:34.000000Z\",\"created_at\":\"2021-04-01T02:43:32.000000Z\",\"id\":408,\"transaction_id\":\"ncctest408\",\"total\":200000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1052,\"digit\":\"923\",\"money\":100000,\"order_id\":408,\"type_win\":0,\"status_buy\":0,\"created_at\":\"2021-04-01T02:43:32.000000Z\",\"updated_at\":\"2021-04-01T02:43:32.000000Z\"},{\"id\":1053,\"digit\":\"320\",\"money\":100000,\"order_id\":408,\"type_win\":0,\"status_buy\":0,\"created_at\":\"2021-04-01T02:43:32.000000Z\",\"updated_at\":\"2021-04-01T02:43:32.000000Z\"}]}', 0),
+(556, 'Buy lotto 6D', '923=100,000LAK 320=100,000LAK', 1, '2021-04-01 02:45:43', '2021-04-01 02:45:43', '{\"customer_id\":5,\"bill_number\":\"385953984904553\",\"draw\":747474,\"draw_date\":\"2021-04-03 00:00:00\",\"type\":\"2d3d4d5d6d\",\"updated_at\":\"2021-04-01T02:45:43.000000Z\",\"created_at\":\"2021-04-01T02:45:41.000000Z\",\"id\":410,\"transaction_id\":\"ncctest410\",\"total\":200000,\"status_buy\":true,\"billorder2d3d4d5d6ds\":[{\"id\":1054,\"digit\":\"923\",\"money\":100000,\"order_id\":410,\"type_win\":0,\"status_buy\":0,\"created_at\":\"2021-04-01T02:45:41.000000Z\",\"updated_at\":\"2021-04-01T02:45:41.000000Z\"},{\"id\":1055,\"digit\":\"320\",\"money\":100000,\"order_id\":410,\"type_win\":0,\"status_buy\":0,\"created_at\":\"2021-04-01T02:45:41.000000Z\",\"updated_at\":\"2021-04-01T02:45:41.000000Z\"}]}', 0);
 
 -- --------------------------------------------------------
 
@@ -1038,12 +954,12 @@ CREATE TABLE `personal_access_tokens` (
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
 (121, 'App\\Models\\Provider', 1, 'test_device_name', 'e5ae855b36373586c3d967b8032edd5d2e093aaabcd5daa12bdb294382ce26e6', '[\"*\"]', '2021-02-16 06:54:17', '2021-02-16 06:52:03', '2021-02-16 06:54:17'),
-(122, 'App\\Models\\Customer', 5, 'test', '62a4b93a68630d4f149fb3cfe05e42f6fe37133cc95ed408bb2231a22b23460a', '[\"*\"]', '2021-03-25 06:22:13', '2021-03-10 03:32:10', '2021-03-25 06:22:13'),
 (166, 'App\\Models\\Customer', 2, 'c-xEzJ2ySUiqsZmq6QIDxB:APA91bEDUXmrsFaElnVpkZ-D6tbM3eIX8NnqoxBl7W_z2u9FOjx80CvgD9LLX-8pqnYYjN-V6EeNMO3amr4GUU7xuu6fvAnQSrzd7Ygx9-yFNvvznbgfaTD_oYDgb4miJ5b2bhG0boyW', '3f29a8db72bf25195f83ca24c3a431a2d617fe4a0d4f5f9c9a68f611f5439d88', '[\"*\"]', '2021-03-22 09:24:38', '2021-03-22 06:54:54', '2021-03-22 09:24:38'),
 (262, 'App\\Models\\Customer', 56, 'device_token', 'f91a58b64dfa6c937fb6e76b18c7c5fd7defa82355649e673fd0a1cc0bf54cfb', '[\"*\"]', NULL, '2021-03-26 10:01:44', '2021-03-26 10:01:44'),
 (264, 'App\\Models\\Customer', 58, 'deviceToken', 'f2a41a4eb4c0535cb68023996f6a5e99aad70462440d3b37f1dc03897542dca9', '[\"*\"]', NULL, '2021-03-26 10:08:00', '2021-03-26 10:08:00'),
-(265, 'App\\Models\\Customer', 1, 'f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKGBHeY6I7T8x68Wr2h42riHSLenIfHwp9h4KsuYgmhLp7JG7WIizIIiGMH4v94ZUPu-byC94AxsUoKs4RqJ4q7Afb5RGlm', '520ccba6ea44c26578c141fb262bfe9da8afdc7117c3bd06b98a9ae6c731b1d8', '[\"*\"]', '2021-03-29 03:10:50', '2021-03-29 03:00:24', '2021-03-29 03:10:50'),
-(272, 'App\\Models\\Customer', 60, 'f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKGBHeY6I7T8x68Wr2h42riHSLenIfHwp9h4KsuYgmhLp7JG7WIizIIiGMH4v94ZUPu-byC94AxsUoKs4RqJ4q7Afb5RGlm', '0fc4daab1adb68ee0a3002d41b384830d1947611c9ca5e392e79155c9f92faac', '[\"*\"]', NULL, '2021-03-29 04:00:36', '2021-03-29 04:00:36');
+(273, 'App\\Models\\Customer', 60, 'f-zScryDTrG0zxQ7AlZgto:APA91bFGJR5us7yc3rsYWudAfX0_N8LkBMIfE8DRHchpVrKGBHeY6I7T8x68Wr2h42riHSLenIfHwp9h4KsuYgmhLp7JG7WIizIIiGMH4v94ZUPu-byC94AxsUoKs4RqJ4q7Afb5RGlm', '02ace3a4a9bb2d8c0e26104bc5ddf071390918174f427dc29fd3f3efb656cb11', '[\"*\"]', NULL, '2021-03-29 07:26:41', '2021-03-29 07:26:41'),
+(278, 'App\\Models\\Customer', 1, 'test', '90fb535d2a1e406a3cb37fea55c918a4e7e47e626c8a15c5fd64248b561306b7', '[\"*\"]', NULL, '2021-03-31 01:43:54', '2021-03-31 01:43:54'),
+(279, 'App\\Models\\Customer', 5, 'test', 'b12bdd1d0b3f6e900d78af692e8e2c89f07d515d21245ffa1efdda50af132c11', '[\"*\"]', '2021-04-01 02:45:41', '2021-03-31 01:44:18', '2021-04-01 02:45:41');
 
 -- --------------------------------------------------------
 
@@ -1642,13 +1558,13 @@ ALTER TABLE `animal_nos`
 -- AUTO_INCREMENT for table `billorder2d3d4d5d6ds`
 --
 ALTER TABLE `billorder2d3d4d5d6ds`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1040;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1056;
 
 --
 -- AUTO_INCREMENT for table `billorder340s`
 --
 ALTER TABLE `billorder340s`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `bills`
@@ -1660,7 +1576,7 @@ ALTER TABLE `bills`
 -- AUTO_INCREMENT for table `bill_orders`
 --
 ALTER TABLE `bill_orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -1672,7 +1588,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `customer__notifications`
 --
 ALTER TABLE `customer__notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=637;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=640;
 
 --
 -- AUTO_INCREMENT for table `dreamtellers`
@@ -1696,13 +1612,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=554;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=557;
 
 --
 -- AUTO_INCREMENT for table `o_t_p_s`
@@ -1720,7 +1636,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT for table `promotions`
