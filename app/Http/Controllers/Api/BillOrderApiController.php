@@ -319,7 +319,7 @@ class BillOrderApiController extends Controller
 
         $customerid = $request->user()->currentAccessToken();
 
-        $bills = BillOrder::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->where('status_win',true)->where('status_buy',true)->get();
+        $bills = BillOrder::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->where('status_win',true)->where('status_buy',true)->where('total_win','>',0)->get();
 
         return response()->json([
             'status' => true,
