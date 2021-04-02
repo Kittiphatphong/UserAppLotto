@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class BillOrder extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+    protected static $logName = 'buy lottory';
+    protected static $logAttributes = ['customers.phone', 'bill_number','draw','type','status_win','total','total_win','status_buy'];
+    protected static $logOnlyDirty = true;
 
     public function msg($msg){
         $this->msg = $msg;

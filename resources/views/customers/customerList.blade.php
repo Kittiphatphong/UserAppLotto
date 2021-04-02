@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">
                         <label>STATUS:</label>
-                        <select class="form-control" id="select6" >
+                        <select class="form-control" id="select5" >
                             <option value="">All</option>
                             <option value="Success">Success</option>
                             <option value="Pending">Pending</option>
@@ -103,10 +103,10 @@
                     <th>NAME</th>
                     <th>GENDER</th>
                     <th>BIRTHDAY</th>
+                    <th>Status</th>
                     <th>TOTAL BUY</th>
                     <th>AMOUNT BUY</th>
                     <th>AMOUNT WIN</th>
-                    <th>Status</th>
                     <th>CREATED AT</th>
 
                 </tr>
@@ -125,22 +125,22 @@
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->firstname}} {{$customer->lastname}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->gender}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->birthday}}@endif</td>
+                   <td class="text-center">
+                       @if($customer->otps != null)
 
+                           @if($customer->otps->status == 1)<span class="label label-lg font-weight-bold label-light-success label-inline ">Success</span>
+                           @elseif($customer->otps->status == 0)<span class="label label-lg font-weight-bold label-light-primary label-inline ">Pending</span>
+                           @else    <span class="label label-lg font-weight-bold label-light-danger label-inline ">Cancle</span>
+                           @endif
+
+                       @endif
+                   </td>
                    <td>{{$customer->orders->where('status_buy',true)->count()}}</td>
                    <td>{{number_format($customer->orders->where('status_buy',true)->sum('total'))}}</td>
 
 
                     <td>{{number_format($customer->orders->where('status_buy',true)->sum('total_win'))}}</td>
-                   <td class="text-center">
-                       @if($customer->otps != null)
 
-                       @if($customer->otps->status == 1)<span class="label label-lg font-weight-bold label-light-success label-inline ">Success</span>
-                       @elseif($customer->otps->status == 0)<span class="label label-lg font-weight-bold label-light-primary label-inline ">Pending</span>
-                       @else    <span class="label label-lg font-weight-bold label-light-danger label-inline ">Cancle</span>
-                       @endif
-
-                           @endif
-                   </td>
 
                    <td>{{$customer->created_at}}</td>
                </tr>

@@ -66,7 +66,7 @@ class BillOrderApiController extends Controller
          //Create bill order
         $type = "2d3d4d5d6d";
         $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
-        $order->transaction_id= 'ncctest'.$order->id;
+        $order->transaction_id= 'ncctesttest'.$order->id;
         $order->save();
 
         //Create digit form bill order
@@ -178,7 +178,7 @@ class BillOrderApiController extends Controller
 
         $type = "3/40";
         $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
-        $order->transaction_id= 'ncctest'.$order->id;
+        $order->transaction_id= 'ncctesttest'.$order->id;
         $order->save();
 
         $arr = json_decode($request->code);

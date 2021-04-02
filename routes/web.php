@@ -15,6 +15,12 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BuyLottoController;
 use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\UserController;
+
+Route::get('activity',function (){
+   return \Spatie\Activitylog\Models\Activity::all()->last();
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
