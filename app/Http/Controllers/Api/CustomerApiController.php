@@ -181,8 +181,8 @@ class CustomerApiController extends Controller
 
             $customer = Customer::where('phone',$request->phone)->first();
             $otp = OTP::where('customer_id','=',$customer->id)->first();
-            $start = $customer->otps->updated_at->addMinutes(3);
-            $DateLimit = $customer->otps->updated_at->addDay(1);
+            $start = $customer->otps->updated_at->addMinutes($this->miniteLimit);
+            $DateLimit = $customer->otps->updated_at->addDay($this->dayLimit);
 
             //Check OTP number
             if($otp->limit_request>=$this->limitRequest){
@@ -241,8 +241,8 @@ class CustomerApiController extends Controller
 
             $customer = Customer::where('phone',$request->phone)->first();
             $otp = OTP::where('customer_id','=',$customer->id)->first();
-            $start = $customer->otps->updated_at->addMinutes(1);
-            $DateLimit = $customer->otps->updated_at->addDay(1);
+            $start = $customer->otps->updated_at->addMinutes($this->miniteLimit);
+            $DateLimit = $customer->otps->updated_at->addDay($this->dayLimit);
 
             //Check OTP number
             if($otp->limit_input>=$this->limitInput){
@@ -257,15 +257,19 @@ class CustomerApiController extends Controller
 
             if($request->otp_verify == $customer->otps->otp_number){
 
+                if($request->type == 1) {
                     if ($otp->status == 1) {
                         return response()->json(['status' => false, 'msg' => 'This number is verified'], 422);
                     }
+                }
 
                 if($start->lt(Carbon::now('Asia/Vientiane'))){
                     return response()->json(['status' => false ,'msg' => 'OTP is expired'],422);
                 }
 
                 $otp->status = 1;
+                $customer->status = 1 ;
+                $customer->save();
                 $otp->save();
                 return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
 
@@ -529,7 +533,7 @@ class CustomerApiController extends Controller
             }
             $customer = Customer::where('phone', $request->phone)->first();
             $otp = OTP::where('customer_id','=',$customer->id)->first();
-            $DateLimit = $customer->otps->updated_at->addDay(1);
+            $DateLimit = $customer->otps->updated_at->addDay($this->dayLimit);
             //Check OTP number
             if($otp->limit_request>=$this->limitRequest){
                 if($DateLimit->lt(Carbon::now('Asia/Vientiane'))){
