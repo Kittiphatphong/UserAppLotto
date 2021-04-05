@@ -462,6 +462,30 @@
                             </a>
                         </li>
 
+                        <li class="menu-item menu-item-submenu @if(isset($log_index))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-house-user"></i>
+                                <span class="menu-text">@lang('Log')</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($log_index) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('log.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Transaction')</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </li>
+
 {{--                        <li class="menu-item  @isset($buy) menu-item-here @endisset" aria-haspopup="true">--}}
 {{--                            <a href="{{route('buy.buy')}}" class="menu-link">--}}
 {{--                                <i class="menu-icon fa fa-shopping-cart"></i>--}}

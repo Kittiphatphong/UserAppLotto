@@ -15,6 +15,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BuyLottoController;
 use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogController;
 
 Route::get('activity',function (){
    return \Spatie\Activitylog\Models\Activity::all()->last();
@@ -30,7 +31,6 @@ Route::get('locale/{locale}', function ($locale){
     return redirect()->back();
 })->name('lang');
 Route::group(['middleware' =>'auth'],function(){
-
 
 
     Route::get('/dashboard', [DashboardController::class,'dashboard'])
@@ -143,6 +143,10 @@ Route::group(['middleware' =>'auth'],function(){
         Route::get('/provider', [ProviderController::class, 'providerList'])->name('provider.list');
         Route::post('/provider', [ProviderController::class, 'providerStore'])->name('provider.store');
     });
+
+    //Log database
+    Route::get('log',[LogController::class,'index'])->name('log.index');
+
 });
 
 

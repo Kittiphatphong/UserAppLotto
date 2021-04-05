@@ -8,9 +8,18 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
+use Spatie\Activitylog\Traits\LogsActivity;
 class Customer extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,LogsActivity;
+
+    protected static $logAttributes = ['firstname', 'lastname','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Customer has been {$eventName}";
+    }
+    protected static $logOnlyDirty = true;
+    protected static $logName = 'Customer';
 
     public function makeCustomer($firstname,$lastname,$birthday,$gender,$address){
         $this->firstname = $firstname;

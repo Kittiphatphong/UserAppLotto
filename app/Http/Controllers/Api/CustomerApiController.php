@@ -19,6 +19,8 @@ class CustomerApiController extends Controller
     protected $AirTimeController;
     protected $limitRequest = 3;
     protected $limitInput = 5;
+    protected $dayLimit =1;
+    protected $miniteLimit = 3;
 
     public function __construct(SendMassageController $sendMassageController,AirTimeController $airTimeController)
     {
@@ -135,7 +137,7 @@ class CustomerApiController extends Controller
             $customer->save();
 
             $otp = OTP::where('customer_id','=',$customer->id)->first();
-            $DateLimit = $customer->otps->updated_at->addDay(1);
+            $DateLimit = $customer->otps->updated_at->addDay($this->dayLimit);
             //Check OTP number
             if($otp->limit_request>=$this->limitRequest){
                 if($DateLimit->lt(Carbon::now('Asia/Vientiane'))){
@@ -156,7 +158,7 @@ class CustomerApiController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
-                'msg' => 'Server Error'
+                'msg' => $e->getMessage()
             ],500);
         }
 
@@ -209,7 +211,7 @@ class CustomerApiController extends Controller
                 }
                 }
                 $customerPhone = $customer->phone;
-                $contentSms= "Your OTP is ".  $customer->otps->otp_number;
+                $contentSms= "Your OTP is ".  Customer::find($customer->id)->otps->otp_number;
                 $this->SendMassageController->sendOTP($customerPhone,$contentSms);
                 return response()->json(['status' => true, 'mgs' => 'Request new OTP successful left '.($this->limitRequest-($otp->limit_request+1)).' time'],201);
 
@@ -239,7 +241,7 @@ class CustomerApiController extends Controller
 
             $customer = Customer::where('phone',$request->phone)->first();
             $otp = OTP::where('customer_id','=',$customer->id)->first();
-            $start = $customer->otps->updated_at->addMinutes(3);
+            $start = $customer->otps->updated_at->addMinutes(1);
             $DateLimit = $customer->otps->updated_at->addDay(1);
 
             //Check OTP number
@@ -254,13 +256,13 @@ class CustomerApiController extends Controller
             }
 
             if($request->otp_verify == $customer->otps->otp_number){
-                if($request->type == 1) {
+
                     if ($otp->status == 1) {
                         return response()->json(['status' => false, 'msg' => 'This number is verified'], 422);
                     }
-                }
+
                 if($start->lt(Carbon::now('Asia/Vientiane'))){
-                    return response()->json(['status' => false ,'msg' => 'OTP is expried'],422);
+                    return response()->json(['status' => false ,'msg' => 'OTP is expired'],422);
                 }
 
                 $otp->status = 1;
@@ -296,12 +298,13 @@ class CustomerApiController extends Controller
             }
 
             $customer = Customer::where('phone',$request->phone)->first();
-            if($customer->otps->status == 0 ){
+            if($customer->otps->status == 0 || $customer->status == 0){
                 return response()->json(['status' => false ,'msg' => 'This number is not verify'],422);
             }
             $customer->tokens()->delete();
             $customer->password = Hash::make($request->password);
             $customer->device_token = $request->device_token;
+            $customer->status = 0;
             $customer->save();
 
             $token =    $customer->createToken($request->device_token)->plainTextToken;
@@ -377,7 +380,7 @@ class CustomerApiController extends Controller
             $validator = Validator::make($request->all(),[
                 'address' => 'required',
                 'gender' => 'required',
-                'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
+//                'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
             ]);
             if($validator->fails()){
                 return response()->json([
@@ -387,31 +390,19 @@ class CustomerApiController extends Controller
 
             }
 
-
             $customerId = $request->user()->currentAccessToken()->tokenable->id;
             $customer = Customer::find($customerId);
             $customer->makeCustomerV2($request->gender,$request->address);
             $customer->status = true ;
             $customer->save();
 
+            $customerData = $customer
+                ->select('id','firstname','lastname','phone','birthday','gender','address','status','image','background_image')
+                ->withCount('notification')->first();
 
-            if($request->hasFile("image")){
-                if($customer->image == null){
-                    $stringImageReformat = base64_encode('_'.time());
-                    $ext = $request->file('image')->getClientOriginalExtension();
-                    $imageName = $stringImageReformat.".".$ext;
-                    $imageEncode = File::get($request->image);
-                    $customer->image = "/storage/customer_image/".$imageName;
-                    $customer->save();
-                    Storage::disk('local')->put('public/customer_image/'.$imageName, $imageEncode);
-                }else{
-                    Storage::delete("public/customer_image/".str_replace('/storage/customer_image/','',$customer->image));
-                    $request->image->storeAs("public/customer_image",str_replace('/storage/customer_image/','',$customer->image));
-                }
+            $balance = $this->AirTimeController->viewBalance($customer->phone);
+            return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
 
-            }
-
-            return response()->json(['status' => true , 'data' => $customer]);
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
@@ -447,23 +438,13 @@ class CustomerApiController extends Controller
             $customer->save();
 
 
-            if($request->hasFile("image")){
-                if($customer->image == null){
-                    $stringImageReformat = base64_encode('_'.time());
-                    $ext = $request->file('image')->getClientOriginalExtension();
-                    $imageName = $stringImageReformat.".".$ext;
-                    $imageEncode = File::get($request->image);
-                    $customer->image = "/storage/customer_image/".$imageName;
-                    $customer->save();
-                    Storage::disk('local')->put('public/customer_image/'.$imageName, $imageEncode);
-                }else{
-                    Storage::delete("public/customer_image/".str_replace('/storage/customer_image/','',$customer->image));
-                    $request->image->storeAs("public/customer_image",str_replace('/storage/customer_image/','',$customer->image));
-                }
+            $customerData = $customer
+                ->select('id','firstname','lastname','phone','birthday','gender','address','status','image','background_image')
+                ->withCount('notification')->first();
 
-            }
-
-            return response()->json(['status' => true , 'data' => $customer]);
+//            dd($customerData);
+            $balance = $this->AirTimeController->viewBalance($customer->phone);
+            return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
