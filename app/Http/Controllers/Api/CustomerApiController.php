@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AirTimeController;
 use App\Http\Controllers\Controller;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\OTP;
@@ -17,7 +18,7 @@ class CustomerApiController extends Controller
 {
     protected $SendMassageController;
     protected $AirTimeController;
-    protected $limitRequest = 3;
+    protected $limitRequest = 5;
     protected $limitInput = 5;
     protected $dayLimit =1;
     protected $miniteLimit = 3;
@@ -382,9 +383,11 @@ class CustomerApiController extends Controller
     public function moreAccountV2(Request $request){
         try {
             $validator = Validator::make($request->all(),[
-                'address' => 'required',
+                'pr_id' => 'required|numeric',
+                'dr_id' => 'required|numeric',
+                'village' => 'required',
                 'gender' => 'required',
-//                'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
+
             ]);
             if($validator->fails()){
                 return response()->json([
@@ -396,16 +399,30 @@ class CustomerApiController extends Controller
 
             $customerId = $request->user()->currentAccessToken()->tokenable->id;
             $customer = Customer::find($customerId);
-            $customer->makeCustomerV2($request->gender,$request->address);
+            $customer->makeCustomerV2($request->gender,$request->pr_id,$request->dr_id,$request->village);
             $customer->status = true ;
             $customer->save();
 
-            $customerData = $customer
-                ->select('id','firstname','lastname','phone','birthday','gender','address','status','image','background_image')
-                ->withCount('notification')->first();
-
             $balance = $this->AirTimeController->viewBalance($customer->phone);
-            return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
+            $customerData = Customer::find($customer->id);
+            return response()->json([
+                'status' => true ,
+                'data' => [
+                    'id' => $customerData->id,
+                    'firstname' =>$customerData->firstname,
+                    'lastname' =>$customerData->lastname,
+                    'phone'=>$customerData->phone,
+                    'birthday'=> $customerData->birthday,
+                    'gender'=>$customerData->gender,
+                    'province'=>$customerData->province,
+                    'dristric'=>$customerData->dristric,
+                    'village'=>$customerData->village,
+                    'status'=>$customerData->data,
+                    'image'=>$customerData->image,
+                    'background_image'=>$customerData->background_image,
+                    'count_notification' =>$customerData->notification->count(),
+                    'balance' => $balance
+                ]]);
 
         }catch (\Exception $e){
             return response()->json([
@@ -500,11 +517,26 @@ class CustomerApiController extends Controller
     public function customerInfo(Request $request){
         try {
             $customer = $request->user()->currentAccessToken()->tokenable;
-            $customerData = Customer::where('id',$customer->id)
-                ->select('id','firstname','lastname','phone','birthday','gender','address','status','image','background_image')
-                ->withCount('notification')->first();
             $balance = $this->AirTimeController->viewBalance($customer->phone);
-            return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
+            $customerData = Customer::find($customer->id);
+            return response()->json([
+                'status' => true ,
+                'data' => [
+                    'id' => $customerData->id,
+                    'firstname' =>$customerData->firstname,
+                    'lastname' =>$customerData->lastname,
+                    'phone'=>$customerData->phone,
+                    'birthday'=> $customerData->birthday,
+                    'gender'=>$customerData->gender,
+                    'province'=>$customerData->province,
+                    'dristric'=>$customerData->dristric,
+                    'village'=>$customerData->village,
+                    'status'=>$customerData->data,
+                    'image'=>$customerData->image,
+                    'background_image'=>$customerData->background_image,
+                    'count_notification' =>$customerData->notification->count(),
+                    'balance' => $balance
+                ]]);
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
@@ -564,6 +596,18 @@ class CustomerApiController extends Controller
 
         }
 
+    }
+
+    public function address(){
+        try {
+            $address = Province::with('dristrics')->get();
+            return response()->json(['status' => true , 'data' => $address]);
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage()
+            ],422);
+        }
     }
 
 

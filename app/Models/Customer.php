@@ -21,16 +21,18 @@ class Customer extends Model
     protected static $logOnlyDirty = true;
     protected static $logName = 'Customer';
 
-    public function makeCustomer($firstname,$lastname,$birthday,$gender,$address){
+    public function makeCustomer($firstname,$lastname,$birthday,$gender,$village){
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->birthday = $birthday;
         $this->gender = $gender;
-        $this->address = $address;
+        $this->village = $village;
     }
-    public function makeCustomerV2($gender,$address){
+    public function makeCustomerV2($gender,$pr_id,$dr_id,$village){
         $this->gender = $gender;
-        $this->address = $address;
+        $this->pr_id = $pr_id;
+        $this->dr_id= $dr_id;
+        $this->village = $village;
     }
     public function newCustomer($phone,$password){
         $this->phone = $phone;
@@ -56,6 +58,12 @@ class Customer extends Model
         return $this->hasMany(Customer_Notification::class,'customer_id')->where('read_status',false);
 
     }
+    public function province(){
+        return $this->belongsTo(Province::class,'pr_id');
+    }
+    public function dristric(){
+        return $this->belongsTo(Dristric::class,'dr_id');
+    }
 
     public function requestNewOTP(){
         $otp = new OTP();
@@ -70,6 +78,8 @@ class Customer extends Model
         $otp->otp_number = rand(1000,9999);
         $otp->save();
     }
+
+
 
 
 }

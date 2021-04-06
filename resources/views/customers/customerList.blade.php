@@ -103,6 +103,7 @@
                     <th>NAME</th>
                     <th>GENDER</th>
                     <th>BIRTHDAY</th>
+                    <th>ADDRESS</th>
                     <th>Status</th>
                     <th>TOTAL BUY</th>
                     <th>AMOUNT BUY</th>
@@ -125,6 +126,7 @@
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->firstname}} {{$customer->lastname}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->gender}}@endif</td>
                    <td>@if($customer->firstname==null)<span class="text-danger">N/A</span> @else{{$customer->birthday}}@endif</td>
+                   <td>@if($customer->province!=null){{$customer->village}}, {{$customer->dristric->dr_name_en}}, {{$customer->province->pr_name_en}} @endif</td>
                    <td class="text-center">
                        @if($customer->otps != null)
 

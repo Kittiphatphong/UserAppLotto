@@ -29,6 +29,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//address
+Route::post('/get-address',[CustomerApiController::class,'address']);
+
 Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone']);
 Route::post('/v2/register-customer',[CustomerApiController::class,'RegisterPhoneV2']);
 Route::post('/register-otp',[CustomerApiController::class,'requestOTP']);
