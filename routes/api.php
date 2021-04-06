@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\DreamTellerApiController;
 use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Controllers\Api\BillApiController;
 use App\Http\Controllers\Api\SaveOrderController;
-
+use App\Http\Controllers\TermConditionApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +31,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //address
 Route::post('/get-address',[CustomerApiController::class,'address']);
+//term and condition
+Route::post('/term-condition',[TermConditionApiController::class,'term']);
 
 Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone']);
 Route::post('/v2/register-customer',[CustomerApiController::class,'RegisterPhoneV2']);

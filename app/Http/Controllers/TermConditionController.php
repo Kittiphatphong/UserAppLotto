@@ -14,7 +14,9 @@ class TermConditionController extends Controller
      */
     public function index()
     {
-        //
+        $term = TermCondition::first()->get();
+return view('termCondition.termIndex')
+    ->with('term_index',$term);
     }
 
     /**

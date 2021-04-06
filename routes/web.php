@@ -16,6 +16,7 @@ use App\Http\Controllers\BuyLottoController;
 use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\TermConditionController;
 
 Route::get('activity',function (){
    return \Spatie\Activitylog\Models\Activity::all()->last();
@@ -147,6 +148,8 @@ Route::group(['middleware' =>'auth'],function(){
     //Log database
     Route::get('log',[LogController::class,'index'])->name('log.index');
 
+    //Term and condition
+    Route::resource('term-condition',TermConditionController::class);
 });
 
 
