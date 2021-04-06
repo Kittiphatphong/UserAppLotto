@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Province extends Model
 {
     use HasFactory;
-    public function dristrics(){
+    public function districts(){
         return $this->hasMany(Dristric::class,'pr_id');
     }
 }

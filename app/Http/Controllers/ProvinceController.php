@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Province;
 use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
@@ -13,7 +14,8 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        //
+        return view('address.provinceIndex')
+            ->with('province_index',Province::all());
     }
 
     /**
