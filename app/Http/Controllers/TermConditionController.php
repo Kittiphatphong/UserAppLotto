@@ -59,7 +59,10 @@ return view('termCondition.termIndex')
      */
     public function edit(TermCondition $termCondition)
     {
-        //
+        return view('termCondition.termCreate')
+            ->with('term_index','term_index')
+            ->with('term',$termCondition)
+            ->with('edit','edit');
     }
 
     /**
@@ -71,7 +74,10 @@ return view('termCondition.termIndex')
      */
     public function update(Request $request, TermCondition $termCondition)
     {
-        //
+        $request->validate([
+           'title' => 'required',
+           'content' => 'required'
+        ]);
     }
 
     /**
