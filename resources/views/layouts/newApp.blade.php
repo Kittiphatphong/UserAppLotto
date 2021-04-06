@@ -461,10 +461,48 @@
                                 <span class="menu-text">@lang('Provider')</span>
                             </a>
                         </li>
+                        <li class="menu-item menu-item-submenu @if(isset($province_index) || isset($district_index))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-location-arrow"></i>
+                                <span class="menu-text">@lang('Address')</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($province_index) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('province.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Province')</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($district_index) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('district.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('District')</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </li>
+
+                        <li class="menu-item  @isset($term_index) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('term-condition.index')}}" class="menu-link">
+                                <i class="menu-icon fas fa-highlighter"></i>
+                                <span class="menu-text">@lang('Term and condition')</span>
+                            </a>
+                        </li>
 
                         <li class="menu-item menu-item-submenu @if(isset($log_index))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
-                                <i class="menu-icon fas fa-house-user"></i>
+                                <i class="menu-icon fas fa-clipboard-list"></i>
                                 <span class="menu-text">@lang('Log')</span>
                                 <i class="menu-arrow"></i>
                             </a>
@@ -492,12 +530,6 @@
 {{--                                <span class="menu-text">Buy lottory</span>--}}
 {{--                            </a>--}}
 {{--                        </li>--}}
-                        <li class="menu-item  @isset($term_index) menu-item-here @endisset" aria-haspopup="true">
-                            <a href="{{route('term-condition.index')}}" class="menu-link">
-                                <i class="menu-icon flaticon-users-1"></i>
-                                <span class="menu-text">@lang('Term and condition')</span>
-                            </a>
-                        </li>
                         <li class="menu-item" aria-haspopup="true">
                             <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">
                                 <i class="menu-icon flaticon-cogwheel-1"></i>

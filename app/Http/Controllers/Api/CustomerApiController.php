@@ -496,7 +496,7 @@ class CustomerApiController extends Controller
             if(!(Hash::check($request->get('oldPassword'),$customer->password))){
                 return response()->json([
                     "status" => false,
-                    "msg" => ['oldPassword' => 'old password invalid'] ,
+                    "msg" => 'old password invalid' ,
                 ],422);
 
             }else{

@@ -26,7 +26,10 @@ return view('termCondition.termIndex')
      */
     public function create()
     {
-        //
+        $termCondition = new TermCondition();
+        return view('termCondition.termCreate')
+            ->with('term_index','term_index')
+            ->with('term',$termCondition);
     }
 
     /**
@@ -37,7 +40,13 @@ return view('termCondition.termIndex')
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+        TermCondition::create($request->all());
+
+        return redirect()->route('term-condition.index')->with('success','Created term and condition successful');
     }
 
     /**
@@ -78,6 +87,9 @@ return view('termCondition.termIndex')
            'title' => 'required',
            'content' => 'required'
         ]);
+        $termCondition->update($request->all());
+
+        return redirect()->route('term-condition.index')->with('success','Updated term and condition successful');
     }
 
     /**

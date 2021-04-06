@@ -1,5 +1,5 @@
 @extends('layouts.newApp')
-@section('title','Result')
+@section('title','Term and condition')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">

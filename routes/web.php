@@ -17,6 +17,8 @@ use App\Http\Controllers\BillOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\DristricController;
 
 Route::get('activity',function (){
    return \Spatie\Activitylog\Models\Activity::all()->last();
@@ -150,6 +152,10 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Term and condition
     Route::resource('term-condition',TermConditionController::class);
+
+    //Province and dristric
+    Route::resource('province',ProvinceController::class);
+    Route::resource('district',DristricController::class);
 });
 
 

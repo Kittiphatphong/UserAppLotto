@@ -29,7 +29,7 @@
                         <h3 class="card-label">Term and condition
                             <span class="d-block text-muted pt-2 font-size-sm">{{isset($edit)?'Edit':'Create'}} term and condition</span></h3>
                     </div>
-                    <form  action="{{route('term-condition.update',$term->id)}}" method="post">
+                    <form  action="{{isset($edit)?route('term-condition.update',$term->id):route('term-condition.store')}}" method="post">
                         @csrf
                         @isset($edit)
                         @method('PATCH')
