@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageApp;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -114,8 +115,11 @@ class ImageAppController extends Controller
         return redirect()->route('image-app.index')->with('success','Delete success');
     }
 
-    public function active(Request $request){
-        DB::table('image_apps')->where('status',true)->update(['status_win' => 0]);
-        dd($request->active);
+    public function active($id){
+        DB::table('image_apps')->where('active',true)->update(['active' => false]);
+        $imageApp = ImageApp::find($id);
+        $imageApp->active = true;
+        $imageApp->save();
+       return back()->with('success','Active successful');
     }
 }

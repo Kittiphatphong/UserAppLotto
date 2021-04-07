@@ -77,20 +77,25 @@
         <td>
             <div class="d-flex justify-content-start m-0">
                 <a href="{{route('image-app.edit',$image->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
+                @if($image->active==true)
+                    <button class="btn btn-link"><i class="fas fa-trash text-info"></i></button>
+
+                @else
                 <form action="{{route('image-app.destroy',$image->id)}}" method="post" class="delete_form">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                 </form>
-                <form action="{{route('image-app.active')}}" method="get" >
-															<span class="switch switch-outline switch-icon switch-success">
-																<label>
-																	<input type="checkbox" name="active" value="{{$image->id}}" @if($image->active==true) checked  disabled @endif/>
-																	   <button type="submit" class=" btn btn-link" ><i class="fas fa-user"></i></button>
-                                                                    <span></span>
-																</label>
-															</span>
+                @endif
+                @if($image->active==true)
+                    <button class="btn btn-link"><i class="fas fa-check-circle text-info"></i></button>
+
+                @else
+                <form action="{{route('image-app.active',$image->id)}}" method="post" class="active_form">
+                    @csrf
+                    <button type="submit" class=" btn btn-link delete_submit"><i class="fas fa-check-circle"></i></button>
                 </form>
+               @endif
             </div>
         </td>
         <td>{{$image->created_at}}</td>
@@ -103,6 +108,8 @@
             <!--end: Datatable-->
         </div>
     </div>
+
+
 @endsection
 
 

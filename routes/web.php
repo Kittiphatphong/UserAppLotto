@@ -160,7 +160,7 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Background image app
     Route::resource('image-app',ImageAppController::class);
-    Route::get('active-background',[ImageAppController::class,'active'])->name('image-app.active');
+    Route::post('active-background/{id}',[ImageAppController::class,'active'])->name('image-app.active');
 });
 
 
