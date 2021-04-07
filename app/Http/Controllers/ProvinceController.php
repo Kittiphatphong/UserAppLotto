@@ -58,7 +58,9 @@ class ProvinceController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('address.provinceCreate')
+            ->with('province',Province::find($id))
+            ->with('edit','edit');
     }
 
     /**
@@ -68,9 +70,16 @@ class ProvinceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Province $province)
     {
-        //
+        $request->validate([
+           'pr_name' => 'required',
+            'pr_name' => 'required'
+        ]);
+        $province->pr_name = $request->pr_name;
+        $province->pr_name_en = $request->pr_name_en;
+        $province->update();
+        return redirect()->route('province.index')->with('success','Updated province successful');
     }
 
     /**

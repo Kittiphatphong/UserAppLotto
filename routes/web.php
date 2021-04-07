@@ -19,6 +19,7 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\TermConditionController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\DristricController;
+use App\Http\Controllers\ImageAppController;
 
 Route::get('activity',function (){
    return \Spatie\Activitylog\Models\Activity::all()->last();
@@ -156,6 +157,9 @@ Route::group(['middleware' =>'auth'],function(){
     //Province and dristric
     Route::resource('province',ProvinceController::class);
     Route::resource('district',DristricController::class);
+
+    //Background image app
+    Route::resource('image-app',ImageAppController::class);
 });
 
 

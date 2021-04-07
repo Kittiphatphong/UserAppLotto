@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">
                         <label>STATUS:</label>
-                        <select class="form-control" id="select5" >
+                        <select class="form-control" id="select6" >
                             <option value="">All</option>
                             <option value="Success">Success</option>
                             <option value="Pending">Pending</option>

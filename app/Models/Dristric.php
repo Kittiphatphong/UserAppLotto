@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dristric extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     public function provinces(){
         return $this->belongsTo(Province::class,'pr_id');
     }

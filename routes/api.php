@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\NotificationApiController;
 use App\Http\Controllers\Api\BillApiController;
 use App\Http\Controllers\Api\SaveOrderController;
 use App\Http\Controllers\TermConditionApiController;
+use App\Http\Controllers\Api\ImageAppApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +34,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/get-address',[CustomerApiController::class,'address']);
 //term and condition
 Route::post('/term-condition',[TermConditionApiController::class,'term']);
+//Background image app
+Route::post('/background-app',[ImageAppApiController::class,'imageApp']);
 
 Route::post('/register-customer',[CustomerApiController::class,'RegisterPhone']);
 Route::post('/v2/register-customer',[CustomerApiController::class,'RegisterPhoneV2']);

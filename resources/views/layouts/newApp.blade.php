@@ -492,13 +492,19 @@
 
                             </div>
                         </li>
-
+                        <li class="menu-item  @isset($image_app_index) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('image-app.index')}}" class="menu-link">
+                                <i class="menu-icon far fa-image"></i>
+                                <span class="menu-text">@lang('Background app')</span>
+                            </a>
+                        </li>
                         <li class="menu-item  @isset($term_index) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('term-condition.index')}}" class="menu-link">
                                 <i class="menu-icon fas fa-highlighter"></i>
                                 <span class="menu-text">@lang('Term and condition')</span>
                             </a>
                         </li>
+
 
                         <li class="menu-item menu-item-submenu @if(isset($log_index))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
