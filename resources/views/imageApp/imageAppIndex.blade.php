@@ -58,7 +58,8 @@
                         <th>IMAGE</th>
                         <th>STATUS</th>
                         <th>ACTION</th>
-
+                        <th>CREATED_AT</th>
+                        <th>UPDATED_AT</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -81,8 +82,19 @@
                     @method('DELETE')
                     <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                 </form>
+                <form action="{{route('image-app.active')}}" method="get" >
+															<span class="switch switch-outline switch-icon switch-success">
+																<label>
+																	<input type="checkbox" name="active" value="{{$image->id}}" @if($image->active==true) checked  disabled @endif/>
+																	   <button type="submit" class=" btn btn-link" ><i class="fas fa-user"></i></button>
+                                                                    <span></span>
+																</label>
+															</span>
+                </form>
             </div>
         </td>
+        <td>{{$image->created_at}}</td>
+        <td>{{$image->updated_at}}</td>
     </tr>
 @endforeach
                     </tbody>

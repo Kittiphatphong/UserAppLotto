@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageApp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -111,5 +112,10 @@ class ImageAppController extends Controller
         $imageApp->delete();
         Storage::delete("public/background_app_image/".str_replace('/storage/background_app_image/','',$imageApp->image));
         return redirect()->route('image-app.index')->with('success','Delete success');
+    }
+
+    public function active(Request $request){
+        DB::table('image_apps')->where('status',true)->update(['status_win' => 0]);
+        dd($request->active);
     }
 }

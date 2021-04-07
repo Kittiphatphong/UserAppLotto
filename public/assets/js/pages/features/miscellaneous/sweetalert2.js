@@ -88,6 +88,17 @@ var KTSweetAlert2Demo = function () {
 		});
 
         $(document).ready( function() {
+            $('.active_form').on('click',function(e){
+
+                if(confirm("Are you sure you want to active this background ?")){
+                    $(".active_form").attr("href", "query.php?ACTION=delete&ID='1'");
+                }
+                else{
+                    return false;
+                }
+		});
+        });
+        $(document).ready( function() {
             $('.delete_form').on('click',function(e){
 
                 if(confirm("Are you sure you want to delete this?")){
@@ -96,7 +107,7 @@ var KTSweetAlert2Demo = function () {
                 else{
                     return false;
                 }
-		});
+            });
         });
         $(document).ready( function() {
             $('.push_form').on('click',function(e){
