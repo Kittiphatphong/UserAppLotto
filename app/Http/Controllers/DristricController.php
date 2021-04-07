@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dristric;
+use App\Models\Province;
 use Illuminate\Http\Request;
 
 class DristricController extends Controller
@@ -15,7 +16,8 @@ class DristricController extends Controller
     public function index()
     {
      return view('address.districtIndex')
-         ->with('district_index',Dristric::all());
+         ->with('district_index',Dristric::all())
+         ->with('provinces',Province::all());
     }
 
     /**
@@ -58,7 +60,10 @@ class DristricController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('address.districtCreate')
+            ->with('district_index','district_index')
+            ->with('edit','edit')
+            ->with('district',Dristric::find($id));
     }
 
     /**
@@ -68,9 +73,17 @@ class DristricController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $dristric = Dristric::find($id);
+        $request->validate([
+            'dr_name' => 'required',
+            'dr_name' => 'required'
+        ]);
+        $dristric->dr_name = $request->dr_name;
+        $dristric->dr_name_en = $request->dr_name_en;
+        $dristric->save();
+        return redirect()->route('district.index')->with('success','Updated district successful');
     }
 
     /**

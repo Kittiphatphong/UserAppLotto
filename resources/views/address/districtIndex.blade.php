@@ -33,7 +33,31 @@
         </div>
         <div class="card-body">
             <!--begin: Search Form-->
+            <div class="mb-15 border rounded p-3">
+                <div class="row mb-6">
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col1" data-column="0">
+                        <label>PROVINCE EN:</label>
+                        <input type="text" class="column_filter form-control" id="col0_filter" placeholder="Search province en" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col2" data-column="1">
+                        <label>PROVINCE LA:</label>
+                        <input type="text" class="column_filter form-control" id="col1_filter" placeholder="Search province la" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col3" data-column="2">
+                        <label>DISTRICT LA:</label>
+                        <input type="text" class="column_filter form-control" id="col2_filter" placeholder="Search district la" />
+                    </div>
+                    <div class="col-lg-3 mb-lg-0 mb-6" id="filter_col4" data-column="3">
+                        <label>DISTRICT EN:</label>
+                        <input type="text" class="column_filter form-control" id="col3_filter" placeholder="Search district en" />
+                    </div>
 
+
+                </div>
+
+
+
+            </div>
             <!--begin: Datatable-->
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
@@ -41,11 +65,9 @@
                     <tr>
                         <th>PROVINCE EN</th>
                         <th>PROVINCE LA</th>
-                        <th>NAME LA</th>
-                        <th>NAME EN</th>
+                        <th>DISTRICT LA</th>
+                        <th>DISTRICT EN</th>
                         <th>ACTION</th>
-
-
                     </tr>
                     </thead>
                     <tbody>

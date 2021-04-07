@@ -59,6 +59,7 @@ class ProvinceController extends Controller
     public function edit($id)
     {
         return view('address.provinceCreate')
+            ->with('province_index','province_index')
             ->with('province',Province::find($id))
             ->with('edit','edit');
     }

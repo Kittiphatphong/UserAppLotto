@@ -1,17 +1,17 @@
 @extends('layouts.newApp')
-@section('title','Province')
+@section('title','District')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">PROVINCE PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">DISTRICT PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <a href="#" class="text-muted">Province</a>
+                <a href="#" class="text-muted">District</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('province.index')}}" class="text-muted">List</a>
+                <a href="{{route('district.index')}}" class="text-muted">List</a>
             </li>
         </ul>
         <!--end::Breadcrumb-->
@@ -26,21 +26,21 @@
 
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="card-title">
-                        <h3 class="card-label">Province
-                            <span class="d-block text-muted pt-2 font-size-sm">{{isset($edit)?'Edit':'Create'}} province</span></h3>
+                        <h3 class="card-label">District
+                            <span class="d-block text-muted pt-2 font-size-sm">{{isset($edit)?'Edit':'Create'}} district</span></h3>
                     </div>
-                    <form  action="{{isset($edit)?route('province.update',$province->id):route('province.store')}}" method="post">
+                    <form  action="{{isset($edit)?route('district.update',$district->id):route('district.store')}}" method="post">
                         @csrf
                         @isset($edit)
                             @method('PATCH')
                         @endisset
                         <div class="form-group">
-                            <label>NAME EN</label>
-                            <input type="text" class="form-control" name="pr_name_en" value="{{old('pr_name_en',$province->pr_name_en)}}">
+                            <label>DISTRICT EN</label>
+                            <input type="text" class="form-control" name="dr_name_en" value="{{old('dr_name_en',$district->dr_name_en)}}">
                         </div>
                         <div class="form-group">
-                            <lable>NAME LA</lable>
-                            <input type="text" class="form-control" name="pr_name" value="{{old('pr_name',$province->pr_name)}}">
+                            <lable>DISTRICT LA</lable>
+                            <input type="text" class="form-control" name="dr_name" value="{{old('dr_name',$district->dr_name)}}">
                         </div>
 
 
