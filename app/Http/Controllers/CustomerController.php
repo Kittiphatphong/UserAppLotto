@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OTP;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 class CustomerController extends Controller
@@ -46,6 +47,7 @@ class CustomerController extends Controller
     public function customerDelete($id){
         $customer= Customer::find($id);
         $customer->delete();
+   
         return back()->with('success','Deleted customer successful');
     }
 }

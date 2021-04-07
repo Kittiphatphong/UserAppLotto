@@ -43,23 +43,44 @@
 
 
                         <th>ID</th>
-                        <th>TYPE</th>
-                        <th>TITLE</th>
-                        <th>CONTENT</th>
-                        <th>TO</th>
-                        <th>STATUS</th>
-                        <th>UPDATED AT</th>
+                        <th>LOG_NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th>SUBJECT_TYPE</th>
+                        <th>SUBJECT_ID</th>
+                        <th>AUTH USER</th>
+                        <th>CAUSER_TYPE</th>
+                        <th>PROPERTIES</th>
+                        <th>CRATED_AT</th>
+                        <th>UPDATED_AT</th>
+
+
+
+
+
 
 
                     </tr>
                     </thead>
                     <tbody>
-
+@foreach($log_index_customer as $log)
+    <tr>
+        <td>{{$log->id}}</td>
+        <td>{{$log->log_name}}</td>
+        <td>{{$log->description}}</td>
+        <td>{{$log->subject_type}}</td>
+        <td>{{$log->subject_id}}</td>
+        <td>@if($log->causer_id==null)<span class="text-info">Customer</span> @else @if($log->causer == null)<span class="text-danger">User was deleted</span> @else{{$log->causer->name}}@endif  @endif</td>
+        <td>{{$log->causer_type}}</td>
+        <td>{{$log->properties}}</td>
+        <td>{{$log->created_at}}</td>
+        <td>{{$log->updated_at}}</td>
+    </tr>
+@endforeach
                     </tbody>
                 </table>
             </div>
             <!--end: Datatable-->
         </div>
     </div>
-{{$log_index}}
+
 @endsection

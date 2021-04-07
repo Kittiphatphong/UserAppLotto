@@ -99,7 +99,6 @@ class CustomerApiController extends Controller
             $customer->lastname = $request->lastname;
             $customer->birthday = $request->birthday;
             $customer->gender = 'N/A';
-            $customer->address= 'N/A';
             $customer->save();
             $customer->requestNewOTP();
 

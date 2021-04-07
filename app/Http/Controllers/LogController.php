@@ -9,8 +9,8 @@ class LogController extends Controller
 {
     public function index(){
 
-       $logs = Activity::all();
+       $logs = Activity::where('log_name','Customer')->get();
         return view('log.index')
-            ->with('log_index',$logs);
+            ->with('log_index_customer',$logs);
     }
 }

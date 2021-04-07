@@ -13,7 +13,7 @@ class Customer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable,LogsActivity;
 
-    protected static $logAttributes = ['firstname', 'lastname','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
+    protected static $logAttributes = ['firstname', 'lastname','phone','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
     public function getDescriptionForEvent(string $eventName): string
     {
         return "Customer has been {$eventName}";
@@ -27,6 +27,7 @@ class Customer extends Model
         $this->birthday = $birthday;
         $this->gender = $gender;
         $this->village = $village;
+
     }
     public function makeCustomerV2($gender,$pr_id,$dr_id,$village){
         $this->gender = $gender;
