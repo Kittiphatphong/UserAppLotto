@@ -14,10 +14,6 @@ class Customer extends Model
     use HasApiTokens, HasFactory, Notifiable,LogsActivity;
 
     protected static $logAttributes = ['firstname', 'lastname','phone','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        return "Customer has been {$eventName}";
-    }
     protected static $logOnlyDirty = true;
     protected static $logName = 'Customer';
 

@@ -146,7 +146,7 @@ class BillOrderApiController extends Controller
            }
            $body = collect($list)->implode(' ');
            $title = "Buy lotto 6D";
-           $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
+           $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
 
 
            return response()->json([
@@ -276,7 +276,7 @@ class BillOrderApiController extends Controller
             }
             $body = collect($list)->implode(' ');
             $title = "Buy lotto 3/40";
-            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order);
+            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
             return response()->json([
                 'status' => true,
                 'data'   => $bill,

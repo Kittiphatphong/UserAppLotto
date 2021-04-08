@@ -30,7 +30,7 @@ class CustomerController extends Controller
             'birthday' => 'required',
             'password' => 'required|string|min:8',
         ]);
-          $customer = new Customer();
+        $customer = new Customer();
        $customer->firstname = $request->firstname;
        $customer->lastname= $request->lastname;
        $customer->phone = $request->phone;
@@ -47,7 +47,6 @@ class CustomerController extends Controller
     public function customerDelete($id){
         $customer= Customer::find($id);
         $customer->delete();
-   
         return back()->with('success','Deleted customer successful');
     }
 }

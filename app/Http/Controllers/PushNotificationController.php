@@ -131,11 +131,11 @@ class PushNotificationController extends Controller
 
     }
 
-    public function pushNotificationBuy($body ,$title,$type,$idCustomer,$massages){
+    public function pushNotificationBuy($body ,$title,$type,$idCustomer,$massages,$msg_id){
         $customer = Customer::find($idCustomer);
         if($customer->device_token != null){
             $notification = new Notification();
-            $notification->newNotification($title,$body,$type,$massages);
+            $notification->newNotification($title,$body,$type,$massages,$msg_id);
             $customer_notification = new Customer_Notification();
             $this->sendPushDevice($body,$title,$customer->device_token,$massages);
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
@@ -143,10 +143,10 @@ class PushNotificationController extends Controller
 
     }
 
-    public function pushNotificationAll($body ,$title,$type,$massages){
+    public function pushNotificationAll($body ,$title,$type,$massages,$msg_id){
         $customers = Customer::whereNotNull('device_token')->get();
         $notification = new Notification();
-        $notification->newNotification($title,$body,$type,$massages);
+        $notification->newNotification($title,$body,$type,$massages,$msg_id);
         foreach($customers as $customer){
             $customer_notification = new Customer_Notification();
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
@@ -163,7 +163,7 @@ class PushNotificationController extends Controller
             $body= "Type: ".$bill->type." || Total: ".number_format($bill->total_win);
 
             $notification = new Notification();
-            $notification->newNotification($title,$body,2,$bill);
+            $notification->newNotification($title,$body,2,$bill,$bill->id);
             $customer_notification = new Customer_Notification();
             $this->sendPushDevice($body,$title,$bill->customers->device_token,$bill);
             $customer_notification->newCustomerNotification($bill->customers->id,$notification->id);

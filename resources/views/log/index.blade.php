@@ -40,8 +40,6 @@
                 <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
                     <tr>
-
-
                         <th>ID</th>
                         <th>LOG_NAME</th>
                         <th>DESCRIPTION</th>
@@ -52,13 +50,6 @@
                         <th>PROPERTIES</th>
                         <th>CRATED_AT</th>
                         <th>UPDATED_AT</th>
-
-
-
-
-
-
-
                     </tr>
                     </thead>
                     <tbody>
@@ -71,7 +62,7 @@
         <td>{{$log->subject_id}}</td>
         <td>@if($log->causer_id==null)<span class="text-info">Customer</span> @else @if($log->causer == null)<span class="text-danger">User was deleted</span> @else{{$log->causer->name}}@endif  @endif</td>
         <td>{{$log->causer_type}}</td>
-        <td>{{$log->properties}}</td>
+        <td>{{$log->changes}}</td>
         <td>{{$log->created_at}}</td>
         <td>{{$log->updated_at}}</td>
     </tr>

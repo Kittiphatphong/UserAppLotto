@@ -22,11 +22,12 @@ class Notification extends Model
         return $this->hasMany(Customer_Notification::class,'notification_id')->select('id','read_status','notification_id');
     }
 
-    public function newNotification($title,$content,$type_id,$massages){
+    public function newNotification($title,$content,$type_id,$massages,$msg_id){
         $this->title = $title;
         $this->body = $content;
         $this->type_id =$type_id;
         $this->massages =$massages;
+        $this->msg_id = $msg_id;
         $this->save();
 
     }

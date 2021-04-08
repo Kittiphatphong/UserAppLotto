@@ -92,7 +92,7 @@ class ResultController extends Controller
 
         $title = "Result draw ". $result->draw;
         $body = "6d=".$result->l2d3d4d5d6d." && 3/40=".$result->animal1."-".$result->animal2."-".$result->animal3;
-         $this->PushNotificationController->pushNotificationAll($body,$title,3,$result);
+         $this->PushNotificationController->pushNotificationAll($body,$title,3,$result,$result->id);
         $this->winStore($result->id);
         return back()->with('success',"Updated result draw ".$result->draw." successful");
 
