@@ -13,9 +13,10 @@ class Customer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable,LogsActivity;
 
-    protected static $logAttributes = ['firstname', 'lastname','phone','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
+    protected static $logAttributes = ['firstname', 'lastname','phone','birthday','gender','address','image','background_image','device_token','otps.otp_number'];
 
     protected static $logOnlyDirty = true;
+    protected static $recordEvents = ['deleted'];
     protected static $logName = 'Customer';
 
     public function makeCustomer($firstname,$lastname,$birthday,$gender,$village){

@@ -59,14 +59,14 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->withProperties(['key' => 'value'])
+                ->useLog('Customer')
                 ->log('login');
             return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
 
         }catch (\Exception $e){
          return response()->json([
              'status' => false,
-             'msg' => 'Server Error'
+             'msg' => $e->getMessage()
          ],500);
         }
         }
@@ -74,6 +74,12 @@ class CustomerApiController extends Controller
     public function logout(Request $request){
         try {
             $request->user()->currentAccessToken()->delete();
+            $customer = Customer::find($request->user()->currentAccessToken()->tokenable->id);
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->log('log out');
             return response()->json(['status' => true ,'msg' => 'logout']);
         }catch (\Exception $e){
             return response()->json([
@@ -110,7 +116,12 @@ class CustomerApiController extends Controller
             $customerPhone = $customer->phone;
             $contentSms= "Your OTP is ". $customer->otps->otp_number;
             $this->SendMassageController->sendOTP($customerPhone,$contentSms);
-
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->withProperties(['attributes' => Customer::find($customer->id)])
+                ->log('new customer');
             return response()->json(['status' => true,'msg' => 'successful'],201);
         }catch (\Exception $e){
             return response()->json([
@@ -158,7 +169,12 @@ class CustomerApiController extends Controller
             $customerPhone = $customer->phone;
             $contentSms= "Your OTP is ". $customer->otps->otp_number;
             $this->SendMassageController->sendOTP($customerPhone,$contentSms);
-
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->withProperties(['attributes' => Customer::find($customer->id)])
+                ->log('new customer');
             return response()->json(['status' => true,'msg' => 'successful'],201);
         }catch (\Exception $e){
             return response()->json([
@@ -218,6 +234,11 @@ class CustomerApiController extends Controller
                 $customerPhone = $customer->phone;
                 $contentSms= "Your OTP is ".  Customer::find($customer->id)->otps->otp_number;
                 $this->SendMassageController->sendOTP($customerPhone,$contentSms);
+                activity()
+                    ->causedBy($customer)
+                    ->performedOn($customer)
+                    ->useLog('Customer')
+                    ->log('request otp');
                 return response()->json(['status' => true, 'mgs' => 'Request new OTP successful left '.($this->limitRequest-($otp->limit_request+1)).' time'],201);
 
             }
@@ -276,6 +297,11 @@ class CustomerApiController extends Controller
                 $customer->status = 1 ;
                 $customer->save();
                 $otp->save();
+                activity()
+                    ->causedBy($customer)
+                    ->performedOn($customer)
+                    ->useLog('Customer')
+                    ->log('verify otp');
                 return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
 
             }else{
@@ -315,7 +341,11 @@ class CustomerApiController extends Controller
             $customer->device_token = $request->device_token;
             $customer->status = 0;
             $customer->save();
-
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->log('set password');
             $token =    $customer->createToken($request->device_token)->plainTextToken;
             return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
 
@@ -346,7 +376,12 @@ class CustomerApiController extends Controller
                 Storage::disk('local')->put('public/customer_image/' . $imageNames, $imageEncode);
 
             }
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
 
+                ->log('updated profile');
             return response()->json(['status' => true, 'msg' => 'Success']);
         }catch (\Exception $e){
             return response()->json([
@@ -375,7 +410,11 @@ class CustomerApiController extends Controller
                 return response()->json(['status' => true, 'msg' => 'Uploaded background successful']);
 
             }
-
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->log('updated background');
             return response()->json(['status' => true, 'msg' => 'Success']);
         }catch (\Exception $e){
             return response()->json([
@@ -409,6 +448,12 @@ class CustomerApiController extends Controller
 
             $balance = $this->AirTimeController->viewBalance($customer->phone);
             $customerData = Customer::find($customer->id);
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->withProperties(['attributes' => $customerData,'old'=>$customer])
+                ->log('updated detail');
             return response()->json([
                 'status' => true ,
                 'data' => [
@@ -469,6 +514,12 @@ class CustomerApiController extends Controller
 
 //            dd($customerData);
             $balance = $this->AirTimeController->viewBalance($customer->phone);
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+                ->withProperties(['attributes' => $customerData,'old'=>$customer])
+                ->log('updated detail');
             return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
         }catch (\Exception $e){
             return response()->json([
@@ -506,9 +557,15 @@ class CustomerApiController extends Controller
             }else{
                 $customer->password = Hash::make($request->get('password'));
                 $customer->save();
+                activity()
+                    ->causedBy($customer)
+                    ->performedOn($customer)
+                    ->useLog('Customer')
+                    ->log('changed password');
                 return response()->json(['status' => true , 'msg' => "Change new password success"]);
 
             }
+
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
@@ -589,6 +646,12 @@ class CustomerApiController extends Controller
             $customerPhone = $customer->phone;
             $contentSms= "Your OTP is ". $customer->otps->otp_number;
             $this->SendMassageController->sendOTP($customerPhone,$contentSms);
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->useLog('Customer')
+
+                ->log('forgot password');
             return response()->json(['status' => true, 'mgs' => 'Request OTP for change password successful'],201);
 
 

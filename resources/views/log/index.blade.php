@@ -57,11 +57,11 @@
     <tr>
         <td>{{$log->id}}</td>
         <td>{{$log->log_name}}</td>
-        <td><span class="@if($log->description=="created")
+        <td><span class="@if(in_array($log->description,$text_success))
                 text-success
-                @elseif($log->description=="edited")
+                @elseif(in_array($log->description,$text_warning))
                 text-warning
-                @elseif($log->description=="updated" || $log->description=="login")
+                @elseif(in_array($log->description,$text_info))
                 text-info
                 @else
                 text-danger
@@ -70,7 +70,7 @@
         <td>{{$log->subject_id}}</td>
         <td>@if($log->causer==null)<span class="text-info">Customer</span> @else @if($log->causer == null)<span class="text-danger">User was deleted</span> @else{{$log->causer->name}} {{$log->causer->phone}}@endif  @endif </td>
         <td>{{$log->causer_type}}</td>
-        <td>{{$log->changes}}</td>
+        <td>{{$log->properties}}</td>
         <td>{{$log->created_at}}</td>
         <td>{{$log->updated_at}}</td>
     </tr>
