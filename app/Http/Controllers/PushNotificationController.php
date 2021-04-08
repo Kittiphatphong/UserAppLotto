@@ -22,7 +22,7 @@ class PushNotificationController extends Controller
 
     }
 
-    protected $serverKey = 'AAAAj--EuJs:APA91bGwks5UxG8TkSIf3kCeeOzKhZS8PSFy_DtQjVzSG5-zUvV6fbMPQ9-TPKyEyGeHVpaiK4-zZ0h2kScrr-TS0RwrGG79EQaSkGedR4Kxkg5BhlbI7Fi_zJOThvLphJYkn_J0UFAi';
+    protected $serverKey = 'AAAAWsC1XQw:APA91bEudAHtWAa1AWFV-vbPM39bR7VKXk7VBhX3ZhNj4yg-qVb6ccJ4Y9Zj1toKe6uc1V-UQEK6eTIGvngMm2oWVj3tq2ZvRP2Q5Tp0LiDI7GYg1GFquSnF8dPoEWiufISDBmqbPErk';
 
     public function pushNotification($body ,$title,$token){
         $token = "f8NAhkmxsqLDcBkj1Up3pR:APA91bGOOWO22D4Z8G21VsZu-RyRq_dklGz7yXkfzO2HCAJWD2u4rN6KfFrr4WfKzPOCb06GLrpKAwd0-mjXB-jmgpLheIyVkHZhFpeET-KNHvUYKWMZG6qbfIz9-_8hM4RYzRyMJADr";

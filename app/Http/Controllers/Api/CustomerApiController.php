@@ -56,6 +56,11 @@ class CustomerApiController extends Controller
             $customer->device_token = $request->device_name;
             $customer->save();
             $token =    $customer->createToken($request->device_name)->plainTextToken;
+            activity()
+                ->causedBy($customer)
+                ->performedOn($customer)
+                ->withProperties(['key' => 'value'])
+                ->log('login');
             return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
 
         }catch (\Exception $e){

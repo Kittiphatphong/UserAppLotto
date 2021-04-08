@@ -14,6 +14,7 @@ class Customer extends Model
     use HasApiTokens, HasFactory, Notifiable,LogsActivity;
 
     protected static $logAttributes = ['firstname', 'lastname','phone','password','birthday','gender','address','status','image','background_image','device_token','otps.otp_number'];
+
     protected static $logOnlyDirty = true;
     protected static $logName = 'Customer';
 
