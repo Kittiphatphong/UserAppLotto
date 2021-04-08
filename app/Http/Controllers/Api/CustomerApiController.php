@@ -604,7 +604,7 @@ class CustomerApiController extends Controller
 
     public function address(){
         try {
-            $address = Province::with('dristrics')->get();
+            $address = Province::with('districts')->get();
             return response()->json(['status' => true , 'data' => $address]);
         }catch (\Exception $e){
             return response()->json([
