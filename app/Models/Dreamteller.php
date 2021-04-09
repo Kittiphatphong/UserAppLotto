@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Dreamteller extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+
+    protected static $logName = 'dream teller';
+    protected static $logAttributes = ['title','content','recommend_digits'];
+    protected static $logOnlyDirty = true;
 
     protected $casts = [
       'recommend_digits' => 'array'

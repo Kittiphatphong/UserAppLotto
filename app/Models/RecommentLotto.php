@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class RecommentLotto extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+    protected static $logName = 'recommend lotto';
+    protected static $logAttributes = ['title','content','draw'];
+    protected static $logOnlyDirty = true;
 
     public function recommendImages(){
         return $this->hasMany(RecommentImage::class,'recommend_id');

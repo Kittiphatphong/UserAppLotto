@@ -5,10 +5,15 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+
 
 class Promotion extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+    protected static $logName = 'promotion';
+    protected static $logAttributes = ['title','content','image','start','end'];
+    protected static $logOnlyDirty = true;
     public function makePromotion($title,$content,$image,$start,$end){
         $this->title = $title;
         $this->content = $content;

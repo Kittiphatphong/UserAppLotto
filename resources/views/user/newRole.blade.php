@@ -49,11 +49,12 @@
                       @foreach($permissions as $permission)
                           <label class="checkbox checkbox-lg col-3">
                               <input type="checkbox" name="permissions[]" value="{{$permission->name}}"
+                                     @isset($role)
                                      @foreach($role->permissions as $checkPermission)
                                      @if($permission->name == $checkPermission->name)
                                      checked
                                   @endif
-                                  @endforeach />
+                                  @endforeach @endisset />
                               <span></span>
                               {{ucfirst($permission->name)}}
                           </label>

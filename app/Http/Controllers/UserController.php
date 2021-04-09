@@ -100,15 +100,36 @@ class UserController extends Controller
         ]);
 
         $user = User::find($id);
-        dd($user->roles->first()->name);
+//        dd($user->roles->first()->name);
         $user->name = $request->name;
         $user->email = $request->email;
         if($request->password != null){
             $user->password = Hash::make($request->password);
         }
         $user->save();
+        if($user->roles->count()>0){
+            if($request->get('role') !=  $user->roles->first()->name){
+                activity()
+                    ->causedBy(Auth::user())
+                    ->performedOn($user)
+                    ->withProperties(['new' => $request->get('role'),'old' => $user->roles->first()->name])
+                    ->useLog('user')
+                    ->log('change role');
+            }
+        }else{
+            if($request->get('role') !=  null){
+                activity()
+                    ->causedBy(Auth::user())
+                    ->performedOn($user)
+                    ->withProperties(['new' => $request->get('role'),'old' => null])
+                    ->useLog('user')
+                    ->log('change role');
+            }
+        }
+
 
         $user->syncRoles($request->get('role'));
+
         return redirect()->route('users.index')->with('success','Updated user successful');
     }
 
@@ -141,6 +162,14 @@ class UserController extends Controller
 
         $role = Role::create(['name' => $request->role]);
         $role->givePermissionTo($request->permissions);
+        if($request->permissions != null){
+            activity()
+                ->causedBy(Auth::user())
+                ->performedOn($role)
+                ->useLog('role')
+                ->log('role add permission');
+        }
+
         return redirect()->route('users.role')
             ->with('success','Created role successful');
     }
@@ -160,6 +189,11 @@ class UserController extends Controller
         $role->save();
         $role->revokePermissionTo($role->permissions()->pluck('name')->toArray());
         $role->givePermissionTo($request->permissions);
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($role)
+            ->useLog('role')
+            ->log('role update permission');
         return redirect()->route('users.role')
             ->with('success','Updated role successful');
 

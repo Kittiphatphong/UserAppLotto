@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer_Notification extends Model
 {
-    use HasFactory;
-
+    use HasFactory,LogsActivity;
+    protected static $logName = 'notification_customer';
+    protected static $logAttributes = ['customers.phone', 'notifications.title','read_status'];
+    protected static $logOnlyDirty = true;
     public function customers(){
         return $this->belongsTo(Customer::class,'customer_id');
     }
