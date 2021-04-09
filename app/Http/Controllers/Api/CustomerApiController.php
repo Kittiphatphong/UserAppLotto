@@ -21,7 +21,7 @@ class CustomerApiController extends Controller
     protected $limitRequest = 5;
     protected $limitInput = 5;
     protected $dayLimit =1;
-    protected $miniteLimit = 3;
+    protected $miniteLimit = 5;
 
     public function __construct(SendMassageController $sendMassageController,AirTimeController $airTimeController)
     {
@@ -59,7 +59,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->log('login');
             return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
 
@@ -78,7 +78,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->log('log out');
             return response()->json(['status' => true ,'msg' => 'logout']);
         }catch (\Exception $e){
@@ -119,7 +119,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->withProperties(['attributes' => Customer::find($customer->id)])
                 ->log('new customer');
             return response()->json(['status' => true,'msg' => 'successful'],201);
@@ -172,7 +172,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->withProperties(['attributes' => Customer::find($customer->id)])
                 ->log('new customer');
             return response()->json(['status' => true,'msg' => 'successful'],201);
@@ -237,7 +237,7 @@ class CustomerApiController extends Controller
                 activity()
                     ->causedBy($customer)
                     ->performedOn($customer)
-                    ->useLog('Customer')
+                    ->useLog('customer')
                     ->log('request otp');
                 return response()->json(['status' => true, 'mgs' => 'Request new OTP successful left '.($this->limitRequest-($otp->limit_request+1)).' time'],201);
 
@@ -300,7 +300,7 @@ class CustomerApiController extends Controller
                 activity()
                     ->causedBy($customer)
                     ->performedOn($customer)
-                    ->useLog('Customer')
+                    ->useLog('customer')
                     ->log('verify otp');
                 return response()->json(['status' => true,'msg' => 'Verify OTP successful']);
 
@@ -344,7 +344,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->log('set password');
             $token =    $customer->createToken($request->device_token)->plainTextToken;
             return response()->json(['status' => true ,'data' => ['customer'=>Customer::find($customer->id),'token'=>$token]]);
@@ -379,7 +379,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
 
                 ->log('updated profile');
             return response()->json(['status' => true, 'msg' => 'Success']);
@@ -413,7 +413,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->log('updated background');
             return response()->json(['status' => true, 'msg' => 'Success']);
         }catch (\Exception $e){
@@ -451,7 +451,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->withProperties(['attributes' => $customerData,'old'=>$customer])
                 ->log('updated detail');
             return response()->json([
@@ -517,7 +517,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
                 ->withProperties(['attributes' => $customerData,'old'=>$customer])
                 ->log('updated detail');
             return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
@@ -560,7 +560,7 @@ class CustomerApiController extends Controller
                 activity()
                     ->causedBy($customer)
                     ->performedOn($customer)
-                    ->useLog('Customer')
+                    ->useLog('customer')
                     ->log('changed password');
                 return response()->json(['status' => true , 'msg' => "Change new password success"]);
 
@@ -649,7 +649,7 @@ class CustomerApiController extends Controller
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
-                ->useLog('Customer')
+                ->useLog('customer')
 
                 ->log('forgot password');
             return response()->json(['status' => true, 'mgs' => 'Request OTP for change password successful'],201);

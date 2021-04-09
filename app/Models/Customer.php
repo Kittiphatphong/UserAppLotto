@@ -17,7 +17,7 @@ class Customer extends Model
 
     protected static $logOnlyDirty = true;
     protected static $recordEvents = ['deleted'];
-    protected static $logName = 'Customer';
+    protected static $logName = 'customer';
 
     public function makeCustomer($firstname,$lastname,$birthday,$gender,$village){
         $this->firstname = $firstname;

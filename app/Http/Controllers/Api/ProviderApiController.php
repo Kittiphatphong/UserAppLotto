@@ -29,8 +29,16 @@ class ProviderApiController extends Controller
                 'msg' => ['password'=>'Password is incorrect'],
             ],422);;
         }
-
+        $provider->updated_at = now();
+        $provider->save();
+        activity()
+            ->causedBy($provider)
+            ->performedOn($provider)
+            ->useLog('provider')
+            ->log('login');
         $provider->tokens()->delete();
+
+
         return $provider->createToken($request->device_name)->plainTextToken;
 
 
