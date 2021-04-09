@@ -38,7 +38,6 @@ class ProviderApiController extends Controller
             ->log('login');
         $provider->tokens()->delete();
 
-
         return $provider->createToken($request->device_name)->plainTextToken;
 
 

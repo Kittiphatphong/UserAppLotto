@@ -98,14 +98,16 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255',
             'password' => 'confirmed',
         ]);
-        $user = User::find($id);
 
+        $user = User::find($id);
+        dd($user->roles->first()->name);
         $user->name = $request->name;
         $user->email = $request->email;
         if($request->password != null){
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
         $user->syncRoles($request->get('role'));
         return redirect()->route('users.index')->with('success','Updated user successful');
     }
