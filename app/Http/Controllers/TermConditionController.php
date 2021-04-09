@@ -100,6 +100,7 @@ return view('termCondition.termIndex')
      */
     public function destroy(TermCondition $termCondition)
     {
-        //
+        $termCondition->delete();
+        return back()->with('success','')
     }
 }
