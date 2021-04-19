@@ -7,6 +7,7 @@ use App\Models\BillOrder;
 use Illuminate\Http\Request;
 use App\Models\Result;
 use App\Models\Bill;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
@@ -134,7 +135,9 @@ class ResultController extends Controller
                     default:
                         echo "Don't have this digit";
                 }
+
             }
+
         }
 
         //store wining bill 3/40
@@ -156,6 +159,7 @@ class ResultController extends Controller
 
                 }
             }
+
 
         }
         //push notification to customer
@@ -184,8 +188,15 @@ class ResultController extends Controller
     }
 
     public function winRestore($id){
+        $result = Result::find($id);
     $this->winReset($id);
     $this->winStore($id);
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($result)
+            ->useLog('win restore')
+            ->withProperties(['draw' => $result->draw])
+            ->log('restore');
     return back()->with('success','Successful');
     }
 

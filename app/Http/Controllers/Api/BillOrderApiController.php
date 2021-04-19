@@ -21,6 +21,7 @@ class BillOrderApiController extends Controller
     protected $AirTime;
     protected $Lotto;
     protected $sms;
+    protected $transactionId = 'jay';
     public function __construct(PushNotificationController $pushNotificationController,AirTimeController $airTimeController,LottoController $lottoController,SendMassageController $sendMassageController)
     {
         $this->PushNotificationController = $pushNotificationController;
@@ -66,8 +67,10 @@ class BillOrderApiController extends Controller
          //Create bill order
         $type = "2d3d4d5d6d";
         $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
-        $order->transaction_id= 'ncctesttest'.$order->id;
+        $order->transaction_id= $this->transactionId.$order->id;
         $order->save();
+
+
 
         //Create digit form bill order
         $arr = json_decode($request->code);
@@ -80,6 +83,12 @@ class BillOrderApiController extends Controller
        }
        $order->total = $order->billorder2d3d4d5d6ds->sum('money');
        $order->save();
+        activity()
+            ->causedBy($customer)
+            ->performedOn($order)
+            ->useLog('bill order 6d')
+            ->withProperties(['attributes' => $order])
+            ->log('created');
 
         //Api from iPro buy lotto
         $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto/sell',[
@@ -91,6 +100,7 @@ class BillOrderApiController extends Controller
 
         //Check a quota
        $buyData = json_decode($buyLotto,false) ;
+
        if($buyData->status == false){
            foreach ($order->billorder2d3d4d5d6ds as $list){
                $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
@@ -98,6 +108,14 @@ class BillOrderApiController extends Controller
                $bill2d3d4d5d6d->save();
            }
            $order->msg($buyData->description);
+
+           activity()
+               ->causedBy($customer)
+               ->performedOn($order)
+               ->useLog('bill order 6d api')
+               ->withProperties(['msg' => $buyData->description])
+               ->log('fail');
+
            return response()->json([
                'status' => false,
                'msg' => $buyData->description
@@ -109,6 +127,14 @@ class BillOrderApiController extends Controller
                $bill2d3d4d5d6d->save();
            }
            $order->msg($buyData->description);
+
+           activity()
+               ->causedBy($customer)
+               ->performedOn($order)
+               ->useLog('bill order 6d api')
+               ->withProperties(['msg' => $buyData->description])
+               ->log('fail');
+
            return response()->json([
                'status' => false,
                'msg' => $buyData->description
@@ -144,9 +170,18 @@ class BillOrderApiController extends Controller
            foreach ($bill as $bill6d){
                $list[] = $bill6d->digit."=".number_format($bill6d->money)."LAK";
            }
+
+           activity()
+               ->causedBy($customer)
+               ->performedOn($order)
+               ->useLog('bill order 6d api')
+               ->withProperties(['attributes' => $order])
+               ->log('created');
+
            $body = collect($list)->implode(' ');
            $title = "Buy lotto 6D";
            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
+
 
 
            return response()->json([
@@ -178,7 +213,7 @@ class BillOrderApiController extends Controller
 
         $type = "3/40";
         $order = $this->billOrder(null,$this->getDraw()['draw_no'],$this->getDraw()['draw_date'],$customer->id,$type);
-        $order->transaction_id= 'ncctesttest'.$order->id;
+        $order->transaction_id= $this->transactionId.$order->id;
         $order->save();
 
         $arr = json_decode($request->code);
@@ -208,6 +243,13 @@ class BillOrderApiController extends Controller
         $order->total = $order->bill340s->sum('money');
         $order->save();
 
+        activity()
+            ->causedBy($customer)
+            ->performedOn($order)
+            ->useLog('bill order 3/40')
+            ->withProperties(['attributes' => $order])
+            ->log('created');
+
         //Api from iPro buy lotto
         $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto-340/sell',[
             'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
@@ -224,6 +266,14 @@ class BillOrderApiController extends Controller
                 $bill340->save();
             }
             $order->msg($buyData->description);
+
+            activity()
+                ->causedBy($customer)
+                ->performedOn($order)
+                ->useLog('bill order 3/40 api')
+                ->withProperties(['msg' => $buyData->description])
+                ->log('fail');
+
             return response()->json([
                 'status' => false,
                 'msg' => $buyData->description
@@ -235,6 +285,14 @@ class BillOrderApiController extends Controller
                 $bill340->save();
             }
             $order->msg($buyData->description);
+
+            activity()
+                ->causedBy($customer)
+                ->performedOn($order)
+                ->useLog('bill order 3/40 api')
+                ->withProperties(['msg' => $buyData->description])
+                ->log('fail');
+
             return response()->json([
                 'status' => false,
                 'msg' => $buyData->description
@@ -270,6 +328,13 @@ class BillOrderApiController extends Controller
             $bill = Billorder340::where('order_id',$order->id)->select('digit','money')->get();
             $orderBill = BillOrder::find($order->id);
 
+            activity()
+                ->causedBy($customer)
+                ->performedOn($order)
+                ->useLog('bill order 3/40 api')
+                ->withProperties(['attributes' => $order])
+                ->log('created');
+
             //Send notification
             foreach ($bill as $bill340){
                 $list[] = $bill340->digit."=".number_format($bill340->money)."Lak";
@@ -285,7 +350,6 @@ class BillOrderApiController extends Controller
                 'draw' => $orderBill->draw,
                 'draw_date' => $orderBill->draw_date
             ],201);
-
 
         }
 

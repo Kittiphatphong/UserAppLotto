@@ -13,7 +13,7 @@ class LogController extends Controller
        $text_success = ['created','new customer'];
        $text_info = ['updated','login','set password','verify otp',
            'forgot password','changed password','updated detail',
-           'updated background','updated profile','request otp','change role','role update permission','role add permission'
+           'updated background','updated profile','request otp','change role','role update permission','role add permission','restore'
        ];
        $text_waring = ['edited'];
         return view('log.index')

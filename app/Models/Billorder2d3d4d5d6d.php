@@ -19,6 +19,11 @@ class Billorder2d3d4d5d6d extends Model
         $order->status_win = 1 ;
         $order->total_win = $order->winAmount2d3d4d5d6d();
         $order->save();
+        activity()
+            ->performedOn($order)
+            ->useLog('bill win 6d')
+            ->withProperties(['attributes' => $order])
+            ->log('updated');
     }
 
    public function sumWins(){

@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Result extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+    protected static $logName = 'result';
+    protected static $logAttributes = ['draw','animal1','animal2','animal3','l2d3d4d5d6d'];
+    protected static $logOnlyDirty = true;
 
     public function animal6ds(){
         return $this->belongsTo(Animal::class,'animal6d_id');
