@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Customer_Notification;
 use App\Models\Promotion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PromotionApiController extends Controller
 {
     public function promotionList(){
+        $promotion = Promotion::where('start','<=',Carbon::now())
+            ->where('end','>=',Carbon::now())->get();
         return response()->json([
             'status' => true,
-            'data' => Promotion::all()
+            'data' => $promotion
         ]);
     }
     public function promotionFilter(Request $request){
