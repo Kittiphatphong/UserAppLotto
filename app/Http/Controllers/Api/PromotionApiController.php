@@ -13,7 +13,7 @@ class PromotionApiController extends Controller
 {
     public function promotionList(){
         $promotion = Promotion::where('start','<=',Carbon::now())
-            ->where('end','>=',Carbon::now())->get();
+            ->where('end','>=',Carbon::now())->latest()->get();
         return response()->json([
             'status' => true,
             'data' => $promotion
