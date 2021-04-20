@@ -506,7 +506,7 @@
                         </li>
 
 
-                        <li class="menu-item menu-item-submenu @if(isset($log_index_customer))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                        <li class="menu-item menu-item-submenu @if(isset($log_index_customer) || isset($apilogs))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fas fa-clipboard-list"></i>
                                 <span class="menu-text">@lang('Log')</span>
@@ -521,7 +521,17 @@
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
-                                            <span class="menu-text">@lang('Customers')</span>
+                                            <span class="menu-text">@lang('Database')</span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="menu-item @isset($apilogs) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('log.index.api')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Api')</span>
                                         </a>
                                     </li>
 

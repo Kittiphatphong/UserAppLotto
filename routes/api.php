@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\ImageAppApiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware'=>'apilogger'],function(){
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -104,5 +105,6 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
 });
 
+});
 //Bill order
 

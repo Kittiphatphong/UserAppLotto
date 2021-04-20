@@ -596,7 +596,7 @@ class CustomerApiController extends Controller
                     'image'=>$customerData->image,
                     'background_image'=>$customerData->background_image,
                     'count_notification' =>$customerData->notification->count(),
-                    'balance' => $balance
+                    'balance' => (string) ($balance)
                 ]]);
         }catch (\Exception $e){
             return response()->json([

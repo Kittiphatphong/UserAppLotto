@@ -21,9 +21,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\DristricController;
 use App\Http\Controllers\ImageAppController;
 
-Route::get('activity',function (){
-   return \Spatie\Activitylog\Models\Activity::all()->last();
-});
+
 
 
 Route::get('/', function () {
@@ -35,6 +33,12 @@ Route::get('locale/{locale}', function ($locale){
     return redirect()->back();
 })->name('lang');
 Route::group(['middleware' =>'auth'],function(){
+
+
+//    Route::get('activity',function (){
+//        return \Spatie\Activitylog\Models\Activity::all()->last();
+//    });
+
 
 
     Route::get('/dashboard', [DashboardController::class,'dashboard'])
@@ -150,6 +154,8 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Log database
     Route::get('log',[LogController::class,'index'])->name('log.index');
+    //Log Api
+    Route::get('log-api',[LogController::class,'indexApi'])->name('log.index.api');
 
     //Term and condition
     Route::resource('term-condition',TermConditionController::class);
