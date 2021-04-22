@@ -24,6 +24,16 @@ class PushNotificationController extends Controller
 
     protected $serverKey = 'AAAAWsC1XQw:APA91bEudAHtWAa1AWFV-vbPM39bR7VKXk7VBhX3ZhNj4yg-qVb6ccJ4Y9Zj1toKe6uc1V-UQEK6eTIGvngMm2oWVj3tq2ZvRP2Q5Tp0LiDI7GYg1GFquSnF8dPoEWiufISDBmqbPErk';
 
+
+    public function notification($customerId,$type_id){
+        return Notification::with(['typeNotifications','notification_customers'=> function($q) use ($customerId){
+            $q->where('customer_id', $customerId);
+        }])->orderBy('id','desc')
+            ->whereHas('notification_customers', function ($q) use ($customerId) {
+                $q->where('customer_id', $customerId);
+            })->where('type_id',$type_id)->select('id','title','body','msg_id','type_id')->get();
+    }
+
     public function pushNotification($body ,$title,$token){
         $token = "f8NAhkmxsqLDcBkj1Up3pR:APA91bGOOWO22D4Z8G21VsZu-RyRq_dklGz7yXkfzO2HCAJWD2u4rN6KfFrr4WfKzPOCb06GLrpKAwd0-mjXB-jmgpLheIyVkHZhFpeET-KNHvUYKWMZG6qbfIz9-_8hM4RYzRyMJADr";
         $from = "AAAA1twLRCc:APA91bF77GPgkgQsjvS2QNAhVVG1ycM2kPRgV9NGNApRNf_P5ylcuF2RwudjWqwvjG9Fn5E3Jfc31z5IYeTo8331lAJcEpjciMLSrbiDTACKFZzWeDEhITh7il6sam_hlTwRoFhipN9I";
@@ -137,8 +147,10 @@ class PushNotificationController extends Controller
             $notification = new Notification();
             $notification->newNotification($title,$body,$type,$massages,$msg_id);
             $customer_notification = new Customer_Notification();
-            $this->sendPushDevice($body,$title,$customer->device_token,$massages);
+
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
+            $massagesN = $this->notification($idCustomer,$type);
+            $this->sendPushDevice($body,$title,$customer->device_token,$massagesN);
         }
 
     }
@@ -151,7 +163,9 @@ class PushNotificationController extends Controller
             $customer_notification = new Customer_Notification();
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
-        $this->sendPush($body,$title,$massages);
+        $massagesN = Notification::with('typeNotifications')->get();
+
+        $this->sendPush($body,$title,$massagesN);
     }
 
     public function pushNotificationWin($draw){
@@ -165,8 +179,12 @@ class PushNotificationController extends Controller
             $notification = new Notification();
             $notification->newNotification($title,$body,2,$bill,$bill->id);
             $customer_notification = new Customer_Notification();
-            $this->sendPushDevice($body,$title,$bill->customers->device_token,$bill);
+
             $customer_notification->newCustomerNotification($bill->customers->id,$notification->id);
+            $massagesN = $this->notification($bill->customers->id,2);
+            $this->sendPushDevice($body,$title,$bill->customers->device_token,$massagesN);
+
+
 
         }
 

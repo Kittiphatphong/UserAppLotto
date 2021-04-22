@@ -14,7 +14,7 @@ class AddMsgIdToTableNotifications extends Migration
     public function up()
     {
         Schema::table('notifications', function (Blueprint $table) {
-            //
+            $table->bigIncrements('msg_id');
         });
     }
 
