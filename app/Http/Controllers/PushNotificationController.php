@@ -78,7 +78,7 @@ class PushNotificationController extends Controller
 
             $notification = [
                 "condition" => "'Events' in topics", //multi topics : "'TopicA' in topics && ('TopicB' in topics || 'TopicC' in topics)";
-                "data"=>["message"=> $massages],
+                "data"=>["click_action"=> "FLUTTER_NOTIFICATION_CLICK","message"=> $massages],
                 "notification" =>
                     [
                         "title" => $title,
@@ -113,7 +113,7 @@ class PushNotificationController extends Controller
 
             $notification = [
                 "registration_ids" => [$token],
-                "data"=>["message"=> $massages],
+                "data"=>["click_action"=> "FLUTTER_NOTIFICATION_CLICK","message"=> $massages],
                 "notification" =>
                     [
                         "title" => $title,
