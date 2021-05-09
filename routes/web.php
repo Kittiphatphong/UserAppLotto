@@ -20,7 +20,8 @@ use App\Http\Controllers\TermConditionController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\DristricController;
 use App\Http\Controllers\ImageAppController;
-
+use App\Http\Controllers\GoogleMapController;
+use App\Http\Controllers\Partnercontroller;
 
 
 
@@ -167,6 +168,11 @@ Route::group(['middleware' =>'auth'],function(){
     //Background image app
     Route::resource('image-app',ImageAppController::class);
     Route::post('active-background/{id}',[ImageAppController::class,'active'])->name('image-app.active');
+
+    //Google map
+    Route::resource('google-map',GoogleMapController::class);
+    //Partner
+    Route::resource('partner',Partnercontroller::class);
 });
 
 

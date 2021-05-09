@@ -5,6 +5,7 @@
 <head><base href="../../">
     <meta charset="utf-8" />
     <title>@yield('title')</title>
+    @yield('head')
     <meta name="description" content="Page with empty content" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -42,6 +43,12 @@
         src: url("/assets/Lao_Classic3.ttf");
     }
     body{
+        font-family: Lao_Classic3;
+    }
+    #map {
+        height: 100%;
+    }
+    .fontJ{
         font-family: Lao_Classic3;
     }
     </style>
@@ -455,6 +462,12 @@
 
                             </div>
                         </li>
+                        <li class="menu-item  @isset($map_index) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('google-map.index')}}" class="menu-link">
+                                <i class="menu-icon fa fa-map-marked"></i>
+                                <span class="menu-text">@lang('Maps')</span>
+                            </a>
+                        </li>
                         <li class="menu-item  @isset($provider_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('provider.list')}}" class="menu-link">
                                 <i class="menu-icon flaticon-users-1"></i>
@@ -547,7 +560,7 @@
 {{--                            </a>--}}
 {{--                        </li>--}}
                         <li class="menu-item" aria-haspopup="true">
-                            <a target="_blank" href="https://preview.keenthemes.com/metronic/demo1/builder.html" class="menu-link">
+                            <a target="_blank" href="#" class="menu-link">
                                 <i class="menu-icon flaticon-cogwheel-1"></i>
                                 <span class="menu-text">@lang('Builder')</span>
                             </a>
