@@ -31,25 +31,39 @@
             const myLatLng = {lat: 17.975, lng: 102.633}
             map = new google.maps.Map(document.getElementById("map"), {
                 center: myLatLng,
-                zoom: 8,
+                zoom: 10,
             });
 
             const image =
                 "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
-            const iconBase =
-                "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+
             for (var i = 0 ; i<data.length; i++){
-                const contentString = "<div class='fontJ text-center p-0 m-0'>"+
-                    "<img src='" + data[i].partners.icon +"' style='width: 50px'><p>"+
-                data[i].partners.partner_name +"</p><p>"
-                    +data[i].name +"</p><img src='" + data[i].image +"' style='width: 200px'>"+
+                var icon = {
+                    url: data[i].partners.icon, // url
+                    scaledSize: new google.maps.Size(25, 25), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(0, 0) // anchor
+                };
+
+                const contentString =
+                    "<a href='https://www.google.com/maps/search/?api=1&query="+data[i].id+ " ' class='btn btn-link' target='_blank'><i class='fa fa-edit text-primary'></i></a>" +
+                    "<div class='fontJ text-center p-0 m-0'>"+
+                    "<img src='" + data[i].partners.icon +"' style='width: 50px'>" +
+                    "<p>"+
+                data[i].partners.partner_name +
+                    "</p>" +
+                    "<p>"
+                    +data[i].name +"</p>" +
+                    "<img src='" + data[i].image +"' style='width: 200px'>"+
+                    "<br>"+
+                    "<a href='https://www.google.com/maps/search/?api=1&query="+data[i].lat+","+data[i].lng+ " ' class='btn btn-link' target='_blank'>View on google map</a>" +
                     "</div>";
 
                 const marker =new google.maps.Marker({
                     position: {lat: data[i].lat, lng: data[i].lng},
                     map,
 
-                    icon:  image,
+                    icon:  icon,
                 });
                 let infowindow = new google.maps.InfoWindow({
                     content: contentString,
@@ -98,7 +112,7 @@
                 <!--begin::Item-->
                 @foreach($partners as $partner)
                 <li class="nav-item d-flex col-sm flex-grow-1 flex-shrink-0 @if($loop->last) mr-0 @else mr-3 @endif mb-3 mb-lg-0">
-                    <a class="nav-link border  d-flex flex-grow-1 rounded flex-column align-items-center" data-toggle="pill" href="#tab_forms_widget_1">
+                    <a href="{{route('partner.edit',$partner->id)}}" class="nav-link border  d-flex flex-grow-1 rounded flex-column align-items-center" data-toggle="pill" href="#tab_forms_widget_1">
 															<span class="nav-icon py-2 w-auto">
 																<span class="svg-icon svg-icon-3x">
                                                                    <img src="{{$partner->icon}}" height="100px">
@@ -118,9 +132,9 @@
 
         </div>
     </div>
+    <div id="map" style="width:100%;height:70%" class="table-responsive border border-light rounded card card-custom"></div>
 
 
-    <div id="map" style="width:100%;height:80%" class="border border-light rounded"></div>
 
 
 

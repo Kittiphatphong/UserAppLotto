@@ -77,7 +77,9 @@ class Partnercontroller extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('partner.partnerCreate')
+            ->with('map_index','map_index')
+            ->with('edit',Partner::find($id));
     }
 
     /**
@@ -89,7 +91,18 @@ class Partnercontroller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'partner_name' => 'required',
+            'icon' => 'file|image|max:50000|mimes:jpeg,png,jpg'
+        ]);
+        $partner = Partner::find($id);
+        $partner->partner_name = $request->get('partner_name');
+        $partner->save();
+        if($request->hasFile("icon")){
+            Storage::delete("public/partner_image/".str_replace('/storage/partner_image/','',$partner->icon));
+            $request->icon->storeAs("public/partner_image",str_replace('/storage/partner_image/','',$partner->icon));
+        }
+        return back()->with('success','Update partner successful');
     }
 
     /**

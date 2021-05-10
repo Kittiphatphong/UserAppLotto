@@ -36,15 +36,23 @@
                         <h3 class="card-label">New Partner
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-                    <form action="{{route('partner.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{isset($edit)?route('partner.update',$edit->id): route('partner.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
+                        @isset($edit)
+                            @method('PATCH')
+                        @endisset
                         <div class="form-group">
                             <lable>Partner name</lable>
-                    <input type="text" class="form-control" name="partner_name" placeholder="Enter partner name" required>
+                    <input type="text" class="form-control" name="partner_name" placeholder="Enter partner name" value="{{isset($edit)?$edit->partner_name:''}}" required>
                         </div>
                         <div class="form-group">
                             <lable>Icon</lable>
                             <input type="file" class="form-control" name="icon" >
+                            @isset($edit)
+                                <div class="d-flex justify-content-center" >
+                            <img src="{{$edit->icon}}" class="py-4">
+                                </div>
+                            @endif
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-block" >SUBMIT</button>
