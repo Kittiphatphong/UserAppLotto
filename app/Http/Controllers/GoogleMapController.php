@@ -18,6 +18,7 @@ class GoogleMapController extends Controller
      */
     public function index()
     {
+
      return view('maps.mapIndex')
          ->with('partners',Partner::all())
          ->with('map_index',GoogleMap::with('partners')->get());
@@ -92,7 +93,12 @@ class GoogleMapController extends Controller
      */
     public function edit(GoogleMap $googleMap)
     {
-        //
+        $provinces = Province::all();
+        return view('maps.mapCreate')
+            ->with('map_index','map_index')
+            ->with('provinces',$provinces)
+            ->with('partners',Partner::all())
+            ->with('edit',$googleMap);
     }
 
     /**
@@ -104,7 +110,29 @@ class GoogleMapController extends Controller
      */
     public function update(Request $request, GoogleMap $googleMap)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
+            'partner_id' => 'required',
+            'pr_id' => 'required',
+            'lat' => 'required',
+            'lng' => 'required'
+
+        ]);
+
+        $googleMap->name = $request->get('name');
+        $googleMap->lat = $request->get('lat');
+        $googleMap->lng= $request->get('lng');
+        $googleMap->partner_id = $request->get('partner_id');
+        $googleMap->pr_id = $request->get('pr_id');
+        $googleMap->save();
+
+        if($request->hasFile("image")){
+            Storage::delete("public/google_map_image/".str_replace('/storage/google_map_image/','',$googleMap->image));
+            $request->image->storeAs("public/google_map_image",str_replace('/storage/google_map_image/','',$googleMap->image));
+        }
+
+        return redirect()->route('google-map.index')->with('success','Update location successful');
     }
 
     /**

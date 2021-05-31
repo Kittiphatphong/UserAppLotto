@@ -25,9 +25,14 @@
 
     <script>
         let map;
+        let edit = {!!   isset($edit)?json_encode($edit->toArray()) : json_encode(null) !!} ;
 
         function initMap() {
-            const myLatLng = {lat: 17.975, lng: 102.633}
+            let myLatLng = {lat: 17.975, lng: 102.633}
+            if(edit != null){
+                myLatLng = {lat: edit.lat , lng: edit.lng}
+            }
+
             map = new google.maps.Map(document.getElementById("map"), {
                 center: myLatLng,
                 zoom: 15,
@@ -86,11 +91,14 @@
 
                 <div class="p-6 bg-white border-b border-gray-200 pb-4">
                     <div class="card-title">
-                        <h3 class="card-label">New location
+                        <h3 class="card-label">{{isset($edit)?'Edit':'New'}} location
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-<form action="{{route('google-map.store')}}" method="post" enctype="multipart/form-data">
+<form action="{{isset($edit)?route('google-map.update',$edit->id):route('google-map.store')}}" method="post" enctype="multipart/form-data">
     @csrf
+    @isset($edit)
+        @method('PATCH')
+    @endisset
     <div class="form-group">
         <label>Location</label>
         <div id="map" style="width:100%;height:500px" class="border border-light rounded"></div>
@@ -99,40 +107,45 @@
         <label>Provinces</label>
         <select class="form-control" name="pr_id">
             @foreach($provinces as $province)
-            <option value="{{$province->id}}">{{$province->pr_name}}</option>
+            <option value="{{$province->id}}" @isset($edit) @if($edit->provinces->id == $province->id) selected  @endif @endisset>{{$province->pr_name}}</option>
             @endforeach
         </select>
     </div>
     <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" placeholder="Name" name="name" required>
+        <input type="text" class="form-control" placeholder="Name" name="name" value="{{isset($edit)?$edit->name:''}}" required>
     </div>
     <div class="form-group">
         <lable>Image</lable>
-        <input type="file" name="image" class="form-control" required>
+        <input type="file" name="image" class="form-control" >
+        @isset($edit)
+
+                <img src="{{$edit->image}}" class="mt-4 border rounded" width="200px">
+
+        @endif
     </div>
     <div class="form-group">
         <label>Partner</label>
         <select class="form-control" name="partner_id">
             @foreach($partners as $partner)
-            <option value="{{$partner->id}}">{{$partner->partner_name}}</option>
+            <option value="{{$partner->id}}" @isset($edit) @if($partner->id == $edit->partners->id) selected @endif  @endisset>{{$partner->partner_name}}</option>
             @endforeach
         </select>
     </div>
         <div class="form-group">
             <lable>Latitude</lable>
-            <input type="text" name="lat"  id="lat" class="form-control" value=17.975 onchange="setPin()">
+            <input type="text" name="lat"  id="lat" class="form-control" value={{isset($edit)?$edit->lat : 17.975}} onchange="setPin()">
         </div>
     <div class="form-group">
         <lable>Longitude</lable>
-        <input type="text" name="lng"  id="lng" class="form-control" value=102.633 onchange="setPin()">
+        <input type="text" name="lng"  id="lng" class="form-control" value={{isset($edit)?$edit->lng : 102.633}} onchange="setPin()">
     </div>
 
 
 
 
     <div class="form-group">
-        <button type="submit" class="btn btn-success btn-block">SUBMIT</button>
+        <button type="submit" class="btn {{isset($edit)?'btn-warning':'btn-success'}} btn-block">{{isset($edit)?'EDIT':'SUBMIT'}}</button>
     </div>
 
 

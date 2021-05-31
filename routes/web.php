@@ -22,6 +22,8 @@ use App\Http\Controllers\DristricController;
 use App\Http\Controllers\ImageAppController;
 use App\Http\Controllers\GoogleMapController;
 use App\Http\Controllers\Partnercontroller;
+use App\Http\Controllers\TempleController;
+use App\Http\Controllers\FortuneController;
 
 
 
@@ -173,6 +175,10 @@ Route::group(['middleware' =>'auth'],function(){
     Route::resource('google-map',GoogleMapController::class);
     //Partner
     Route::resource('partner',Partnercontroller::class);
+    //Temple
+    Route::resource('temple',TempleController::class);
+    //Fortune
+    Route::resource('fortune',FortuneController::class);
 });
 
 

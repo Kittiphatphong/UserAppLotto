@@ -12,4 +12,7 @@ class GoogleMap extends Model
     public function partners(){
         return $this->belongsTo(Partner::class,'partner_id');
 }
+public function provinces(){
+        return $this->belongsTo(Province::class,'pr_id');
+}
 }

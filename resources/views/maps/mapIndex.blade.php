@@ -26,12 +26,12 @@
     <script>
         let map;
         var data = {!!   json_encode($map_index->toArray()) !!};
-        console.log(data);
+
         function initMap() {
             const myLatLng = {lat: 17.975, lng: 102.633}
             map = new google.maps.Map(document.getElementById("map"), {
                 center: myLatLng,
-                zoom: 10,
+                zoom: 8,
             });
 
             const image =
@@ -46,7 +46,7 @@
                 };
 
                 const contentString =
-                    "<a href='https://www.google.com/maps/search/?api=1&query="+data[i].id+ " ' class='btn btn-link' target='_blank'><i class='fa fa-edit text-primary'></i></a>" +
+                    "<a href='/google-map/" +data[i].id+ "/edit ' class='btn btn-link'><i class='fa fa-edit text-primary'></i></a>" +
                     "<div class='fontJ text-center p-0 m-0'>"+
                     "<img src='" + data[i].partners.icon +"' style='width: 50px'>" +
                     "<p>"+
@@ -86,7 +86,7 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">New location
+                <h3 class="card-label">Location
                     <span class="d-block text-muted pt-2 font-size-sm">All location of partner</span></h3>
             </div>
             <div class="card-toolbar">

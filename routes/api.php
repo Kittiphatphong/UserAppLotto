@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\BillApiController;
 use App\Http\Controllers\Api\SaveOrderController;
 use App\Http\Controllers\TermConditionApiController;
 use App\Http\Controllers\Api\ImageAppApiController;
+use App\Http\Controllers\Api\GoogleMapApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -103,6 +104,8 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('deleteCustomerOrder',[SaveOrderController::class,'DeleteUser6d']);
     Route::post('getSaveOrder',[SaveOrderController::class,'getSaveOrder']);
 
+    //google map list
+    Route::post('google-map',[GoogleMapApiController::class,'index']);
 });
 
 });

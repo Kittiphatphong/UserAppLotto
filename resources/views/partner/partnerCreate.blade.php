@@ -33,7 +33,7 @@
 
                 <div class="p-6 bg-white border-b border-gray-200 pb-4">
                     <div class="card-title">
-                        <h3 class="card-label">New Partner
+                        <h3 class="card-label">{{isset($edit)?'Edit partner':'New Partner'}}
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
                     <form action="{{isset($edit)?route('partner.update',$edit->id): route('partner.store')}}" method="post" enctype="multipart/form-data">
@@ -52,10 +52,10 @@
                                 <div class="d-flex justify-content-center" >
                             <img src="{{$edit->icon}}" class="py-4">
                                 </div>
-                            @endif
+                            @endisset
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block" >SUBMIT</button>
+                            <button type="submit" class="btn {{isset($edit)?'btn-warning':'btn-success'}} btn-block">{{isset($edit)?'EDIT':'SUBMIT'}}</button>
                         </div>
 
                     </form>
