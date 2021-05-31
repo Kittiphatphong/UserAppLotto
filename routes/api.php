@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\SaveOrderController;
 use App\Http\Controllers\TermConditionApiController;
 use App\Http\Controllers\Api\ImageAppApiController;
 use App\Http\Controllers\Api\GoogleMapApiController;
+use App\Http\Controllers\Api\FortuneApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -106,8 +107,13 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //google map list
     Route::post('google-map',[GoogleMapApiController::class,'index']);
-});
 
+    //fortune
+    Route::post('temple-list',[FortuneApiController::class,'templeList']);
+    Route::post('get-paper-fortune',[FortuneApiController::class,'getPaperFortune']);
+
+});
+//read me
 });
 //Bill order
 

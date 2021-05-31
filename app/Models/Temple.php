@@ -11,4 +11,9 @@ class Temple extends Model
     public function fortunes(){
         return $this->hasMany(Fortune::class,'temple_id');
     }
+    public function apiFortunes(){
+        return $this->hasMany(Fortune::class,'temple_id')
+            ->select('no','image as paper_image')
+            ->orderBy('no');
+    }
 }
