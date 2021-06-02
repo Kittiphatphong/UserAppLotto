@@ -73,6 +73,7 @@ class PushNotificationController extends Controller
     public function sendPush($body ,$title, $massages)
     {
 
+
         try {
 
 
@@ -163,9 +164,9 @@ class PushNotificationController extends Controller
             $customer_notification = new Customer_Notification();
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
         }
-        $massagesN = Notification::with('typeNotifications')->get();
+//        $massagesN = Notification::with('typeNotifications')->get();
 
-        $this->sendPush($body,$title,$massagesN);
+        $this->sendPush($body,$title,$massages);
     }
 
     public function pushNotificationWin($draw){
