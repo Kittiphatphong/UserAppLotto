@@ -13,7 +13,7 @@ class ProviderApiController extends Controller
         $validator =  Validator::make($request->all(),[
             'provider_name' => 'required|exists:providers,provider_name',
             'password' => 'required|min:8',
-            'device_name' => 'required',
+//            'device_name' => 'required',
         ]);
         if($validator->fails()){
             return response()->json([
@@ -38,7 +38,17 @@ class ProviderApiController extends Controller
             ->log('login');
         $provider->tokens()->delete();
 
-        return $provider->createToken($request->device_name)->plainTextToken;
+        $token = $provider->createToken("provider")->plainTextToken;
+        return response()->json([
+            'status' => true,
+            'description' => "login successful",
+            'data' => [
+                "username" => $provider->provider_name,
+                'bearer_token' => $token,
+
+            ]
+
+        ]);
 
 
     }

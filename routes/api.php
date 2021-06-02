@@ -17,6 +17,7 @@ use App\Http\Controllers\TermConditionApiController;
 use App\Http\Controllers\Api\ImageAppApiController;
 use App\Http\Controllers\Api\GoogleMapApiController;
 use App\Http\Controllers\Api\FortuneApiController;
+use App\Http\Controllers\Api\PushNotificationApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -111,6 +112,11 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     //fortune
     Route::post('temple-list',[FortuneApiController::class,'templeList']);
     Route::post('get-paper-fortune',[FortuneApiController::class,'getPaperFortune']);
+
+
+    //push notification for ipro call
+    Route::post("push-notification-buy",[PushNotificationApiController::class,"notificationBuyForAllChanel"]);
+
 
 });
 //read me
