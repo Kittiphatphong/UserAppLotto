@@ -56,7 +56,18 @@
                     <tbody>
            @foreach($fortune_index as $temple)
     <tr>
-        <td><img src="{{$temple->image}}" width="100px" class="border rounded"></td>
+        <td>
+            <div class="d-flex justify-content-between">
+
+                @if($temple->status == true)
+                <a href="{{route('temple.status',$temple->id)}}" class=" label label-lg font-weight-bold label-light-success label-inline p-4">Active</a>
+                @else
+                    <a href="{{route('temple.status',$temple->id)}}" class=" label label-lg font-weight-bold label-light-danger label-inline p-4">Not Active</a>
+                @endif
+            <img src="{{$temple->image}}" width="150px" class="border rounded">
+
+            </div>
+        </td>
         <td>{{$temple->temple_name}}</td>
         <td>{{$temple->fortunes->count()}}</td>
         <td>

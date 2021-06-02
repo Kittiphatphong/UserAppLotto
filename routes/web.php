@@ -179,6 +179,7 @@ Route::group(['middleware' =>'auth'],function(){
     Route::resource('temple',TempleController::class);
     //Fortune
     Route::resource('fortune',FortuneController::class);
+    Route::get('update-status-temple/{id}',[FortuneController::class,'changeStatus'])->name('temple.status');
 });
 
 

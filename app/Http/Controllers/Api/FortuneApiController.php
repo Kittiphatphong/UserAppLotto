@@ -13,7 +13,7 @@ class FortuneApiController extends Controller
     public function templeList(){
         return response()->json([
             'status' => true,
-            'data' => TempleResource::collection(Temple::latest()->get())
+            'data' => TempleResource::collection(Temple::latest()->where('status',true)->get())
         ]);
     }
     public function getPaperFortune(Request $request){

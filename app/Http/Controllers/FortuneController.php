@@ -124,4 +124,16 @@ class FortuneController extends Controller
         $fortune->delete();
 
     }
+
+    public function changeStatus($id){
+        $temple = Temple::find($id);
+        if($temple->status == true){
+            $temple->status = false;
+        }else{
+            $temple->status = true;
+        }
+        $temple->save();
+        return back()->with('success','Update status successful');
+
+    }
 }
