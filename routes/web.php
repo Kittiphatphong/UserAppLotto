@@ -24,6 +24,7 @@ use App\Http\Controllers\GoogleMapController;
 use App\Http\Controllers\Partnercontroller;
 use App\Http\Controllers\TempleController;
 use App\Http\Controllers\FortuneController;
+use App\Http\Controllers\TypeExpenseController;
 
 
 
@@ -180,6 +181,9 @@ Route::group(['middleware' =>'auth'],function(){
     //Fortune
     Route::resource('fortune',FortuneController::class);
     Route::get('update-status-temple/{id}',[FortuneController::class,'changeStatus'])->name('temple.status');
+
+    //Expense
+    Route::resource('expense-type',TypeExpenseController::class);
 });
 
 

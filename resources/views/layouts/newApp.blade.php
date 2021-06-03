@@ -462,12 +462,15 @@
 
                             </div>
                         </li>
+
                         <li class="menu-item  @isset($fortune_index) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('temple.index')}}" class="menu-link">
                                 <i class="menu-icon fab fa-foursquare"></i>
                                 <span class="menu-text">@lang('Fortune')</span>
                             </a>
                         </li>
+
+
                         <li class="menu-item  @isset($map_index) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('google-map.index')}}" class="menu-link">
                                 <i class="menu-icon fa fa-map-marked"></i>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMsgIdToTableNotifications extends Migration
+class AddOnDeleteExpenses extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMsgIdToTableNotifications extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            $table->unsignedBigInteger('msg_id');
+        Schema::table('expenses', function (Blueprint $table) {
+        $table->foreign('type_expense_id')->references('id')->on('type_expenses')->onDelete('cascade');
         });
     }
 
@@ -25,7 +25,7 @@ class AddMsgIdToTableNotifications extends Migration
      */
     public function down()
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('expenses', function (Blueprint $table) {
             //
         });
     }

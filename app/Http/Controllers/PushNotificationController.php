@@ -31,7 +31,7 @@ class PushNotificationController extends Controller
         }])->orderBy('id','desc')
             ->whereHas('notification_customers', function ($q) use ($customerId) {
                 $q->where('customer_id', $customerId);
-            })->where('type_id',$type_id)->select('id','title','body','msg_id','type_id')->get();
+            })->where('type_id',$type_id)->select('id','title','body','msg_id','type_id')->first()->toArray();
     }
 
     public function pushNotification($body ,$title,$token){
@@ -151,6 +151,7 @@ class PushNotificationController extends Controller
 
             $customer_notification->newCustomerNotification($customer->id,$notification->id);
             $massagesN = $this->notification($idCustomer,$type);
+
             $this->sendPushDevice($body,$title,$customer->device_token,$massagesN);
         }
 

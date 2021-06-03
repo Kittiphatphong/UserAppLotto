@@ -21,7 +21,7 @@ class BillOrderApiController extends Controller
     protected $AirTime;
     protected $Lotto;
     protected $sms;
-    protected $transactionId = 'jay';
+    protected $transactionId = 'NccNcc';
     public function __construct(PushNotificationController $pushNotificationController,AirTimeController $airTimeController,LottoController $lottoController,SendMassageController $sendMassageController)
     {
         $this->PushNotificationController = $pushNotificationController;

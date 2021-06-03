@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMsgIdToTableNotifications extends Migration
+class CreateTypeExpensesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddMsgIdToTableNotifications extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            $table->unsignedBigInteger('msg_id');
+        Schema::create('type_expenses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('app_name')->nullable();
+            $table->string('client_id')->nullable();
+            $table->timestamps();
+
         });
     }
 
@@ -25,8 +30,6 @@ class AddMsgIdToTableNotifications extends Migration
      */
     public function down()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('type_expenses');
     }
 }
