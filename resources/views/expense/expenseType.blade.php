@@ -1,17 +1,17 @@
 @extends('layouts.newApp')
-@section('title','Notification icon')
+@section('title','Expense type')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">NOTIFICATION PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">EXPENSE TYPE PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <span  class="text-muted">Notification</span>
+                <span  class="text-muted">Expenses</span>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('notification.type')}}" class="text-muted">Type</a>
+                <a href="{{route('expense-type.index')}}" class="text-muted">Type</a>
             </li>
         </ul>
         <!--end::Breadcrumb-->
@@ -23,12 +23,20 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Notification
-                    <span class="d-block text-muted pt-2 font-size-sm">Notification type</span></h3>
+                <h3 class="card-label">Expenses type
+                    <span class="d-block text-muted pt-2 font-size-sm">Expenses type list</span></h3>
                 <span class="float-right"></span>
             </div>
             <div class="card-toolbar">
 
+                <!--begin::Button-->
+                <a href="{{route('expense-type.create')}}" class="btn btn-primary font-weight-bolder">
+											<span class="svg-icon svg-icon-md">
+											<i class="fas fa-plus-square"></i>
+												</svg>
+                                                <!--end::Svg Icon-->
+											</span>New type expense</a>
+                <!--end::Button-->
             </div>
         </div>
         <div class="card-body">
@@ -44,23 +52,23 @@
 
                         <th>ID</th>
                         <th>NAME</th>
-                        <th>IMAGE</th>
-                        <th>COUNT</th>
-                        <th>ACTION</th>
+                        <th>CREATED AT</th>
                         <th>UPDATED AT</th>
+                        <th>ACTION</th>
 
 
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($notification_icon as $notification)
+                    @foreach($expense_type as $type)
                         <tr>
-                            <td>{{$notification->id}}</td>
-                            <td>{{$notification->name}}</td>
-                            <td class="text-center"><img src="{{$notification->icon}}" width="50px"></td>
-                            <td>{{$notification->notifications->count()}}</td>
-                            <td><a href="{{route('notification.icon.edit',$notification->id)}}"><i class="far fa-edit"></i></a></td>
-                            <td>{{$notification->updated_at}}</td>
+                            <td>{{$type->id}}</td>
+                            <td>{{$type->name}}</td>
+                            <td>{{$type->created_at}}</td>
+                            <td>{{$type->updated_at}}</td>
+                            <td><a href="{{route('expense-type.edit',$type->id)}}"><i class="far fa-edit"></i></a></td>
+
+
                         </tr>
                     @endforeach
                     </tbody>

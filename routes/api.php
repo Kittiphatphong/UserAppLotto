@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\ImageAppApiController;
 use App\Http\Controllers\Api\GoogleMapApiController;
 use App\Http\Controllers\Api\FortuneApiController;
 use App\Http\Controllers\Api\PushNotificationApiController;
+use App\Http\Controllers\Api\TypeExpenseApiController;
+use App\Http\Controllers\Api\ExpenseApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -118,6 +120,10 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post("push-notification-buy",[PushNotificationApiController::class,"notificationBuyForAllChanel"]);
 
 
+    //Expense
+    Route::post('type-expense',[TypeExpenseApiController::class,'typeExpenseList']);
+
+    Route::post('create-expense',[ExpenseApiController::class,'createExpense']);
 });
 //read me
 });

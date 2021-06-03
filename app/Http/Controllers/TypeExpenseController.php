@@ -14,7 +14,9 @@ class TypeExpenseController extends Controller
      */
     public function index()
     {
-        //
+        return view('expense.expenseType')
+            ->with('expense_type',TypeExpense::all());
+
     }
 
     /**
@@ -24,7 +26,8 @@ class TypeExpenseController extends Controller
      */
     public function create()
     {
-        //
+        return view('expense.expenseCreate')
+            ->with('expense_type','expense_type');
     }
 
     /**
@@ -35,7 +38,12 @@ class TypeExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        TypeExpense::create($request->all());
+        return redirect()->route('expense-type.index')->with('success','Created new type expense');
     }
 
     /**
@@ -55,9 +63,11 @@ class TypeExpenseController extends Controller
      * @param  \App\Models\TypeExpense  $typeExpense
      * @return \Illuminate\Http\Response
      */
-    public function edit(TypeExpense $typeExpense)
+    public function edit($id)
     {
-        //
+        return view('expense.expenseCreate')
+            ->with('expense_type','expense_type')
+            ->with('edit',TypeExpense::find($id));
     }
 
     /**
@@ -67,9 +77,15 @@ class TypeExpenseController extends Controller
      * @param  \App\Models\TypeExpense  $typeExpense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TypeExpense $typeExpense)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+        $typeExpense = TypeExpense::find($id);
+        $typeExpense->name = $request->name;
+        $typeExpense->save();
+        return redirect()->route('expense-type.index')->with('success','Updated type expense');
     }
 
     /**

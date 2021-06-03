@@ -462,7 +462,37 @@
 
                             </div>
                         </li>
+                        <li class="menu-item menu-item-submenu @if(isset($expense_type)|| isset($expense_list))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-donate"></i>
+                                <span class="menu-text">@lang('Expenses')</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
 
+                                    <li class="menu-item @isset($expense_type) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('expense-type.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Type')</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($expense_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="#" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Transaction')</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </li>
                         <li class="menu-item  @isset($fortune_index) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('temple.index')}}" class="menu-link">
                                 <i class="menu-icon fab fa-foursquare"></i>
