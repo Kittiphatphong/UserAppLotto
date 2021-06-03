@@ -48,4 +48,8 @@ class ExpenseApiController extends Controller
         }
 
     }
+
+    public function expenseDataCustomer(){
+
+    }
 }

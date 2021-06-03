@@ -16,6 +16,7 @@ class CreateTypeExpensesTable extends Migration
         Schema::create('type_expenses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('income_expense');
             $table->string('app_name')->nullable();
             $table->string('client_id')->nullable();
             $table->timestamps();
