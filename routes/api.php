@@ -122,8 +122,12 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //Expense
     Route::post('type-expense',[TypeExpenseApiController::class,'typeExpenseList']);
+    Route::post('create-type-expense',[TypeExpenseApiController::class,'createTypeExpense']);
+    Route::post('delete-type-expense',[TypeExpenseApiController::class,'deleteTypeExpense']);
 
     Route::post('create-expense',[ExpenseApiController::class,'createExpense']);
+    Route::post('delete-expense',[ExpenseApiController::class,'deleteExpense']);
+    Route::post('edit-expense',[ExpenseApiController::class,'editExpense']);
 });
 //read me
 });

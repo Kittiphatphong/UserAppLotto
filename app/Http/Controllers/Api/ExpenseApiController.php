@@ -4,23 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ExpenseResource;
 
 class ExpenseApiController extends Controller
 {
     public function createExpense(Request $request){
 
-        try {
 
+        try {
+            $customerId = $request->user()->currentAccessToken()->tokenable->id;
             $validator=  Validator::make($request->all(), [
 
                 'amount' => 'required',
-                'income_expense' => 'required',
                 'date' => 'required|date',
                 'type_expense_id' => 'required|exists:type_expenses,id',
                 'app_name' => 'required',
-                'client_id' => 'required'
 
             ]);
             if ($validator->fails()) {
@@ -30,11 +31,22 @@ class ExpenseApiController extends Controller
                 ], 422);
             }
 
-            $expense = Expense::create($request->all());
+            $expense = Expense::create([
+                'amount' => $request->amount,
+                'date' => $request->date,
+                'type_expense_id' => $request->type_expense_id,
+                'app_name' => $request->app_name,
+                'client_id' => $customerId,
+            ]);
+            if($request->description != null){
+                $expense->description = $request->description;
+                $expense->save();
+            }
 
             return response()->json([
                "status" => true,
-               'data' => $expense
+               "msg" => "Created successful",
+               'data' => ExpenseResource::make($expense)
             ],201);
 
 
@@ -47,6 +59,79 @@ class ExpenseApiController extends Controller
             ],422);
         }
 
+    }
+
+
+    public function deleteExpense(Request $request){
+        try{
+            $customerId = $request->user()->currentAccessToken()->tokenable->id;
+            $validator=  Validator::make($request->all(), [
+                'expense_id' => 'required|exists:expenses,id',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => false,
+                    "msg" => $validator->errors()->first(),
+                ], 422);
+            }
+            $expense = Expense::find($request->expense_id);
+
+            if($customerId === $expense->client_id ){
+                $expense->delete();
+                return response()->json([
+                    "status" => true,
+                    "msg" => "Deleted successful",
+                    "data" =>  ExpenseResource::make($expense),
+                ]);
+            }
+
+
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage()
+            ],422);
+        }
+    }
+
+    public function editExpense(Request $request){
+        try{
+            $customerId = $request->user()->currentAccessToken()->tokenable->id;
+            $validator=  Validator::make($request->all(), [
+                'expense_id' => 'required|exists:expenses,id',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => false,
+                    "msg" => $validator->errors()->first(),
+                ], 422);
+            }
+            $expense = Expense::find($request->expense_id);
+
+            if($customerId === $expense->client_id ){
+                $expense->amount = $request->amount;
+                $expense->date = $request->date;
+                $expense->type_expense_id = $request->type_expense_id;
+                $expense->description = $request->description;
+                $expense->save();
+                return response()->json([
+                    "status" => true,
+                    "msg" => "Edited successful",
+                    "data" =>  ExpenseResource::make($expense),
+                ]);
+            }
+
+
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage()
+            ],422);
+        }
     }
 
     public function expenseDataCustomer(){

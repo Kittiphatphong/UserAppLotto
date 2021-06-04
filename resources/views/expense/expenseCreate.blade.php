@@ -39,6 +39,22 @@
                             <label>NAME</label>
                             <input type="text" class="form-control" name="name" value="{{isset($edit)?$edit->name:''}}" placeholder="Enter name of expense type">
                         </div>
+                        <div class="form-group">
+                            <lable>Income or Expense</lable>
+                            <select class="form-control" name="income_expense">
+                                <option value=1
+                                    @isset($edit)
+                                   @if($edit->income_expense === 1) selected @endif
+                                    @endisset>Income</option>
+                                <option value=0
+                                        @isset($edit)
+                                        @if($edit->income_expense === 0) selected @endif
+                                    @endisset
+                                >Expense</option>
+
+                            </select>
+
+                        </div>
 
 {{--                        <div class="form-group">--}}
 {{--                            <lable>ICON</lable>--}}

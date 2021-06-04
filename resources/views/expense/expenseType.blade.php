@@ -52,6 +52,7 @@
 
                         <th>ID</th>
                         <th>NAME</th>
+                        <th>TYPE</th>
                         <th>CREATED AT</th>
                         <th>UPDATED AT</th>
                         <th>ACTION</th>
@@ -64,6 +65,13 @@
                         <tr>
                             <td>{{$type->id}}</td>
                             <td>{{$type->name}}</td>
+                            <td>
+                                @if($type->income_expense === 1)
+                                    <span class="label label-lg font-weight-bold label-light-success label-inline ">Income</span>
+                                @else
+                                    <span class="label label-lg font-weight-bold label-light-danger label-inline ">Expense</span>
+                                @endif
+                            </td>
                             <td>{{$type->created_at}}</td>
                             <td>{{$type->updated_at}}</td>
                             <td><a href="{{route('expense-type.edit',$type->id)}}"><i class="far fa-edit"></i></a></td>

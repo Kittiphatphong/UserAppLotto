@@ -84,6 +84,7 @@ class TypeExpenseController extends Controller
         ]);
         $typeExpense = TypeExpense::find($id);
         $typeExpense->name = $request->name;
+        $typeExpense->income_expense = $request->income_expense;
         $typeExpense->save();
         return redirect()->route('expense-type.index')->with('success','Updated type expense');
     }
