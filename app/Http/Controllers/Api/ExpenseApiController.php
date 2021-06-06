@@ -134,7 +134,40 @@ class ExpenseApiController extends Controller
         }
     }
 
-    public function expenseDataCustomer(){
+    public function expenseDataCustomer(Request $request){
+        try {
+            $customerId = $request->user()->currentAccessToken()->tokenable->id;
+            $validator=  Validator::make($request->all(), [
+            'date_from' => 'date',
+            'date_to' => 'date'
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    "status" => false,
+                    "msg" => $validator->errors()->first(),
+                ], 422);
+            }
+            $expenseList = Expense::where('client_id',$customerId)->where('app_name','userapplotto');
+            $from = $request->date_from;
+            $to = $request->date_to;
+
+           if($from != null && $to != null){
+              $expenseList->whereBetween('date',[$from,$to]);
+           }
+
+
+            return response()->json([
+               'status' => true,
+               'data' => ExpenseResource::collection($expenseList->get())
+            ]);
+
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage()
+            ],422);
+        }
     }
 }

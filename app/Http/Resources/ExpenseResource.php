@@ -24,11 +24,12 @@ class ExpenseResource extends JsonResource
             'id' => $this->id,
             'amount' => $this->amount,
             'date' => $this->date,
+            "income_expense" => $this->typeExpenses->income_expense,
             "type" => $type,
             "category" => $this->typeExpenses->name,
             "type_expense_id" => $this->type_expense_id,
             "customer_id" => $this->client_id,
-            "description" => $this->description
+            "description" => $this->description,
         ];
     }
 }
