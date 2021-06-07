@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\FortuneApiController;
 use App\Http\Controllers\Api\PushNotificationApiController;
 use App\Http\Controllers\Api\TypeExpenseApiController;
 use App\Http\Controllers\Api\ExpenseApiController;
+use App\Http\Controllers\Api\NewsApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -130,6 +131,11 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     Route::post('create-expense',[ExpenseApiController::class,'createExpense']);
     Route::post('delete-expense',[ExpenseApiController::class,'deleteExpense']);
     Route::post('edit-expense',[ExpenseApiController::class,'editExpense']);
+
+
+    //News
+    Route::post('news-list',[NewsApiController::class,'newsList']);
+
 });
 //read me
 });

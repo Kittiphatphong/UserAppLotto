@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\NewsImage;
+use App\Models\RecommentImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -12,9 +16,25 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function upImages($files,$newsId){
+        foreach($files as $file){
+            $newImage = new NewsImage();
+            $stringImageReformat = base64_encode('_'.time());
+            $ext = $file->getClientOriginalName();
+            $imageName = $stringImageReformat.".".$ext;
+            $imageEncode = File::get($file);
+            $newImage->news_id = $newsId;
+            $newImage->image = "/storage/news_image/".$imageName;
+            $newImage->save();
+            Storage::disk('local')->put('public/news_image/'.$imageName, $imageEncode);
+        }
+    }
+
     public function index()
     {
-        //
+        return view('news.newsList')
+            ->with('news_list',News::all());
     }
 
     /**
@@ -24,7 +44,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('news.newsCreate')
+            ->with('news_create','new_create');
     }
 
     /**
@@ -35,7 +56,20 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'contentShow' => 'required',
+            'images' => 'required'
+        ]);
+
+        $news = new News();
+        $news->title = $request->title;
+        $news->content = $request->contentShow;
+        $news->save();
+        if($files=$request->file('images')){
+            $this->upImages($files,$news->id);
+        }
+        return redirect()->route('news.index')->with('success','Upload success');
     }
 
     /**

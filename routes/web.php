@@ -25,7 +25,8 @@ use App\Http\Controllers\Partnercontroller;
 use App\Http\Controllers\TempleController;
 use App\Http\Controllers\FortuneController;
 use App\Http\Controllers\TypeExpenseController;
-
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\LiveLinkController;
 
 
 Route::get('/', function () {
@@ -184,6 +185,12 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Expense
     Route::resource('expense-type',TypeExpenseController::class);
+
+    //News
+    Route::resource('news',NewsController::class);
+
+    //Live link
+    Route::resource('live-link',LiveLinkController::class);
 });
 
 

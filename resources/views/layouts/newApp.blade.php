@@ -288,6 +288,38 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="menu-item menu-item-submenu @if(isset($news_list)|| isset($news_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-newspaper"></i>
+                                <span class="menu-text">@lang('News')</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($news_create) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('news.create')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('New')</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($news_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('news.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('List')</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </li>
+
 
                         <li class="menu-item  @isset($result_list) menu-item-here @endisset" aria-haspopup="true">
                             <a href="{{route('result.list')}}" class="menu-link">
