@@ -25,7 +25,7 @@ class PushNotificationApiController extends Controller
 
 
             $validator = Validator::make($request->all(), [
-                'code' => 'required|json',
+                'code' => 'required|array',
                 'bill_number' => 'required',
                 'amount' => 'required',
                 'phone' => 'required|min:9|max:10|exists:customers,phone',
