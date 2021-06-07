@@ -41,7 +41,7 @@ class PushNotificationApiController extends Controller
                 $customer_id = Customer::where('phone',$request->phone)->first()->id;
 
 
-                $this->PushNotificationController->pushNotificationBuy($request->code, "Buy lotto", 1, $customer_id, $request->all() ,$request->bill_number);
+                $this->PushNotificationController->pushNotificationBuy(json_encode($request->code), "Buy lotto", 1, $customer_id, $request->all() ,$request->bill_number);
                 return response()->json([
                     "status" => true ,
                     "msg" => "Push notification successful"
