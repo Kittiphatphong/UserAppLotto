@@ -169,11 +169,21 @@ class ExpenseApiController extends Controller
             });
 
             //Category
-            $countExpense = Expense::where('client_id',$customerId)->where('app_name','userapplotto')->latest();
+            $countIncome = Expense::where('client_id',$customerId)->where('app_name','userapplotto')
+                ->whereHas('typeExpenses',function ($q){
+                    $q->where('income_expense',1);
+                });
+            $countExpense = Expense::where('client_id',$customerId)->where('app_name','userapplotto')
+                ->whereHas('typeExpenses',function ($q){
+                    $q->where('income_expense',0);
+                });
+            $categories_income = TypeExpense::where('client_id',$customerId)
+                ->where('app_name','userapplotto')
+                ->where('income_expense',1);
+            $categories_expense = TypeExpense::where('client_id',$customerId)
+                ->where('app_name','userapplotto')
+                ->where('income_expense',0);
 
-            $categories = TypeExpense::where('client_id',$customerId)
-                ->orWhere('client_id',null)->orWhere('app_name',null)
-                ->where('app_name','userapplotto');
 
 
             //Date graph
@@ -191,35 +201,56 @@ class ExpenseApiController extends Controller
                $totalIncome->whereBetween('date',[$from,$to]);
                $totalExpense->whereBetween('date',[$from,$to]);
                $totalExpense->whereBetween('date',[$from,$to]);
+               $countIncome->whereBetween('date',[$from,$to]);
                $countExpense->whereBetween('date',[$from,$to]);
                $date_graph->whereBetween('date',[$from,$to]);
+               $categories_income->whereHas('expenses',function ($q) use ($from,$to){
+                   $q->whereBetween('date',[$from,$to]);
+               });
            }
 
-            //Category
-            $categoryPercent = [];
-            foreach ($categories->get() as $category){
+            //Category income
+            $categoryIncome = [];
+            foreach ($categories_income->get() as $category){
                 $expense = $category->expenses;
                 if($from != null && $to != null) {
                     $expense = $expense->whereBetween('date',[$from,$to]);
                 }
-                if($category->income_expense == 1){
-                    $type = "income";
-                }else{
-                    $type = "expense";
-                }
 
-                $array = [
-                    "category" => $category->name ,
-                    "income_expense" => $category->income_expense,
-                    "type" => $type,
-                    "percent" => round(($expense->count()*100) /$countExpense->count()) ,
-                ];
-                if($expense->count() > 0){
-                    array_push($categoryPercent, $array);
-                }
+               if($expense->count() > 0){
+                   $array = [
+                       "category" => $category->name ,
+
+                       "percent" => round(($expense->count()*100) /$countIncome->count() ),
+                   ];
+                   if($expense->count() > 0 && $category->income_expense == 1){
+                       array_push($categoryIncome, $array);
+                   }
+               }
+
 
             }
-            //Category
+            //Category expense
+            $categoryExpense = [];
+            foreach ($categories_expense->get() as $category){
+                $expense = $category->expenses;
+                if($from != null && $to != null) {
+                    $expense = $expense->whereBetween('date',[$from,$to]);
+                }
+
+               if($expense->count()>0){
+                   $array = [
+                       "category" => $category->name ,
+
+                       "percent" => round(($expense->count()*100) /$countExpense->count() ),
+                   ];
+                   if($expense->count() > 0 && $category->income_expense == 0 ){
+                       array_push($categoryExpense, $array);
+                   }
+               }
+
+
+            }
 
 
 
@@ -228,7 +259,8 @@ class ExpenseApiController extends Controller
                'total_income' => $totalIncome->sum('amount'),
                'total_expense' => $totalExpense->sum('amount'),
                'date_graph' => $date_graph->get(),
-               'category' => $categoryPercent,
+               'category_income' => $categoryIncome ,
+                'category_expense' => $categoryExpense ,
                'data' => ExpenseResource::collection($expenseList->latest()->get())
             ]);
 
