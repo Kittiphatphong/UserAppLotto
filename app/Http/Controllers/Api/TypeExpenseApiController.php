@@ -15,7 +15,7 @@ class TypeExpenseApiController extends Controller
             $customerId = $request->user()->currentAccessToken()->tokenable->id;
             $data = TypeExpense::where('client_id',$customerId)
                 ->orWhere('client_id',null)->orWhere('app_name',null)
-                ->where('app_name','userapplotto')->get();
+                ->where('app_name','userapplotto')->latest()->get();
             return response()->json([
                "status" => true,
                "data" => TypeExpenseResource::collection($data)

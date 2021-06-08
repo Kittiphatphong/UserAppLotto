@@ -159,7 +159,7 @@ class ExpenseApiController extends Controller
 
             return response()->json([
                'status' => true,
-               'data' => ExpenseResource::collection($expenseList->get())
+               'data' => ExpenseResource::collection($expenseList->latest()->get())
             ]);
 
 
