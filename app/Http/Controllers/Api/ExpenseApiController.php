@@ -169,7 +169,7 @@ class ExpenseApiController extends Controller
             });
 
             //Category
-            $countExpense = Expense::latest();
+            $countExpense = Expense::where('client_id',$customerId)->where('app_name','userapplotto')->latest();
 
             $categories = TypeExpense::where('client_id',$customerId)
                 ->orWhere('client_id',null)->orWhere('app_name',null)
@@ -178,6 +178,7 @@ class ExpenseApiController extends Controller
 
             //Date graph
             $date_graph =  Expense::join('type_expenses', 'expenses.type_expense_id', '=', 'type_expenses.id')
+                ->where('expenses.client_id',$customerId)->where('expenses.app_name','userapplotto')
                 ->groupBy('date')
                 ->select('date',
                     DB::raw("sum(CASE WHEN type_expenses.income_expense = 1 THEN amount ELSE 0 END) as income"),
