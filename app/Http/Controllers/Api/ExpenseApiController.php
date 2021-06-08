@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
+use App\Models\TypeExpense;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ExpenseResource;
-
+use App\Http\Resources\TypeExpenseResource;
+use Illuminate\Support\Facades\DB;
 class ExpenseApiController extends Controller
 {
     public function createExpense(Request $request){
@@ -148,17 +150,82 @@ class ExpenseApiController extends Controller
                     "msg" => $validator->errors()->first(),
                 ], 422);
             }
-            $expenseList = Expense::where('client_id',$customerId)->where('app_name','userapplotto');
+            //Get id customer
+            $customerId = $request->user()->currentAccessToken()->tokenable->id;
+
+            //Filter date
             $from = $request->date_from;
             $to = $request->date_to;
 
+            //data
+            $expenseList = Expense::where('client_id',$customerId)->where('app_name','userapplotto');
+
+            //total
+            $totalIncome = Expense::where('client_id',$customerId)->where('app_name','userapplotto')->whereHas('typeExpenses',function ($q){
+                $q->where('income_expense',1);
+            });
+            $totalExpense = Expense::where('client_id',$customerId)->where('app_name','userapplotto')->whereHas('typeExpenses',function ($q){
+                $q->where('income_expense',0);
+            });
+
+            //Category
+            $countExpense = Expense::latest();
+
+            $categories = TypeExpense::where('client_id',$customerId)
+                ->orWhere('client_id',null)->orWhere('app_name',null)
+                ->where('app_name','userapplotto');
+
+
+            //Date graph
+            $date_graph =  Expense::join('type_expenses', 'expenses.type_expense_id', '=', 'type_expenses.id')
+                ->groupBy('date')
+                ->select('date',
+                    DB::raw("sum(CASE WHEN type_expenses.income_expense = 1 THEN amount ELSE 0 END) as income"),
+                    DB::raw("sum(CASE WHEN type_expenses.income_expense = 0 THEN amount ELSE 0 END) as expense"),
+                );
+
+
            if($from != null && $to != null){
-              $expenseList->whereBetween('date',[$from,$to]);
+               $expenseList->whereBetween('date',[$from,$to]);
+               $totalIncome->whereBetween('date',[$from,$to]);
+               $totalExpense->whereBetween('date',[$from,$to]);
+               $totalExpense->whereBetween('date',[$from,$to]);
+               $countExpense->whereBetween('date',[$from,$to]);
+               $date_graph->whereBetween('date',[$from,$to]);
            }
+
+            //Category
+            $categoryPercent = [];
+            foreach ($categories->get() as $category){
+                $expense = $category->expenses;
+                if($from != null && $to != null) {
+                    $expense = $expense->whereBetween('date',[$from,$to]);
+                }
+                if($category->income_expense == 1){
+                    $type = "income";
+                }else{
+                    $type = "expense";
+                }
+
+                $array = [
+                    "category" => $category->name ,
+                    "income_expense" => $category->income_expense,
+                    "type" => $type,
+                    "percent" => round(($expense->count()*100) /$countExpense->count()) ,
+                ];
+                array_push($categoryPercent, $array);
+            }
+            //Category
+
 
 
             return response()->json([
+
                'status' => true,
+               'total_income' => $totalIncome->sum('amount'),
+               'total_expense' => $totalExpense->sum('amount'),
+               'date_graph' => $date_graph->get(),
+               'category' => $categoryPercent,
                'data' => ExpenseResource::collection($expenseList->latest()->get())
             ]);
 

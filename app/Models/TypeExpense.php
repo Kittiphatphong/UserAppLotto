@@ -9,4 +9,8 @@ class TypeExpense extends Model
 {
     use HasFactory;
     protected $fillable = ['name','income_expense'];
+
+    public function expenses(){
+        return $this->hasMany(Expense::class,'type_expense_id');
+    }
 }
