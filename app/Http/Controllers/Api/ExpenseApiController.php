@@ -214,14 +214,16 @@ class ExpenseApiController extends Controller
                     "type" => $type,
                     "percent" => round(($expense->count()*100) /$countExpense->count()) ,
                 ];
-                array_push($categoryPercent, $array);
+                if($expense->count() > 0){
+                    array_push($categoryPercent, $array);
+                }
+
             }
             //Category
 
 
 
             return response()->json([
-
                'status' => true,
                'total_income' => $totalIncome->sum('amount'),
                'total_expense' => $totalExpense->sum('amount'),
