@@ -596,6 +596,41 @@
                         </li>
 
 
+                        <li class="menu-item menu-item-submenu @if(isset($method_buy_list) || isset($method_buy_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                            <a href="javascript:;" class="menu-link menu-toggle">
+                                <i class="menu-icon fas fa-cash-register"></i>
+
+                                <span class="menu-text">@lang('How to buy')</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="menu-submenu">
+                                <i class="menu-arrow"></i>
+                                <ul class="menu-subnav">
+
+                                    <li class="menu-item @isset($method_buy_create) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('method-buy.create')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('New')</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item @isset($method_buy_list) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('method-buy.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('List')</span>
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+                        </li>
+
                         <li class="menu-item menu-item-submenu @if(isset($log_index_customer) || isset($apilogs))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fas fa-clipboard-list"></i>

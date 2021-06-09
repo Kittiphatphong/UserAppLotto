@@ -27,7 +27,7 @@ use App\Http\Controllers\FortuneController;
 use App\Http\Controllers\TypeExpenseController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LiveLinkController;
-
+use App\Http\Controllers\MethodBuyController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -191,6 +191,9 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Live link
     Route::resource('live-link',LiveLinkController::class);
+
+    //How to buy
+    Route::resource('method-buy',MethodBuyController::class);
 });
 
 

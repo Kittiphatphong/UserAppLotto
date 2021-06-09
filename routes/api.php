@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\PushNotificationApiController;
 use App\Http\Controllers\Api\TypeExpenseApiController;
 use App\Http\Controllers\Api\ExpenseApiController;
 use App\Http\Controllers\Api\NewsApiController;
+use App\Http\Controllers\Api\LiveLinkApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -135,6 +136,10 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //News
     Route::post('news-list',[NewsApiController::class,'newsList']);
+
+    //Live link
+    Route::post('live-link',[LiveLinkApiController::class,'liveLink']);
+
 
 });
 //read me
