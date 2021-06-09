@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LiveLink;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LiveLinkController extends Controller
 {
@@ -24,7 +25,8 @@ class LiveLinkController extends Controller
      */
     public function create()
     {
-        //
+        return view('liveLink')
+            ->with('live_link',LiveLink::latest()->get());
     }
 
     /**
@@ -35,7 +37,18 @@ class LiveLinkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'link' => 'required|unique:live_links,link'
+        ]);
+
+        DB::table('live_links')->where('status',1)->update(['status' => 0]);
+
+        $live_link = new LiveLink();
+        $live_link->link = $request->link;
+        $live_link->status = true;
+        $live_link->save();
+
+        return back()->with('success','Create new link successful');
     }
 
     /**
@@ -44,9 +57,18 @@ class LiveLinkController extends Controller
      * @param  \App\Models\LiveLink  $liveLink
      * @return \Illuminate\Http\Response
      */
-    public function show(LiveLink $liveLink)
+    public function show($id)
     {
-        //
+        $link = LiveLink::find($id);
+        if($link->status == 1){
+            $link->status = 0 ;
+
+        }else{
+            DB::table('live_links')->where('status',1)->update(['status' => 0]);
+            $link->status = 1 ;
+        }
+        $link->save();
+        return back()->with('success','update status success');
     }
 
     /**

@@ -327,6 +327,12 @@
                                 <span class="menu-text">@lang('Results')</span>
                             </a>
                         </li>
+                        <li class="menu-item  @isset($live_link) menu-item-here @endisset" aria-haspopup="true">
+                            <a href="{{route('live-link.create')}}" class="menu-link">
+                                <i class="menu-icon fas fa-broadcast-tower"></i>
+                                <span class="menu-text">@lang('Live link')</span>
+                            </a>
+                        </li>
 
                         <li class="menu-item menu-item-submenu @if(isset($recommend_list)|| isset($recommend_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">

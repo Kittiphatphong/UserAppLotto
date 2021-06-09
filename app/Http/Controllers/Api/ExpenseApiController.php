@@ -258,7 +258,7 @@ class ExpenseApiController extends Controller
                'status' => true,
                'total_income' => $totalIncome->sum('amount'),
                'total_expense' => $totalExpense->sum('amount'),
-               'date_graph' => $date_graph->get(),
+               'date_graph' => $date_graph->orderBy('date','asc')->get(),
                'category_income' => $categoryIncome ,
                 'category_expense' => $categoryExpense ,
                'data' => ExpenseResource::collection($expenseList->latest()->get())
