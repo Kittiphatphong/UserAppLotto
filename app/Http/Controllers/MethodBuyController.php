@@ -36,7 +36,8 @@ class MethodBuyController extends Controller
 
     public function index()
     {
-        //
+        return view('methodBuy.methodBuyList')
+            ->with('method_buy_list',MethodBuy::latest()->get());
     }
 
     /**

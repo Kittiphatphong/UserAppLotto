@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\TypeExpenseApiController;
 use App\Http\Controllers\Api\ExpenseApiController;
 use App\Http\Controllers\Api\NewsApiController;
 use App\Http\Controllers\Api\LiveLinkApiController;
+use App\Http\Controllers\Api\MedthodBuyApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -139,6 +140,9 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //Live link
     Route::post('live-link',[LiveLinkApiController::class,'liveLink']);
+
+    //Method buy
+    Route::post('method-buy',[MedthodBuyApiController::class,'methodBuy']);
 
 
 });

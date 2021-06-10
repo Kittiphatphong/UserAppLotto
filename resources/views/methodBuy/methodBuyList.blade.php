@@ -1,17 +1,17 @@
-@extends('layouts.newApp')
-@section('title','Recommend Lotto')
+ @extends('layouts.newApp')
+@section('title','Method buy')
 
 @section('header')
     <div class="d-flex align-items-baseline flex-wrap mr-5">
 
-        <h5 class="text-dark font-weight-bold my-1 mr-5">RECOMMEND LOTTO PAGE</h5>
+        <h5 class="text-dark font-weight-bold my-1 mr-5">HOW TO BUY PAGE</h5>
         <!--begin::Breadcrumb-->
         <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
             <li class="breadcrumb-item">
-                <a href="#" class="text-muted">Recommend lotto</a>
+                <a href="#" class="text-muted">How to buy</a>
             </li>
                         <li class="breadcrumb-item">
-                            <a href="{{route('recommend.list')}}" class="text-muted">list</a>
+                            <a href="{{route('method-buy.index')}}" class="text-muted">list</a>
                         </li>
         </ul>
         <!--end::Breadcrumb-->
@@ -23,8 +23,9 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">RECOMMEND
-                    <span class="d-block text-muted pt-2 font-size-sm">Recommend each draw</span></h3>
+                <h3 class="card-label">HOW TO BUY
+{{--                    <span class="d-block text-muted pt-2 font-size-sm">Recommend each draw</span>--}}
+                </h3>
                 <span class="float-right"></span>
             </div>
             <div class="card-toolbar">
@@ -43,8 +44,8 @@
 
                         <th>ID</th>
                         <th>TITLE</th>
-                        <th>CONTENT</th>
-                        <th>DRAW</th>
+                        <th>DESCRIPTION</th>
+                        <th>LINK</th>
                         <th>IMAGE</th>
                         <th>ACTION</th>
                         <th>UPDATED AT</th>
@@ -53,15 +54,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($recommend_list as $recommend)
+                    @foreach($method_buy_list as $item)
                         <tr>
-                        <td>{{$recommend->id}}</td>
-                        <td>{{$recommend->title}}</td>
-                            <td>{{$recommend->content}}</td>
-                            <td>{{$recommend->draw}}</td>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->title}}</td>
+                            <td>{{$item->description}}</td>
+                            <td>{{$item->link}}</td>
                             <td>
                                 <div class="d-flex justify-content-start">
-                                @foreach($recommend->recommendImages as $images)
+                                @foreach($item->methodBuyImages as $images)
                                     <a href="{{$images->image}}" target="_blank" class="mr-1">
                                         <img src="{{$images->image}}" alt="Nature" style="width:100%" class="border rounded">
                                     </a>
@@ -69,13 +70,13 @@
                                 </div>
                             </td>
                             <td>      <div class="d-flex justify-content-start m-0">
-                                    <a href="{{route('recommend.edit',$recommend->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
-                                    <form action="{{route('recommend.delete',$recommend->id)}}" method="post" class="delete_form">
+                                    <a href="{{route('method-buy.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
+                                    <form action="{{route('method-buy.destroy',$item->id)}}" method="post" class="delete_form">
                                         @csrf
                                         <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                                     </form>
                                 </div></td>
-                            <td>{{$recommend->updated_at}}</td>
+                            <td>{{$item->updated_at}}</td>
 
 
                         </tr>
