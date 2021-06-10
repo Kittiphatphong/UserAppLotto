@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LiveLink;
 use App\Models\MethodBuy;
 use App\Models\MethodBuyImage;
 use App\Models\RecommentImage;
@@ -87,9 +88,18 @@ class MethodBuyController extends Controller
      * @param  \App\Models\MethodBuy  $methodBuy
      * @return \Illuminate\Http\Response
      */
-    public function show(MethodBuy $methodBuy)
+    public function show($id)
     {
-        //
+        $methodBuy = MethodBuy::find($id);
+        if($methodBuy->status == 1){
+            $methodBuy->status = 0 ;
+
+        }else{
+            DB::table('method_buys')->where('status',1)->update(['status' => 0]);
+            $methodBuy->status = 1 ;
+        }
+        $methodBuy->save();
+        return back()->with('success','update status success');
     }
 
     /**

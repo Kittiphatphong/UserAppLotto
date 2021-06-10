@@ -11,7 +11,12 @@ class MedthodBuyApiController extends Controller
 {
     public function methodBuy(){
         try {
-            $data = MethodBuyResource::make(MethodBuy::where('status',1)->latest()->first());
+            $methodBuy = MethodBuy::where('status',1)->latest()->first();
+            $data = null;
+            if($methodBuy != null){
+                $data = MethodBuyResource::make(MethodBuy::where('status',1)->latest()->first());
+            }
+
             return response()->json([
             'status' => true,
             'data'=> $data
