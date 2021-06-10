@@ -221,7 +221,7 @@ class ExpenseApiController extends Controller
                    $array = [
                        "category" => $category->name ,
 
-                       "percent" => round(($expense->sum('amount')*100) /$countIncome->sum('amount'),1 ),
+                       "percent" => number_format(($expense->sum('amount')*100) /$countIncome->sum('amount'),1 ),
                    ];
                    if($expense->count() > 0 && $category->income_expense == 1){
                        array_push($categoryIncome, $array);
@@ -242,7 +242,7 @@ class ExpenseApiController extends Controller
                    $array = [
                        "category" => $category->name ,
 
-                       "percent" => round(($expense->sum('amount')*100) /$countExpense->sum('amount'),10 ),
+                       "percent" => number_format(($expense->sum('amount')*100) /$countExpense->sum('amount'),1 ),
                    ];
                    if($expense->count() > 0 && $category->income_expense == 0 ){
                        array_push($categoryExpense, $array);
