@@ -12,4 +12,7 @@ class MethodBuy extends Model
     public function methodBuyImages(){
         return $this->hasMany(MethodBuyImage::class,'method_buy_id');
     }
+    public function methodBuySelectImages(){
+        return $this->hasMany(MethodBuyImage::class,'method_buy_id');
+    }
 }
