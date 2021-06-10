@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\ExpenseApiController;
 use App\Http\Controllers\Api\NewsApiController;
 use App\Http\Controllers\Api\LiveLinkApiController;
 use App\Http\Controllers\Api\MedthodBuyApiController;
+use App\Http\Controllers\Api\HoroscopeApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes

@@ -90,78 +90,79 @@ class BillOrderApiController extends Controller
             ->withProperties(['attributes' => $order])
             ->log('created');
 
-        //Api from iPro buy lotto
-        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto/sell',[
-            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
-            'phone_number' => $customer->phone,
-            'code' => $request->code,
-            'transaction_id' => $order->transaction_id
-        ]);
-
-        //Check a quota
-       $buyData = json_decode($buyLotto,false) ;
-
-       if($buyData->status == false){
-           foreach ($order->billorder2d3d4d5d6ds as $list){
-               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
-               $bill2d3d4d5d6d->money = 0;
-               $bill2d3d4d5d6d->save();
-           }
-           $order->msg($buyData->description);
-
-           activity()
-               ->causedBy($customer)
-               ->performedOn($order)
-               ->useLog('bill order 6d api')
-               ->withProperties(['msg' => $buyData->description])
-               ->log('fail');
-
-           return response()->json([
-               'status' => false,
-               'msg' => $buyData->description
-           ],422);
-       }elseif ($buyData->status == 2){
-           foreach ($order->billorder2d3d4d5d6ds as $list){
-               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
-               $bill2d3d4d5d6d->money = 0;
-               $bill2d3d4d5d6d->save();
-           }
-           $order->msg($buyData->description);
-
-           activity()
-               ->causedBy($customer)
-               ->performedOn($order)
-               ->useLog('bill order 6d api')
-               ->withProperties(['msg' => $buyData->description])
-               ->log('fail');
-
-           return response()->json([
-               'status' => false,
-               'msg' => $buyData->description
-           ],422);
-       }
-       else{
-       if($order->total == $buyData->data->total_amount){
-           $order->bill_number = $buyData->data->bill_number;
-           $order->status_buy = true;
-           $order->save();
-           DB::table('billorder2d3d4d5d6ds')->where('order_id',$order->id)->update(['status_buy' => 1]);
-       }else {
-           $order->bill_number = $buyData->data->bill_number;
-           $order->status_buy = true;
-           $order->total = $buyData->data->total_amount;
-           $order->save();
-           foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
-               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
-               if($bill2d3d4d5d6d->money==$buyData->data->data[$key]->money){
-                   $bill2d3d4d5d6d->status_buy =1;
-               }elseif ($bill2d3d4d5d6d->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
-                   $bill2d3d4d5d6d->status_buy =2;
-               }
-               $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;
-               $bill2d3d4d5d6d->save();
-           }
-       }
+//
+//        //Api from iPro buy lotto
+//        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto/sell',[
+//            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+//            'phone_number' => $customer->phone,
+//            'code' => $request->code,
+//            'transaction_id' => $order->transaction_id
+//        ]);
+//
+//        //Check a quota
+//       $buyData = json_decode($buyLotto,false) ;
+//
+//       if($buyData->status == false){
+//           foreach ($order->billorder2d3d4d5d6ds as $list){
+//               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
+//               $bill2d3d4d5d6d->money = 0;
+//               $bill2d3d4d5d6d->save();
+//           }
+//           $order->msg($buyData->description);
+//
+//           activity()
+//               ->causedBy($customer)
+//               ->performedOn($order)
+//               ->useLog('bill order 6d api')
+//               ->withProperties(['msg' => $buyData->description])
+//               ->log('fail');
+//
+//           return response()->json([
+//               'status' => false,
+//               'msg' => $buyData->description
+//           ],422);
+//       }elseif ($buyData->status == 2){
+//           foreach ($order->billorder2d3d4d5d6ds as $list){
+//               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($list->id);
+//               $bill2d3d4d5d6d->money = 0;
+//               $bill2d3d4d5d6d->save();
+//           }
+//           $order->msg($buyData->description);
+//
+//           activity()
+//               ->causedBy($customer)
+//               ->performedOn($order)
+//               ->useLog('bill order 6d api')
+//               ->withProperties(['msg' => $buyData->description])
+//               ->log('fail');
+//
+//           return response()->json([
+//               'status' => false,
+//               'msg' => $buyData->description
+//           ],422);
+//       }
+//       else{
+//       if($order->total == $buyData->data->total_amount){
+//           $order->bill_number = $buyData->data->bill_number;
+//           $order->status_buy = true;
+//           $order->save();
+//           DB::table('billorder2d3d4d5d6ds')->where('order_id',$order->id)->update(['status_buy' => 1]);
+//       }else {
+//           $order->bill_number = $buyData->data->bill_number;
+//           $order->status_buy = true;
+//           $order->total = $buyData->data->total_amount;
+//           $order->save();
+//           foreach ($order->billorder2d3d4d5d6ds as $key => $bill) {
+//               $bill2d3d4d5d6d = Billorder2d3d4d5d6d::find($bill->id);
+//               if($bill2d3d4d5d6d->money==$buyData->data->data[$key]->money){
+//                   $bill2d3d4d5d6d->status_buy =1;
+//               }elseif ($bill2d3d4d5d6d->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
+//                   $bill2d3d4d5d6d->status_buy =2;
+//               }
+//               $bill2d3d4d5d6d->money = $buyData->data->data[$key]->money;
+//               $bill2d3d4d5d6d->save();
+//           }
+//       }
 
            $bill = Billorder2d3d4d5d6d::where('order_id',$order->id)->select('digit','money')->get();
            $orderBill = BillOrder::find($order->id);
@@ -171,16 +172,16 @@ class BillOrderApiController extends Controller
                $list[] = $bill6d->digit."=".number_format($bill6d->money)."LAK";
            }
 
-           activity()
-               ->causedBy($customer)
-               ->performedOn($order)
-               ->useLog('bill order 6d api')
-               ->withProperties(['attributes' => $order])
-               ->log('created');
+//           activity()
+//               ->causedBy($customer)
+//               ->performedOn($order)
+//               ->useLog('bill order 6d api')
+//               ->withProperties(['attributes' => $order])
+//               ->log('created');
 
-           $body = collect($list)->implode(' ');
-           $title = "Buy lotto 6D";
-           $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
+//           $body = collect($list)->implode(' ');
+//           $title = "Buy lotto 6D";
+//           $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
 
 
 
@@ -192,7 +193,7 @@ class BillOrderApiController extends Controller
                'draw' => $orderBill->draw,
                'draw_date' => $orderBill->draw_date
            ],201);
-       }
+//       }
 
 
 
@@ -250,98 +251,100 @@ class BillOrderApiController extends Controller
             ->withProperties(['attributes' => $order])
             ->log('created');
 
-        //Api from iPro buy lotto
-        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto-340/sell',[
-            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
-            'phone_number' => $customer->phone,
-            'code' => $request->code,
-            'transaction_id' => $order->transaction_id
-        ]);
-        //Check a quota
-        $buyData = json_decode($buyLotto,false) ;
-        if($buyData->status == false){
-            foreach ($order->bill340s as $list){
-                $bill340= Billorder340::find($list->id);
-                $bill340->money = 0;
-                $bill340->save();
-            }
-            $order->msg($buyData->description);
-
-            activity()
-                ->causedBy($customer)
-                ->performedOn($order)
-                ->useLog('bill order 3/40 api')
-                ->withProperties(['msg' => $buyData->description])
-                ->log('fail');
-
-            return response()->json([
-                'status' => false,
-                'msg' => $buyData->description
-            ],422);
-        }elseif ($buyData->status == 2){
-            foreach ($order->bill340s as $list){
-                $bill340= Billorder340::find($list->id);
-                $bill340->money = 0;
-                $bill340->save();
-            }
-            $order->msg($buyData->description);
-
-            activity()
-                ->causedBy($customer)
-                ->performedOn($order)
-                ->useLog('bill order 3/40 api')
-                ->withProperties(['msg' => $buyData->description])
-                ->log('fail');
-
-            return response()->json([
-                'status' => false,
-                'msg' => $buyData->description
-            ],422);
-        }
-        else{
-            if($order->total == $buyData->data->total_amount){
-                $order->bill_number = $buyData->data->bill_number;
-                $order->status_buy = true;
-                $order->save();
-                DB::table('billorder340s')->where('order_id',$order->id)->update(['status_buy' => 1]);
-            }else {
-
-                $order->bill_number = $buyData->data->bill_number;
-                $order->status_buy = true;
-                $order->total = $buyData->data->total_amount;
-                $order->save();
-
-
-
-                foreach ($order->bill340s as $key => $bill) {
-                    $bill340 = Billorder340::find($bill->id);
-                    if($bill340->money==$buyData->data->data[$key]->money){
-                        $bill340->status_buy =1;
-                    }elseif ($bill340->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
-                        $bill340->status_buy =2;
-                    }
-                    $bill340->money = $buyData->data->data[$key]->money;
-                    $bill340->save();
-                }
-            }
+//
+//        //Api from iPro buy lotto
+//        $buyLotto = Http::post('http://104.155.206.54:1030/api_partner/web/index.php?r=lotto-340/sell',[
+//            'jwt_key' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOCwidXNlcm5hbWUiOiJVc2VyQXBwVGVzdCIsImlwYWRkciI6IiIsImp3dF9zdGFydCI6IjIwMjEtMDMtMTAgMTE6NTE6MDQiLCJqd3RfZXhwaXJlIjoiMjAyMS0wMy0xMCAxMTo1MTowNCJ9.ygSuXZDKBiL6GIKUquENUjEKHyWDu_vDeqBCp9j-FrI',
+//            'phone_number' => $customer->phone,
+//            'code' => $request->code,
+//            'transaction_id' => $order->transaction_id
+//        ]);
+//        //Check a quota
+//        $buyData = json_decode($buyLotto,false) ;
+//        if($buyData->status == false){
+//            foreach ($order->bill340s as $list){
+//                $bill340= Billorder340::find($list->id);
+//                $bill340->money = 0;
+//                $bill340->save();
+//            }
+//            $order->msg($buyData->description);
+//
+//            activity()
+//                ->causedBy($customer)
+//                ->performedOn($order)
+//                ->useLog('bill order 3/40 api')
+//                ->withProperties(['msg' => $buyData->description])
+//                ->log('fail');
+//
+//            return response()->json([
+//                'status' => false,
+//                'msg' => $buyData->description
+//            ],422);
+//        }elseif ($buyData->status == 2){
+//            foreach ($order->bill340s as $list){
+//                $bill340= Billorder340::find($list->id);
+//                $bill340->money = 0;
+//                $bill340->save();
+//            }
+//            $order->msg($buyData->description);
+//
+//            activity()
+//                ->causedBy($customer)
+//                ->performedOn($order)
+//                ->useLog('bill order 3/40 api')
+//                ->withProperties(['msg' => $buyData->description])
+//                ->log('fail');
+//
+//            return response()->json([
+//                'status' => false,
+//                'msg' => $buyData->description
+//            ],422);
+//        }
+//        else{
+//            if($order->total == $buyData->data->total_amount){
+//                $order->bill_number = $buyData->data->bill_number;
+//                $order->status_buy = true;
+//                $order->save();
+//                DB::table('billorder340s')->where('order_id',$order->id)->update(['status_buy' => 1]);
+//            }else {
+//
+//                $order->bill_number = $buyData->data->bill_number;
+//                $order->status_buy = true;
+//                $order->total = $buyData->data->total_amount;
+//                $order->save();
+//
+//
+//
+//                foreach ($order->bill340s as $key => $bill) {
+//                    $bill340 = Billorder340::find($bill->id);
+//                    if($bill340->money==$buyData->data->data[$key]->money){
+//                        $bill340->status_buy =1;
+//                    }elseif ($bill340->money!=$buyData->data->data[$key]->money && $buyData->data->data[$key]->money>0){
+//                        $bill340->status_buy =2;
+//                    }
+//                    $bill340->money = $buyData->data->data[$key]->money;
+//                    $bill340->save();
+//                }
+//            }
 
             $bill = Billorder340::where('order_id',$order->id)->select('digit','money')->get();
             $orderBill = BillOrder::find($order->id);
 
-            activity()
-                ->causedBy($customer)
-                ->performedOn($order)
-                ->useLog('bill order 3/40 api')
-                ->withProperties(['attributes' => $order])
-                ->log('created');
+//            activity()
+//                ->causedBy($customer)
+//                ->performedOn($order)
+//                ->useLog('bill order 3/40 api')
+//                ->withProperties(['attributes' => $order])
+//                ->log('created');
+//
+//            //Send notification
+//            foreach ($bill as $bill340){
+//                $list[] = $bill340->digit."=".number_format($bill340->money)."Lak";
+//            }
+//            $body = collect($list)->implode(' ');
+//            $title = "Buy lotto 3/40";
+//            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
 
-            //Send notification
-            foreach ($bill as $bill340){
-                $list[] = $bill340->digit."=".number_format($bill340->money)."Lak";
-            }
-            $body = collect($list)->implode(' ');
-            $title = "Buy lotto 3/40";
-            $this->PushNotificationController->pushNotificationBuy($body , $title,1, $customer->id,$order,$order->id);
             return response()->json([
                 'status' => true,
                 'data'   => $bill,
@@ -351,7 +354,7 @@ class BillOrderApiController extends Controller
                 'draw_date' => $orderBill->draw_date
             ],201);
 
-        }
+//        }
 
 
 
