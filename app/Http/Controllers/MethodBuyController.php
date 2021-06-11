@@ -67,7 +67,7 @@ class MethodBuyController extends Controller
             'images' => 'required'
         ]);
 
-        DB::table('method_buys')->where('status',1)->update(['status' => 0]);
+//        DB::table('method_buys')->where('status',1)->update(['status' => 0]);
 
         $methodBuy = new  MethodBuy();
         $methodBuy->title = $request->title;
@@ -95,7 +95,7 @@ class MethodBuyController extends Controller
             $methodBuy->status = 0 ;
 
         }else{
-            DB::table('method_buys')->where('status',1)->update(['status' => 0]);
+//            DB::table('method_buys')->where('status',1)->update(['status' => 0]);
             $methodBuy->status = 1 ;
         }
         $methodBuy->save();

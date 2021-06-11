@@ -375,6 +375,9 @@ class BillOrderApiController extends Controller
 
         $customerid = $request->user()->currentAccessToken();
 
+
+        //status_buy remove when we not connect with ipro api
+
         $bills = BillOrder::orderBy('id','desc')->where('customer_id',$customerid->tokenable->id)->get();
 
         return response()->json([
