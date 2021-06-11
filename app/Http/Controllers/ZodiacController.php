@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Promotion;
 use App\Models\Zodiac;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ZodiacController extends Controller
 {
@@ -14,7 +18,8 @@ class ZodiacController extends Controller
      */
     public function index()
     {
-        //
+        return view('zodiac.zodiacList')
+            ->with('zodiac',Zodiac::latest()->get());
     }
 
     /**
@@ -24,7 +29,8 @@ class ZodiacController extends Controller
      */
     public function create()
     {
-        //
+        return view('zodiac.zodiacCreate')
+            ->with('zodiac','zodiac');
     }
 
     /**
@@ -35,7 +41,31 @@ class ZodiacController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
+        ]);
+        $stringImageReformat = base64_encode('_'.time());
+        $ext = $request->file('image')->getClientOriginalExtension();
+        $imageName = $stringImageReformat.".".$ext;
+        $imageEncode = File::get($request->image);
+
+        $zodiac = new Zodiac();
+        $start = Carbon::parse($request->get('start'))->toDateTimeString();
+        $end = Carbon::parse($request->get('end'))->toDateTimeString();
+
+        $zodiac->name = $request->name;
+        $zodiac->start = $start;
+        $zodiac->end =$end;
+        $zodiac->image = "/storage/zodiac_image/".$imageName;
+
+
+
+        Storage::disk('local')->put('public/zodiac_image/'.$imageName, $imageEncode);
+
+        return redirect()->route('zodiac.index')->with('success','Create zodiac success');
     }
 
     /**

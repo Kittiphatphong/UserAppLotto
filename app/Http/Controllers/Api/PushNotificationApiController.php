@@ -47,6 +47,7 @@ class PushNotificationApiController extends Controller
             }
             $body = collect($list)->implode(' ');
 
+
                 $this->PushNotificationController->pushNotificationBuy($body, "Buy lotto", 1, $customer_id, $request->all() ,$request->bill_number);
 
 

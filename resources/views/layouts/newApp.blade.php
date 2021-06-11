@@ -544,7 +544,7 @@
                                 <ul class="menu-subnav">
 
                                     <li class="menu-item @isset($zodiac) menu-item-active @endisset" aria-haspopup="true">
-                                        <a href="" class="menu-link">
+                                        <a href="{{route('zodiac.index')}}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>

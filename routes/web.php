@@ -28,6 +28,7 @@ use App\Http\Controllers\TypeExpenseController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LiveLinkController;
 use App\Http\Controllers\MethodBuyController;
+use App\Http\Controllers\ZodiacController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -194,6 +195,10 @@ Route::group(['middleware' =>'auth'],function(){
 
     //How to buy
     Route::resource('method-buy',MethodBuyController::class);
+
+    //Horoscope
+
+    Route::resource('zodiac',ZodiacController::class);
 });
 
 
