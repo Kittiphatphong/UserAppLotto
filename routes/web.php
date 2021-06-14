@@ -198,7 +198,9 @@ Route::group(['middleware' =>'auth'],function(){
 
     //Horoscope
 
-    Route::resource('zodiac',ZodiacController::class);
+//    Route::resource('zodiac',ZodiacController::class);
+
+
 });
 
 

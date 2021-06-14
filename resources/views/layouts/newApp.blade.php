@@ -532,38 +532,38 @@
                             </div>
                         </li>
 
-                        <li class="menu-item menu-item-submenu @if(isset($zodiac)|| isset($day))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
-                            <a href="javascript:;" class="menu-link menu-toggle">
+{{--                        <li class="menu-item menu-item-submenu @if(isset($zodiac)|| isset($day))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">--}}
+{{--                            <a href="javascript:;" class="menu-link menu-toggle">--}}
 
-                                <i class="menu-icon fas fa-hand-sparkles"></i>
-                                <span class="menu-text">@lang('Horoscope')</span>
-                                <i class="menu-arrow"></i>
-                            </a>
-                            <div class="menu-submenu">
-                                <i class="menu-arrow"></i>
-                                <ul class="menu-subnav">
+{{--                                <i class="menu-icon fas fa-hand-sparkles"></i>--}}
+{{--                                <span class="menu-text">@lang('Horoscope')</span>--}}
+{{--                                <i class="menu-arrow"></i>--}}
+{{--                            </a>--}}
+{{--                            <div class="menu-submenu">--}}
+{{--                                <i class="menu-arrow"></i>--}}
+{{--                                <ul class="menu-subnav">--}}
 
-                                    <li class="menu-item @isset($zodiac) menu-item-active @endisset" aria-haspopup="true">
-                                        <a href="{{route('zodiac.index')}}" class="menu-link">
-                                            <i class="menu-bullet menu-bullet-dot">
-                                                <span></span>
-                                            </i>
-                                            <span class="menu-text">@lang('Zodiac')</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item @isset($day) menu-item-active @endisset" aria-haspopup="true">
-                                        <a href="#" class="menu-link">
-                                            <i class="menu-bullet menu-bullet-dot">
-                                                <span></span>
-                                            </i>
-                                            <span class="menu-text">@lang('Day')</span>
-                                        </a>
-                                    </li>
+{{--                                    <li class="menu-item @isset($zodiac) menu-item-active @endisset" aria-haspopup="true">--}}
+{{--                                        <a href="{{route('zodiac.index')}}" class="menu-link">--}}
+{{--                                            <i class="menu-bullet menu-bullet-dot">--}}
+{{--                                                <span></span>--}}
+{{--                                            </i>--}}
+{{--                                            <span class="menu-text">@lang('Zodiac')</span>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="menu-item @isset($day) menu-item-active @endisset" aria-haspopup="true">--}}
+{{--                                        <a href="#" class="menu-link">--}}
+{{--                                            <i class="menu-bullet menu-bullet-dot">--}}
+{{--                                                <span></span>--}}
+{{--                                            </i>--}}
+{{--                                            <span class="menu-text">@lang('Day')</span>--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
 
-                                </ul>
+{{--                                </ul>--}}
 
-                            </div>
-                        </li>
+{{--                            </div>--}}
+{{--                        </li>--}}
 
 
 
