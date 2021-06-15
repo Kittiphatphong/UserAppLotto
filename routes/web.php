@@ -29,6 +29,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\LiveLinkController;
 use App\Http\Controllers\MethodBuyController;
 use App\Http\Controllers\ZodiacController;
+use App\Http\Controllers\AstrologicalController;
+use App\Http\Controllers\AstrologicalDetailController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -200,6 +202,9 @@ Route::group(['middleware' =>'auth'],function(){
 
 //    Route::resource('zodiac',ZodiacController::class);
 
+    //Astrological
+    Route::resource('astrological',AstrologicalController::class);
+    Route::resource('astrological-detail',AstrologicalDetailController::class);
 
 });
 

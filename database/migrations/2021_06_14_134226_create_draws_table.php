@@ -15,6 +15,8 @@ class CreateDrawsTable extends Migration
     {
         Schema::create('draws', function (Blueprint $table) {
             $table->id();
+            $table->integer('draw');
+            $table->date('draw_date');
             $table->timestamps();
         });
     }

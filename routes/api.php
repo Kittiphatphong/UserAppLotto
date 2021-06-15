@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\NewsApiController;
 use App\Http\Controllers\Api\LiveLinkApiController;
 use App\Http\Controllers\Api\MedthodBuyApiController;
 use App\Http\Controllers\Api\HoroscopeApiController;
+use App\Http\Controllers\Api\AstrologicalApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -145,6 +146,8 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
     //Method buy
     Route::post('method-buy',[MedthodBuyApiController::class,'methodBuy']);
 
+    //Astrological
+    Route::post('astrological',[AstrologicalApiController::class,'astrological']);
 
 });
 //read me

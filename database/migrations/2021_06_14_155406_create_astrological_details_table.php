@@ -19,7 +19,9 @@ class CreateAstrologicalDetailsTable extends Migration
             $table->string("image");
             $table->boolean("status")->default(false);
             $table->unsignedBigInteger('astrological_id');
+            $table->unsignedBigInteger('draw_id');
             $table->foreign('astrological_id')->references('id')->on('astrologicals')->onDelete('cascade');
+            $table->foreign('draw_id')->references('id')->on('draws')->onDelete('cascade');
             $table->timestamps();
         });
     }

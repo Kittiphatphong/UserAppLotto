@@ -14,7 +14,8 @@ class AstrologicalController extends Controller
      */
     public function index()
     {
-        //
+        return view('astrological.astrologicalList')
+            ->with('astrological', Astrological::latest()->get());
     }
 
     /**
@@ -24,7 +25,8 @@ class AstrologicalController extends Controller
      */
     public function create()
     {
-        //
+        return view('astrological.astrologicalCreate')
+            ->with('astrological','astrological');
     }
 
     /**
@@ -35,7 +37,14 @@ class AstrologicalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'name' => 'required|unique:astrologicals,name'
+        ]);
+        $astrological = new Astrological();
+        $astrological->name = $request->name;
+        $astrological->save();
+
+        return redirect()->route('astrological.index')->with('Create successful');
     }
 
     /**
@@ -55,9 +64,11 @@ class AstrologicalController extends Controller
      * @param  \App\Models\Astrological  $astrological
      * @return \Illuminate\Http\Response
      */
-    public function edit(Astrological $astrological)
+    public function edit($id)
     {
-        //
+        return view('astrological.astrologicalCreate')
+            ->with('astrological','astrological')
+            ->with('edit',Astrological::find($id));
     }
 
     /**
@@ -69,17 +80,21 @@ class AstrologicalController extends Controller
      */
     public function update(Request $request, Astrological $astrological)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:astrologicals,name'
+        ]);
+
+        $astrological->name = $request->name;
+        $astrological->save();
+
+        return redirect()->route('astrological.index')->with('Update successful');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Astrological  $astrological
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Astrological $astrological)
+    public function destroy($id)
     {
-        //
+
+        $astrological = Astrological::find($id);
+        $astrological->delete();
+        return redirect()->route('astrological.index')->with('Delete successful');
     }
 }

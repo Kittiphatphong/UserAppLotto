@@ -30,7 +30,7 @@
     <link href="assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <link rel="shortcut icon" href="assets/media/logos/favicon.png" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -564,6 +564,39 @@
 
 {{--                            </div>--}}
 {{--                        </li>--}}
+
+                                                <li class="menu-item menu-item-submenu @if(isset($astrological)|| isset($astrologicalDetail))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                                                    <a href="javascript:;" class="menu-link menu-toggle">
+
+                                                        <i class="menu-icon fas fa-hand-sparkles"></i>
+                                                        <span class="menu-text">@lang('Astrological')</span>
+                                                        <i class="menu-arrow"></i>
+                                                    </a>
+                                                    <div class="menu-submenu">
+                                                        <i class="menu-arrow"></i>
+                                                        <ul class="menu-subnav">
+
+                                                            <li class="menu-item @isset($astrological) menu-item-active @endisset" aria-haspopup="true">
+                                                                <a href="{{route('astrological.index')}}" class="menu-link">
+                                                                    <i class="menu-bullet menu-bullet-dot">
+                                                                        <span></span>
+                                                                    </i>
+                                                                    <span class="menu-text">@lang('Place')</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="menu-item @isset($astrologicalDetail) menu-item-active @endisset" aria-haspopup="true">
+                                                                <a href="{{route('astrological-detail.index')}}" class="menu-link">
+                                                                    <i class="menu-bullet menu-bullet-dot">
+                                                                        <span></span>
+                                                                    </i>
+                                                                    <span class="menu-text">@lang('Day')</span>
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
+                                                </li>
 
 
 
