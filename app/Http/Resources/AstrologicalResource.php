@@ -51,7 +51,7 @@ class AstrologicalResource extends JsonResource
             "count_teller_correct" => $count_teller_correct,
             "percent_correct" =>  $percent_correct,
 //            "currently_teller" => $currently_teller,
-            "list_teller" => $list_teller
+//            "list_teller" => $list_teller
         ];
     }
 }
