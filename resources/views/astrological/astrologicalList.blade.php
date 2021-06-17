@@ -61,7 +61,14 @@
                         <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
-                            <td>20%</td>
+                            <td>
+                                @if($item->getCount() != null)
+                               <span class="text-primary"> ( {{$item->getCount()['count_teller_correct']}} / {{$item->getCount()['count_teller']}} ) </span>
+                                {{$item->getCount()['percent_correct']}}%
+                                @else
+                                    <span class="text-danger">N/A</span>
+                                @endif
+                            </td>
 
                             <td>      <div class="d-flex justify-content-start m-0">
                                     <a href="{{route('astrological.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
@@ -78,6 +85,8 @@
 
                         </tr>
                     @endforeach
+
+
                     </tbody>
                 </table>
             </div>

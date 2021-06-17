@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Animal;
+use App\Models\AstrologicalDetail;
 use App\Models\BillOrder;
+use App\Models\Draw;
 use Illuminate\Http\Request;
 use App\Models\Result;
 use App\Models\Bill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Trail\GetDrawController;
 
 class ResultController extends Controller
 {
+    use GetDrawController;
     protected $PushNotificationController;
     protected $LottoController;
 
@@ -107,6 +111,20 @@ class ResultController extends Controller
         $bill340s = $billOrders->where('type', "3/40");
         $checkResult = [$result->animal1,$result->animal2,$result->animal3];
 
+
+        //store Astrological
+        $getAstrologicalDraw = AstrologicalDetail::whereHas('draws',function($q) use ($result){
+            $q->where('draw',$result->draw);
+        })->get();
+        foreach ($getAstrologicalDraw as $item){
+            if(in_array(substr($result->l2d3d4d5d6d,4,5),json_decode($item->digit))){
+                $astrologicalStatus = AstrologicalDetail::find($item->id);
+                $astrologicalStatus->status = 1;
+                $astrologicalStatus->save();
+            }
+        }
+
+
         //store wining bill 2d3d4d5d6d
         foreach ($bill2ds as $bill2d){
             foreach ($bill2d->billorder2d3d4d5d6ds as $bill){
@@ -177,6 +195,7 @@ class ResultController extends Controller
 
     public function winReset($id){
         $result = Result::find($id);
+        $draw_id = Draw::where('draw',$result->draw)->pluck('id');
         $billOrderDraw6d = BillOrder::where('draw',$result->draw)->where('type','2d3d4d5d6d')->pluck('id');
         $billOrderDraw340 = BillOrder::where('draw',$result->draw)->where('type','3/40')->pluck('id');
         DB::table('bill_orders')->where('draw',$result->draw)->update(['status_win' => 0]);
@@ -184,6 +203,7 @@ class ResultController extends Controller
         DB::table('billorder2d3d4d5d6ds')->whereIn('order_id',$billOrderDraw6d)->update(['type_win' => 0]);
         DB::table('billorder340s')->whereIn('order_id',$billOrderDraw340)->update(['type_win' => 0]);
         DB::table('notifications')->where('title','Result draw '.$result->draw)->delete();
+        DB::table('astrological_details')->where('draw_id',$draw_id)->update(['status' => 0]);
 
     }
 

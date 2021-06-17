@@ -54,7 +54,6 @@
                         <th>ASTROLOGICAL</th>
                         <th>DRAW</th>
                         <th>IMAGE</th>
-                        <th>PERCENT</th>
                         <th>ACTION</th>
                         <th>DIGITS</th>
                         <th>UPDATED AT</th>
@@ -63,7 +62,7 @@
                     </thead>
                     <tbody>
                     @foreach($astrologicalDetail as $item)
-                        <tr>
+                        <tr @if($item->status ==1) class="bg-light-primary" @endif>
                         <td>{{$item->id}}</td>
                         <td>{{$item->astrologicals->name}}</td>
                             <td>{{$item->draws->draw}}</td>
@@ -72,7 +71,7 @@
                                     <img src="{{$item->image}}" width="150px">
                                 </a>
                             </td>
-                            <td>20%</td>
+
 
                             <td>      <div class="d-flex justify-content-start m-0">
                                     <a href="{{route('astrological-detail.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>

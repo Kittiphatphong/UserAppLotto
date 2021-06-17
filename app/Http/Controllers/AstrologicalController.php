@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Astrological;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\AstrologicalResource;
 class AstrologicalController extends Controller
 {
     /**
@@ -15,7 +15,8 @@ class AstrologicalController extends Controller
     public function index()
     {
         return view('astrological.astrologicalList')
-            ->with('astrological', Astrological::latest()->get());
+            ->with('astrological', Astrological::latest()->get())
+        ->with('asjs', AstrologicalResource::collection(Astrological::latest()->get()));
     }
 
     /**
