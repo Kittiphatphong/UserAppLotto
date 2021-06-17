@@ -31,6 +31,7 @@ use App\Http\Controllers\MethodBuyController;
 use App\Http\Controllers\ZodiacController;
 use App\Http\Controllers\AstrologicalController;
 use App\Http\Controllers\AstrologicalDetailController;
+use App\Http\Controllers\AnimalCetagoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -136,6 +137,8 @@ Route::group(['middleware' =>'auth'],function(){
     Route::group(['middleware'=>['permission:animal edit']],function() {
         Route::get('animal-edit/{id}', [AnimalController::class, 'animalEdit'])->name('animal.edit');
         Route::post('animal-update/{id}', [AnimalController::class, 'animalUpdate'])->name('animal.update');
+
+        Route::resource('animal-category',[AnimalCetagoryController::class]);
     });
 //Dream Teller
    Route::resource('dream-teller',DreamTellerController::class,[

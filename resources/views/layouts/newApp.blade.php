@@ -366,7 +366,7 @@
                             </div>
                         </li>
 
-                        <li class="menu-item menu-item-submenu @if(isset($animal_list)|| isset($animal_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                        <li class="menu-item menu-item-submenu @if(isset($animal_list)|| isset($animal_create) || isset($animal_category))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fas fa-dog"></i>
                                 <span class="menu-text">@lang('40 Animals')</span>
@@ -390,6 +390,14 @@
                                                 <span></span>
                                             </i>
                                             <span class="menu-text">@lang('List')</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item @isset($animal_category) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('animal.list')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Categories')</span>
                                         </a>
                                     </li>
 
