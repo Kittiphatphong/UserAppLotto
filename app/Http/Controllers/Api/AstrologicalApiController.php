@@ -10,18 +10,18 @@ use App\Http\Resources\AstrologicalResource;
 class AstrologicalApiController extends Controller
 {
     public function astrological(){
-//        try {
+        try {
 
             return response()->json([
                'status' => true,
                'data' =>  AstrologicalResource::collection(Astrological::all()->where('status',1))
             ]);
 
-//        }catch (\Exception $e){
-//            return response()->json([
-//                'status' => false,
-//                'msg'=> $e->getMessage()
-//            ],422);
-//        }
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg'=> $e->getMessage()
+            ],422);
+        }
     }
 }
