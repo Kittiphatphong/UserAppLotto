@@ -22,7 +22,7 @@ class Astrological extends Model
         }else{
       $percent_correct = ($count_teller_correct*100)/$count_teller;
       return [
-        'count_teller' =>  $count_teller,
+          'count_teller' =>  $count_teller,
           'count_teller_correct' => $count_teller_correct,
           'percent_correct' => $percent_correct
       ];
