@@ -29,26 +29,12 @@ class AstrologicalResource extends JsonResource
 //            $currently_teller = [];
 //        }
 
-//        $count_teller = $this->details->count();
-//        $count_teller_correct = $this->details->where('status',1)->count();
-//
-//        if($count_teller <= 0){
-//            $percent_correct =0;
-//        }else {
-//            $percent_correct = ($count_teller_correct * 100) / $count_teller;
-//
-//        }
-            $count_teller = $this->getCount()['count_teller'];
-            $count_teller_correct = $this->getCount()['count_teller_correct'];
-            $percent_correct = $this->getCount()['percent_correct'];
-
-
 
         return [
             "name" => $this->name,
-            "count_teller" => $count_teller,
-            "count_teller_correct" => $count_teller_correct,
-            "percent_correct" =>  $percent_correct,
+            "count_teller" => $this->getCount()['count_teller'],
+            "count_teller_correct" => $this->getCount()['count_teller_correct'],
+            "percent_correct" =>  $this->getCount()['percent_correct'],
 //            "currently_teller" => $currently_teller,
             "list_teller" => AstrologicalDetailResource::collection(AstrologicalDetail::where('astrological_id',$this->id)->get())
         ];

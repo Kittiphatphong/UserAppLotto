@@ -90,6 +90,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
 
     Route::post('animal-list',[AnimalApiController::class,'animalList']);
+    Route::post('animal-category',[AnimalApiController::class,'animalCategory']);
 
     Route::post('promotion',[PromotionApiController::class,'promotionList']);
     Route::post('filter-promotion',[PromotionApiController::class,'promotionFilter']);

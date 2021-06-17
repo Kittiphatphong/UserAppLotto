@@ -64,7 +64,7 @@
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
                             <td>
-                             <div class="row ">
+                             <div class="row ml-2">
                                 @foreach($item->withAnimals as $animal)
                                     <div  class="col-1 p-0 m-1">
                                         <img src="{{$animal->animals->image}}" alt="{{$animal->animals->name}}" style="width:100%" class="border rounded">

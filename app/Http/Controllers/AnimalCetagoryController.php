@@ -6,7 +6,7 @@ use App\Models\Animal;
 use App\Models\AnimalCetagory;
 use App\Models\AnimalWithCategory;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class AnimalCetagoryController extends Controller
 {
     /**
@@ -76,9 +76,12 @@ class AnimalCetagoryController extends Controller
      * @param  \App\Models\AnimalCetagory  $animalCetagory
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnimalCetagory $animalCetagory)
+    public function edit($id)
     {
-        //
+        return view('animalCategory.animalCategoryCreate')
+            ->with('animal_category','animal_category')
+            ->with('animals',Animal::all())
+            ->with('edit',AnimalCetagory::find($id));
     }
 
     /**
@@ -88,9 +91,26 @@ class AnimalCetagoryController extends Controller
      * @param  \App\Models\AnimalCetagory  $animalCetagory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnimalCetagory $animalCetagory)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'animals' => 'required'
+        ]);
+        $animalCategory = AnimalCetagory::find($id);
+        $animalCategory->name = $request->name;
+        $animalCategory->save();
+
+        DB::table('animal_with_categories')->where('animal_category_id',$id)->delete();
+
+        foreach ($request->animals as $animal){
+            $animalWithCategory = new AnimalWithCategory();
+            $animalWithCategory->animal_id = $animal;
+            $animalWithCategory->animal_category_id = $animalCategory->id;
+            $animalWithCategory->save();
+        }
+
+        return redirect()->route('animal-category.index')->with('success','Update successful');
     }
 
     /**
@@ -102,7 +122,8 @@ class AnimalCetagoryController extends Controller
     public function destroy($id)
     {
         $animalCategory = AnimalCetagory::find($id);
-
+        $animalCategory->delete();
+        return redirect()->route('animal-category.index')->with('success','Delete successful');
 
     }
 }

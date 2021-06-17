@@ -23,6 +23,7 @@
 
 
 @section('content')
+
     <div class="rounded container">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -41,7 +42,7 @@
                         @endisset
                           <div class="form-group">
                               <label>Name</label>
-                              <input type="text" class="form-control" name="name" placeholder="Enter category name...">
+                              <input type="text" class="form-control" name="name" placeholder="Enter category name..." value="{{isset($edit)?$edit->name:''}}">
                           </div>
 
                         <div class="form-group">
@@ -50,8 +51,8 @@
                                     <li class="border rounded text-center">
                                         <input type="checkbox" id="myCheckbox{{$key+1}}" name="animals[]" value="{{$animal->id}}"
                                         @isset($edit)
-                                        @if(in_array($animal->animals_digit[0],json_decode($edit->digit) ))
-                                            checked
+                                        @if(in_array($animal->id,$edit->withAnimals->pluck('animal_id')->toArray()))
+                                               checked
                                             @endif
                                         @endisset
                                         />

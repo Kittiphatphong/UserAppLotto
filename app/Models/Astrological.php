@@ -20,9 +20,8 @@ class Astrological extends Model
         if($count_teller <=0){
             $percent_correct =0;
         }else{
-      $percent_correct = ($count_teller_correct*100)/$count_teller;
-
-}
+        $percent_correct = ($count_teller_correct*100)/$count_teller;
+        }
         return [
             'count_teller' =>  $count_teller,
             'count_teller_correct' => $count_teller_correct,

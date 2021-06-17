@@ -12,6 +12,10 @@ class AnimalWithCategory extends Model
     public function animals(){
         return $this->belongsTo(Animal::class,'animal_id');
     }
+    public function apiAnimals(){
+        return $this->belongsTo(Animal::class,'animal_id')
+            ->select('name','description','image','animals_digit','digit');
+    }
     public function animal_categories(){
         return $this->belongsTo(AnimalCetagory::class,'animal_category_id');
     }
