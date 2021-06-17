@@ -47,11 +47,11 @@ class AstrologicalResource extends JsonResource
 
         return [
             "name" => $this->name,
-            "count_teller" => $count_teller,
+//            "count_teller" => $count_teller,
 //            "count_teller_correct" => $count_teller_correct,
 //            "percent_correct" =>  $percent_correct,
-////            "currently_teller" => $currently_teller,
-//            "list_teller" => $list_teller
+//            "currently_teller" => $currently_teller,
+            "list_teller" => $list_teller
         ];
     }
 }
