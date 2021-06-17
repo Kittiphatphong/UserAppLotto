@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LiveLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LiveLinkController extends Controller
 {
@@ -23,8 +24,14 @@ class LiveLinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
+//
+//        $request->session()->put('user','jay');
+//
+//        dd(Session::get('user'));
+
         return view('liveLink')
             ->with('live_link',LiveLink::latest()->get());
     }
