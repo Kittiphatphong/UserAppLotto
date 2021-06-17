@@ -59,7 +59,7 @@ class AstrologicalDetailController extends Controller
 
         }else{
             $draw = new Draw();
-            $draw->draw = $this->getDraw()['draw_no'];
+            $draw->draw = 11111;
             $draw->draw_date = $this->getDraw()['draw_date'];
             $draw->save();
         }

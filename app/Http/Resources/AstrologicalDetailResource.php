@@ -15,7 +15,7 @@ class AstrologicalDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'digits' => $this->digit,
+            'digits' => json_decode($this->digit),
             'image' => $this->image,
             'draw_no' => $this->draws->draw,
             'draw_date' => $this->draws->draw_date,

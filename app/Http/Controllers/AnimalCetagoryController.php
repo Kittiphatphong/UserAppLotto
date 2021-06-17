@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Animal;
 use App\Models\AnimalCetagory;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class AnimalCetagoryController extends Controller
      */
     public function index()
     {
-        //
+
+        return view('animalCategory.animalCategoryList')
+            ->with('animal_category',AnimalCetagory::latest()->get());
     }
 
     /**
@@ -24,7 +27,8 @@ class AnimalCetagoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('animalCategory.animalCategoryCreate')
+            ->with('animals',Animal::all());
     }
 
     /**
@@ -35,7 +39,9 @@ class AnimalCetagoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    $request->validate([
+       'name' => 'required'
+    ]);
     }
 
     /**

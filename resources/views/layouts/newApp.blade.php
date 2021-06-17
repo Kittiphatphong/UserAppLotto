@@ -393,7 +393,7 @@
                                         </a>
                                     </li>
                                     <li class="menu-item @isset($animal_category) menu-item-active @endisset" aria-haspopup="true">
-                                        <a href="{{route('animal.list')}}" class="menu-link">
+                                        <a href="{{route('animal-category.index')}}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>

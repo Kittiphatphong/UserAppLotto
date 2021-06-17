@@ -137,8 +137,8 @@ Route::group(['middleware' =>'auth'],function(){
     Route::group(['middleware'=>['permission:animal edit']],function() {
         Route::get('animal-edit/{id}', [AnimalController::class, 'animalEdit'])->name('animal.edit');
         Route::post('animal-update/{id}', [AnimalController::class, 'animalUpdate'])->name('animal.update');
+        Route::resource('animal-category',AnimalCetagoryController::class);
 
-        Route::resource('animal-category',[AnimalCetagoryController::class]);
     });
 //Dream Teller
    Route::resource('dream-teller',DreamTellerController::class,[
