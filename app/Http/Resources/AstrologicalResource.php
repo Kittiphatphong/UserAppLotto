@@ -18,15 +18,15 @@ class AstrologicalResource extends JsonResource
      */
     public function toArray($request)
     {
-        $currently_teller = AstrologicalDetail::where('astrological_id',$this->id)
-            ->whereHas('draws',function ($q){
-                $q->where('draw',$this->getDraw()['draw_no']);
-            }) ;
-        if($currently_teller->count()>0){
-            $currently_teller = AstrologicalDetailResource::make($currently_teller->first());
-        }else{
-            $currently_teller = [];
-        }
+//        $currently_teller = AstrologicalDetail::where('astrological_id',$this->id)
+//            ->whereHas('draws',function ($q){
+//                $q->where('draw',$this->getDraw()['draw_no']);
+//            }) ;
+//        if($currently_teller->count()>0){
+//            $currently_teller = AstrologicalDetailResource::make($currently_teller->first());
+//        }else{
+//            $currently_teller = [];
+//        }
 
         if($this->getCount()['count_teller'] == null){
             $count_teller = 0;
