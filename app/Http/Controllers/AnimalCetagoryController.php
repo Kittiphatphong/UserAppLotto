@@ -29,6 +29,7 @@ class AnimalCetagoryController extends Controller
     public function create()
     {
         return view('animalCategory.animalCategoryCreate')
+            ->with('animal_category','animal_category')
             ->with('animals',Animal::all());
     }
 
@@ -98,8 +99,10 @@ class AnimalCetagoryController extends Controller
      * @param  \App\Models\AnimalCetagory  $animalCetagory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnimalCetagory $animalCetagory)
+    public function destroy($id)
     {
-        //
+        $animalCategory = AnimalCetagory::find($id);
+
+
     }
 }

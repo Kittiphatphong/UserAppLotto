@@ -14,7 +14,7 @@ class AstrologicalApiController extends Controller
 
             return response()->json([
                'status' => true,
-               'data' =>  AstrologicalResource::collection(Astrological::all()->where('status',1))
+               'data' =>  AstrologicalResource::collection(Astrological::where('status',1)->get())
             ]);
 
         }catch (\Exception $e){
