@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\AnimalCetagory;
+use App\Models\AnimalWithCategory;
 use Illuminate\Http\Request;
 
 class AnimalCetagoryController extends Controller
@@ -40,8 +41,21 @@ class AnimalCetagoryController extends Controller
     public function store(Request $request)
     {
     $request->validate([
-       'name' => 'required'
+       'name' => 'required|unique:animal_cetagorys,name',
+        'animals' => 'required'
     ]);
+    $animalCategory = new AnimalCetagory();
+    $animalCategory->name = $request->name();
+    $animalCategory->save();
+
+        foreach ($request->animals as $animal){
+            $animalWithCategory = new AnimalWithCategory();
+            $animalWithCategory->animal_id = $animal;
+            $animalWithCategory->animal_category_id = $animalCategory->id;
+            $animalWithCategory->save();
+        }
+
+        return redirect()->route('animal-category.index')->with('success','');
     }
 
     /**

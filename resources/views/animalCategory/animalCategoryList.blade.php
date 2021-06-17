@@ -62,10 +62,6 @@
                         <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
-
-
-
-
                             <td>      <div class="d-flex justify-content-start m-0">
                                     <a href="{{route('animal-category.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
 
@@ -76,7 +72,6 @@
                                     </form>
                                 </div>
                             </td>
-
                             <td>{{$item->updated_at}}</td>
 
 

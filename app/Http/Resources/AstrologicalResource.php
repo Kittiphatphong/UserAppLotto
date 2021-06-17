@@ -43,7 +43,7 @@ class AstrologicalResource extends JsonResource
             "count_teller" => $count_teller,
             "count_teller_correct" => $count_teller_correct,
             "percent_correct" =>  $percent_correct,
-            "currently_teller" => $currently_teller,
+//            "currently_teller" => $currently_teller,
             "list_teller" => AstrologicalDetailResource::collection(AstrologicalDetail::where('astrological_id',$this->id)->get())
         ];
     }
