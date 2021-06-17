@@ -52,6 +52,7 @@
 
                         <th>ID</th>
                         <th>CATEGORY</th>
+                        <th>ANIMAL</th>
                         <th>ACTION</th>
                         <th>UPDATED AT</th>
 
@@ -62,6 +63,16 @@
                         <tr>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
+                            <td>
+                             <div class="row">
+                                @foreach($item->withAnimals as $animal)
+                                    <div  class="col-2 p-0 m-1">
+                                        <img src="{{$animal->animals->image}}" alt="{{$animal->animals->name}}" style="width:100%" class="border rounded">
+                                    </div>
+
+                                @endforeach
+                             </div>
+                            </td>
                             <td>      <div class="d-flex justify-content-start m-0">
                                     <a href="{{route('animal-category.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
 

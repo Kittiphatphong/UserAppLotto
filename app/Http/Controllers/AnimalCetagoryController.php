@@ -41,11 +41,11 @@ class AnimalCetagoryController extends Controller
     public function store(Request $request)
     {
     $request->validate([
-       'name' => 'required|unique:animal_cetagorys,name',
+       'name' => 'required|unique:animal_cetagories,name',
         'animals' => 'required'
     ]);
     $animalCategory = new AnimalCetagory();
-    $animalCategory->name = $request->name();
+    $animalCategory->name = $request->name;
     $animalCategory->save();
 
         foreach ($request->animals as $animal){
@@ -55,7 +55,7 @@ class AnimalCetagoryController extends Controller
             $animalWithCategory->save();
         }
 
-        return redirect()->route('animal-category.index')->with('success','');
+        return redirect()->route('animal-category.index')->with('success','Create successful');
     }
 
     /**
