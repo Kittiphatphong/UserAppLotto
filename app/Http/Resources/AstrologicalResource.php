@@ -42,7 +42,7 @@ class AstrologicalResource extends JsonResource
             $list_teller = [];
         }else{
             $list_teller = AstrologicalDetailResource::collection(AstrologicalDetail::where('astrological_id',$this->id)->get());
-            $list_teller= 0;
+
         }
 
         return [
