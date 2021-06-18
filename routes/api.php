@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\LiveLinkApiController;
 use App\Http\Controllers\Api\MedthodBuyApiController;
 use App\Http\Controllers\Api\HoroscopeApiController;
 use App\Http\Controllers\Api\AstrologicalApiController;
+use App\Http\Controllers\Api\RandomDigitApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -149,6 +150,9 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //Astrological
     Route::post('astrological',[AstrologicalApiController::class,'astrological']);
+
+    //Random Digit
+    Route::post('random-digit',[RandomDigitApiController::class,'randomDigit']);
 
 });
 //read me
