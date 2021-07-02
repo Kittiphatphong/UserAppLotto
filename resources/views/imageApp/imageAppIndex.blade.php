@@ -84,7 +84,7 @@
                 <form action="{{route('image-app.destroy',$image->id)}}" method="post" class="delete_form">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
+                    <button type="submit" class=" btn btn-link" ><i class="fas fa-trash"></i></button>
                 </form>
                 @endif
                 @if($image->active==true)

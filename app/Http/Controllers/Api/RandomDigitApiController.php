@@ -27,7 +27,7 @@ class RandomDigitApiController extends Controller
 
             return response()->json([
                 'status' => true,
-                'data' => $this->luckyRandom($request->set_amount,$request->type,$request->category)
+                'data' => $this->luckyRandom($request->set_amount,$request->type,$request->category),
             ]);
 
         }catch (\Exception $e){

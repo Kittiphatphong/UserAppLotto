@@ -18,6 +18,7 @@ class LiveLinkController extends Controller
     {
         return view('liveLink')
             ->with('live_link',LiveLink::latest()->get());
+
     }
 
     /**

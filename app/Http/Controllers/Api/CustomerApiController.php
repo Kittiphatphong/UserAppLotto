@@ -91,6 +91,7 @@ class CustomerApiController extends Controller
     }
     public function registerPhoneV2(Request $request){
         try {
+
             $validator=  Validator::make($request->all(), [
                 'phone' => 'required|max:10|min:10|unique:customers',
                 'birthday' =>'required:date',
@@ -131,7 +132,10 @@ class CustomerApiController extends Controller
         }
     }
     public function registerPhone(Request $request){
+
         try {
+
+
             $validator=  Validator::make($request->all(), [
                 'phone' => 'required|max:10|min:10|unique:customers',
             ]);
