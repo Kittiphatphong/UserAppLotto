@@ -7,7 +7,7 @@ use App\Models\Temple;
 use Illuminate\Http\Request;
 use App\Http\Resources\TempleResource;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Resources\PaperFortuneResource;
 class FortuneApiController extends Controller
 {
     public function templeList(){
@@ -30,7 +30,7 @@ class FortuneApiController extends Controller
         }else{
             return response()->json([
                 'status' => true,
-                'data' => Temple::find($request->id_temple)->apiFortunes
+                'data' => PaperFortuneResource::collection(Temple::find($request->id_temple)->apiFortunes)
             ]);
         }
 

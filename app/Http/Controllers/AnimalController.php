@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
+
 class AnimalController extends Controller
 {
+
     public function animalList(){
 
         return view('animal.animalList')
