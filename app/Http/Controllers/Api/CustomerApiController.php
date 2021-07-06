@@ -450,7 +450,7 @@ class CustomerApiController extends Controller
             $customer->status = true ;
             $customer->save();
 
-            $balance = $this->AirTimeController->viewBalance($customer->phone);
+//            $balance = $this->AirTimeController->viewBalance($customer->phone);
             $customerData = Customer::find($customer->id);
             activity()
                 ->causedBy($customer)
@@ -474,7 +474,7 @@ class CustomerApiController extends Controller
                     'image'=>$customerData->image,
                     'background_image'=>$customerData->background_image,
                     'count_notification' =>$customerData->notification->count(),
-                    'balance' => $balance
+                    'balance' => '0'
                 ]]);
 
         }catch (\Exception $e){
@@ -517,14 +517,14 @@ class CustomerApiController extends Controller
                 ->withCount('notification')->first();
 
 //            dd($customerData);
-            $balance = $this->AirTimeController->viewBalance($customer->phone);
+//            $balance = $this->AirTimeController->viewBalance($customer->phone);
             activity()
                 ->causedBy($customer)
                 ->performedOn($customer)
                 ->useLog('customer')
                 ->withProperties(['attributes' => $customerData,'old'=>$customer])
                 ->log('updated detail');
-            return response()->json(['status' => true , 'data' => $customerData,'balance' => $balance]);
+            return response()->json(['status' => true , 'data' => $customerData,'balance' => '0']);
         }catch (\Exception $e){
             return response()->json([
                 'status' => false,
