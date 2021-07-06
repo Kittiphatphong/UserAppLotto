@@ -82,6 +82,7 @@
                                     <a href="{{route('method-buy.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
                                     <form action="{{route('method-buy.destroy',$item->id)}}" method="post" class="delete_form">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                                     </form>
                                 </div></td>

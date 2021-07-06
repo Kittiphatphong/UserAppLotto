@@ -108,9 +108,11 @@ class MethodBuyController extends Controller
      * @param  \App\Models\MethodBuy  $methodBuy
      * @return \Illuminate\Http\Response
      */
-    public function edit(MethodBuy $methodBuy)
+    public function edit($id)
     {
-        //
+        return view('methodBuy.methodBuyCreate')
+            ->with('method_buy_create','method_buy_create')
+            ->with('edit',MethodBuy::find($id));
     }
 
     /**
@@ -120,9 +122,33 @@ class MethodBuyController extends Controller
      * @param  \App\Models\MethodBuy  $methodBuy
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MethodBuy $methodBuy)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'link' => 'required',
+            'description' => 'required',
+
+        ]);
+
+//        DB::table('method_buys')->where('status',1)->update(['status' => 0]);
+
+        $methodBuy = MethodBuy::find($id);
+        $methodBuy->title = $request->title;
+        $methodBuy->link = $request->link;
+        $methodBuy->description = $request->description;
+        $methodBuy->status = 1 ;
+        $methodBuy->save();
+
+        if($files=$request->file('images')){
+
+            foreach ($methodBuy->methodBuyImages as $images){
+                Storage::delete("public/method_buy_image/".str_replace('/storage/method_buy_image/','',$images->image));
+                MethodBuyImage::find($images->id)->delete();
+            }
+            $this->upImages($files,$methodBuy->id);
+        }
+        return redirect()->route('method-buy.index')->with('success','Update success');
     }
 
     /**
@@ -131,8 +157,13 @@ class MethodBuyController extends Controller
      * @param  \App\Models\MethodBuy  $methodBuy
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MethodBuy $methodBuy)
+    public function destroy($id)
     {
-        //
+        $methodBuy = MethodBuy::find($id);
+        foreach ($methodBuy->methodBuyImages as $images){
+            Storage::delete("public/method_buy_image/".str_replace('/storage/method_buy_image/','',$images->image));
+        }
+        $methodBuy->delete();
+        return back()->with('success','Delete successful');
     }
 }

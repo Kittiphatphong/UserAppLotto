@@ -31,6 +31,9 @@
                     </div>
                     <form enctype="multipart/form-data" action="{{isset($edit)? route('method-buy.update',$edit->id):route('method-buy.store')}}"  method="post" height="1000px" class="pb-10 mb-10">
                         @csrf
+                        @isset($edit)
+                            @method('PATCH')
+                        @endisset
                         <div class="form-group">
                             <label>TITLE</label>
                             <input type="text" class="form-control" name="title" value="{{isset($edit)?$edit->title:''}}" placeholder="Enter Title...">
