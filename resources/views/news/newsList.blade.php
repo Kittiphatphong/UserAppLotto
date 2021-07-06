@@ -66,9 +66,10 @@
                                 </div>
                             </td>
                             <td>      <div class="d-flex justify-content-start m-0">
-                                    <a href="" class="btn btn-link" ><i class="far fa-edit"></i></a>
-                                    <form action="" method="post" class="delete_form">
+                                    <a href="{{route('news.edit',$news->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
+                                    <form action="{{route('news.destroy',$news->id)}}" method="post" class="delete_form">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
                                     </form>
                                 </div></td>

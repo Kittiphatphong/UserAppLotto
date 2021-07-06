@@ -9,16 +9,12 @@ class PaperFortuneResource extends JsonResource
 use MyFunction;
     public function toArray($request)
     {
-        $count= strlen($this->no);
         $laoNumber = null;
-
-
         for($i=0;$i < strlen($this->no);$i++){
             $number = substr($this->no,$i,1);
             $laoNumber = $laoNumber.$this->laoNumber($number);
-
-
         }
+
         return [
             "no" => $this->no,
             "lao_no" => $laoNumber,

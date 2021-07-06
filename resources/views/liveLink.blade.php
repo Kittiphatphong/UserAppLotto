@@ -20,13 +20,17 @@
 @section('content')
     <div class="card card-custom">
         <div class="card-body pb-0">
-            <form action="{{route('live-link.store')}}" method="post" >
+            <form action="{{isset($edit)?route('live-link.update',$edit->id):route('live-link.store')}}" method="post" >
                 @csrf
+                @isset($edit)
+                    @method('PATCH')
+                @endisset
               <div class="form-group">
                   <label>Link</label>
                   <div class="d-flex justify-content-between">
-                  <input type="text" class="form-control" name="link" placeholder="Enter a link..." autocomplete="off">
-                  <button class="btn btn-success">SUBMIT</button>
+                  <input type="text" class="form-control" name="link" placeholder="Enter a link..." autocomplete="off" value="{{isset($edit)?$edit->link:''}}">
+
+                          <button class="btn {{isset($edit)?'btn-warning':'btn-success'}}">{{isset($edit)?'EDIT':'SUBMIT'}}</button>
                   </div>
 
               </div>
@@ -47,7 +51,13 @@
                     </thead>
                     <tbody>
                     @foreach($live_link as $item)
-                        <tr>
+                        <tr class="
+                            @if(isset($edit))
+                            @if($edit->id == $item->id)
+                            bg-light-warning
+                            @endif
+                            @endif
+                             ">
                             <td>{{$item->id}}</td>
                             <td>{{$item->link}}</td>
                             <td>
@@ -58,13 +68,18 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="d-flex justify-content-start m-0">
-                                    <a href="" class="btn btn-link" ><i class="far fa-edit"></i></a>
-                                    <form action="" method="post" class="delete_form">
-                                        @csrf
-                                        <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
+
+                                        <div class="d-flex justify-content-start m-0">
+                                            <a href="{{route('live-link.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
+                                            <form action="{{route('live-link.destroy',$item->id)}}" method="post" class="delete_form">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class=" btn btn-link delete_submit" ><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+
+
+
                             </td>
                             <td>{{$item->created_at}}</td>
                             <td>{{$item->updated_at}}</td>

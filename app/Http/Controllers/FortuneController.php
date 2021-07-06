@@ -119,10 +119,12 @@ class FortuneController extends Controller
      * @param  \App\Models\Fortune  $fortune
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fortune $fortune)
+    public function destroy($id)
     {
+        $fortune = Fortune::find($id);
+        Storage::delete("public/fortune_image/".str_replace('/storage/fortune_image/','',$fortune->image));
         $fortune->delete();
-
+        return back()->with('success','Delete successful');
     }
 
     public function changeStatus($id){

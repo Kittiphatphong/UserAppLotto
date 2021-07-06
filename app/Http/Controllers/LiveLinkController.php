@@ -69,9 +69,11 @@ class LiveLinkController extends Controller
      * @param  \App\Models\LiveLink  $liveLink
      * @return \Illuminate\Http\Response
      */
-    public function edit(LiveLink $liveLink)
+    public function edit($id)
     {
-        //
+        return view('liveLink')
+            ->with('live_link',LiveLink::latest()->get())
+            ->with('edit',LiveLink::find($id));
     }
 
     /**
@@ -81,9 +83,20 @@ class LiveLinkController extends Controller
      * @param  \App\Models\LiveLink  $liveLink
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LiveLink $liveLink)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'link' => 'required|unique:live_links,link'
+        ]);
+
+        DB::table('live_links')->where('status',1)->update(['status' => 0]);
+
+        $live_link = LiveLink::find($id);
+        $live_link->link = $request->link;
+        $live_link->status = true;
+        $live_link->save();
+
+        return redirect()->route('live-link.create')->with('success','Update successful');
     }
 
     /**
@@ -92,8 +105,13 @@ class LiveLinkController extends Controller
      * @param  \App\Models\LiveLink  $liveLink
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LiveLink $liveLink)
+    public function destroy($id)
     {
-        //
+        $liveLink = LiveLink::find($id);
+        if($liveLink->status == 1){
+            return back()->with('warning','Live link is active');
+        }
+        $liveLink->delete();
+        return redirect()->route('live-link.create')->with('success','Delete successful');
     }
 }

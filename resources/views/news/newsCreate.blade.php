@@ -50,7 +50,7 @@
                         </div>
                         @if(isset($edit))
                         <div class="d-flex col-12 border justify-content-center flex-wrap">
-                            @foreach($edit->recommendImages as $images)
+                            @foreach($edit->newsImages as $images)
                                 <div class="col-3 py-2">
                                 <a href="{{$images->image}}" target="_blank" class="">
                                     <img src="{{$images->image}}"  loading="lazy" width="90%" class="border rounded">

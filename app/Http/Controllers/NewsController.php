@@ -89,9 +89,11 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit($id)
     {
-        //
+        return view('news.newsCreate')
+            ->with('news_create','new_create')
+            ->with('edit',News::find($id));
     }
 
     /**
@@ -101,9 +103,27 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'contentShow' => 'required',
+        ]);
+
+        $news = News::find($id);
+        $news->title = $request->title;
+        $news->content = $request->contentShow;
+        $news->save();
+
+        if($files=$request->file('images')){
+            foreach ($news->newsImages as $images){
+                Storage::delete("public/news_image/".str_replace('/storage/news_image/','',$images->image));
+               NewsImage::find($images->id)->delete();
+            }
+
+            $this->upImages($files,$news->id);
+        }
+    return redirect()->route('news.index')->with('success','Update successful');
     }
 
     /**
@@ -112,8 +132,13 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy($id)
     {
-        //
+        $news = News::find($id);
+        foreach ($news->newsImages as $images){
+            Storage::delete("public/news_image/".str_replace('/storage/news_image/','',$images->image));
+        }
+        $news->delete();
+        return back()->with('success','Delete successful');
     }
 }

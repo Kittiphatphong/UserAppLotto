@@ -68,7 +68,9 @@
                                 <div class="d-flex justify-content-around">
                                 <a href="{{route('fortune.edit',$fortune->id)}}" class="btn btn-link"><i class="fa fa-edit"></i></a>
                                 <form action="{{route('fortune.destroy',$fortune->id)}}" method="post" class="delete_form">
-                                    @csrf <button type="submit" class="btn btn-link " ><i class="fa fa-trash-alt"></i></button>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-link " ><i class="fa fa-trash-alt"></i></button>
                                 </form>
                                 </div>
                             </td>
