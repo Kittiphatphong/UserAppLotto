@@ -582,7 +582,7 @@ class CustomerApiController extends Controller
     public function customerInfo(Request $request){
         try {
             $customer = $request->user()->currentAccessToken()->tokenable;
-            $balance = $this->AirTimeController->viewBalance($customer->phone);
+//            $balance = $this->AirTimeController->viewBalance($customer->phone);
             $customerData = Customer::find($customer->id);
             return response()->json([
                 'status' => true ,
@@ -600,7 +600,7 @@ class CustomerApiController extends Controller
                     'image'=>$customerData->image,
                     'background_image'=>$customerData->background_image,
                     'count_notification' =>$customerData->notification->count(),
-                    'balance' => (string) ($balance)
+                    'balance' => '0'
                 ]]);
         }catch (\Exception $e){
             return response()->json([
