@@ -7,8 +7,12 @@ use App\Models\AnimalCetagory;
 use App\Models\AnimalWithCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Trail\UploadImage;
+use Illuminate\Support\Facades\Storage;
+
 class AnimalCetagoryController extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -43,10 +47,12 @@ class AnimalCetagoryController extends Controller
     {
     $request->validate([
        'name' => 'required|unique:animal_cetagories,name',
-        'animals' => 'required'
+        'animals' => 'required',
+        'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
     ]);
     $animalCategory = new AnimalCetagory();
     $animalCategory->name = $request->name;
+    $animalCategory->image = $this->upload($request,"animal_category_image");
     $animalCategory->save();
 
         foreach ($request->animals as $animal){
@@ -95,12 +101,16 @@ class AnimalCetagoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'animals' => 'required'
+            'animals' => 'required',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg'
         ]);
         $animalCategory = AnimalCetagory::find($id);
         $animalCategory->name = $request->name;
+        if($request->hasFile("image")) {
+            Storage::delete("public/animal_category_image/" . str_replace('/storage/animal_category_image/', '', $animalCategory->image));
+            $animalCategory->image = $this->upload($request,"animal_category_image");
+        }
         $animalCategory->save();
-
         DB::table('animal_with_categories')->where('animal_category_id',$id)->delete();
 
         foreach ($request->animals as $animal){

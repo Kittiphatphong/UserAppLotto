@@ -52,6 +52,7 @@
 
                         <th>ID</th>
                         <th>CATEGORY</th>
+                        <th>IMAGE</th>
                         <th>ANIMAL</th>
                         <th>ACTION</th>
                         <th>UPDATED AT</th>
@@ -62,7 +63,9 @@
                     @foreach($animal_category as $item)
                         <tr>
                         <td>{{$item->id}}</td>
+
                         <td>{{$item->name}}</td>
+                            <td>  <img src="{{$item->image}}" alt="{{$item->name}}" style="width:100%" class="border rounded"></td>
                             <td>
                              <div class="row ml-2">
                                 @foreach($item->withAnimals as $animal)

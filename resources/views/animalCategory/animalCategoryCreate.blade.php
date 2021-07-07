@@ -34,7 +34,7 @@
                     </div>
 
 
-                    <form  action="{{isset($edit)? route('animal-category.update',$edit->id):route('animal-category.store')}}"  method="post" height="1000px" class="pb-10 mb-10">
+                    <form  action="{{isset($edit)? route('animal-category.update',$edit->id):route('animal-category.store')}}"  method="post" height="1000px" class="pb-10 mb-10" enctype="multipart/form-data">
                         @csrf
 
                         @isset($edit)
@@ -44,6 +44,16 @@
                               <label>Name</label>
                               <input type="text" class="form-control" name="name" placeholder="Enter category name..." value="{{isset($edit)?$edit->name:''}}">
                           </div>
+                        <div class="form-group">
+                            <label>Image Category</label>
+                            <input type="file" class="form-control" name="image" >
+                            @if(isset($edit))
+                                <div class="d-flex justify-content-center mt-4 border rounded">
+                                    <br><br><br><br><br><br><br><br><br>
+                                    <img src="{{$edit->image}}" width="50%">
+                                </div>
+                            @endif
+                        </div>
 
                         <div class="form-group">
                             <ul class="border rounded py-4 ">
