@@ -7,11 +7,11 @@ use App\Models\Animal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Trail\UploadImage;
 
 class AnimalController extends Controller
 {
-
+    use UploadImage;
     public function animalList(){
 
         return view('animal.animalList')
@@ -34,10 +34,7 @@ class AnimalController extends Controller
             return back()->with('warning','no incorrect');
         }
 
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
+
 
         $pieces = explode(",", $request->digit);
 
@@ -45,7 +42,7 @@ class AnimalController extends Controller
         $animal = new Animal();
         $animal->name = $request->name;
         $animal->description = $request->description;
-        $animal->image = "/storage/animal_image/".$imageName;
+        $animal->image = $this->upload($request,"animal_image");
         $animal->digit = $pieces;
         $animal->save();
 
@@ -73,7 +70,7 @@ class AnimalController extends Controller
 
         $animal->animals_digit = $animal->animalNos->pluck('animal_digit');
         $animal->save();
-        Storage::disk('local')->put('public/animal_image/'.$imageName, $imageEncode);
+
         return back()->with('success','success');
     }
     public function animalEdit($id){
@@ -96,12 +93,13 @@ class AnimalController extends Controller
         $animal->name = $request->name;
         $animal->description = $request->description;
         $animal->digit = $pieces;
-        $animal->save();
+
 
         if($request->hasFile("image")){
             Storage::delete("public/animal_image/".str_replace('/storage/animal_image/','',$animal->image));
-            $request->image->storeAs("public/animal_image",str_replace('/storage/animal_image/','',$animal->image));
+            $animal->image = $this->upload($request,"animal_image");
         }
+        $animal->save();
         return redirect()->route('animal.list')->with('success','Update success');
     }
 

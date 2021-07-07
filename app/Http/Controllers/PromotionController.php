@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\PushNotificationController;
-
+use App\Http\Controllers\Trail\UploadImage;
 class PromotionController extends Controller
 {
+    use UploadImage;
     protected $PushNotificationController;
 
     public function __construct(PushNotificationController $pushNotificationController)
@@ -42,16 +43,11 @@ class PromotionController extends Controller
             'end' => 'required',
             'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
         ]);
-    $stringImageReformat = base64_encode('_'.time());
-    $ext = $request->file('image')->getClientOriginalExtension();
-    $imageName = $stringImageReformat.".".$ext;
-    $imageEncode = File::get($request->image);
 
     $promotion = new Promotion();
     $start = Carbon::parse($request->get('start'))->toDateTimeString();
     $end = Carbon::parse($request->get('end'))->toDateTimeString();
-    $promotion->makePromotion($request->get('title'),$request->get('content'),"/storage/promotion_image/".$imageName,$start,$end);
-    Storage::disk('local')->put('public/promotion_image/'.$imageName, $imageEncode);
+    $promotion->makePromotion($request->get('title'),$request->get('content'),$this->upload($request,"promotion_image"),$start,$end);
 
     return redirect()->route('promotion.list')->with('success','Uploaded promotion successful');
     }
@@ -76,10 +72,12 @@ class PromotionController extends Controller
         $promotion = Promotion::find($id);
         $start = Carbon::parse($request->get('start'))->toDateTimeString();
         $end = Carbon::parse($request->get('end'))->toDateTimeString();
-        $promotion->makePromotion($request->get('title'),$request->get('content'),null,$start,$end);
+
         if($request->hasFile("image")){
             Storage::delete("public/promotion_image/".str_replace('/storage/promotion_image/','',$promotion->image));
-            $request->image->storeAs("public/promotion_image",str_replace('/storage/promotion_image/','',$promotion->image));
+            $promotion->makePromotion($request->get('title'),$request->get('content'),$this->upload($request,"promotion_image"),$start,$end);
+        }else{
+            $promotion->makePromotion($request->get('title'),$request->get('content'),null,$start,$end);
         }
         return redirect()->route('promotion.list')->with('success','Edited promotion successful');
     }

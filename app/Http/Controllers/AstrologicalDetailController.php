@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Trail\GetDrawController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Trail\UploadImage;
 class AstrologicalDetailController extends Controller
 {
-    use GetDrawController;
+    use GetDrawController,UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -69,10 +69,7 @@ class AstrologicalDetailController extends Controller
         }
 
 
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
+
 
 
         $digit = [];
@@ -85,12 +82,10 @@ class AstrologicalDetailController extends Controller
 
         $astrological_detail = New AstrologicalDetail();
         $astrological_detail->digit = json_encode($digit);
-        $astrological_detail->image = "/storage/astrological_image/".$imageName;
+        $astrological_detail->image = $this->upload($request,"astrological_image");
         $astrological_detail->astrological_id = $request->astrological_id;
         $astrological_detail->draw_id = $draw->id;
         $astrological_detail->save();
-
-        Storage::disk('local')->put('public/astrological_image/'.$imageName, $imageEncode);
 
       return redirect()->route('astrological-detail.index')->with('Create successful');
     }
@@ -147,13 +142,13 @@ class AstrologicalDetailController extends Controller
         $astrological_detail =  AstrologicalDetail::find($id);
         $astrological_detail->digit = json_encode($digit);
 
-        $astrological_detail->save();
+
 
         if($request->hasFile("image")){
             Storage::delete("public/astrological_image/".str_replace('/storage/astrological_image/','',$astrological_detail->image));
-            $request->image->storeAs("public/astrological_image",str_replace('/storage/astrological_image/','',$astrological_detail->image));
+            $astrological_detail->image = $this->upload($request,"astrological_image");
         }
-
+        $astrological_detail->save();
         return redirect()->route('astrological-detail.index')->with('Update successful');
     }
 

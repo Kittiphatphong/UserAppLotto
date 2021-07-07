@@ -7,9 +7,10 @@ use App\Models\Temple;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Trail\UploadImage;
 class TempleController extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -45,17 +46,11 @@ class TempleController extends Controller
            'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
         ]);
 
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
-
         $temple = new Temple();
         $temple->temple_name = $request->get('temple_name');
-        $temple->image = "/storage/temple_image/".$imageName;
+        $temple->image = $this->upload($request,"temple_image");
         $temple->save();
 
-        Storage::disk('local')->put('public/temple_image/'.$imageName, $imageEncode);
         return redirect()->route('temple.index')->with('success','Add new temple successful');
     }
 
@@ -101,14 +96,11 @@ class TempleController extends Controller
 
         if($request->hasFile("image")){
             Storage::delete("public/temple_image/".str_replace('/storage/temple_image/','',$temple->image));
-            $stringImageReformat = base64_encode('_'.time());
-            $ext = $request->file('image')->getClientOriginalExtension();
-            $imageName = $stringImageReformat.".".$ext;
-            $imageEncode = File::get($request->image);
+
 
             $temple->temple_name = $request->get('temple_name');
-            $temple->image = "/storage/temple_image/".$imageName;
-            Storage::disk('local')->put('public/temple_image/'.$imageName, $imageEncode);
+            $temple->image = $this->upload($request,"temple_image");
+
 
         }else{
             $temple->temple_name = $request->get('temple_name');

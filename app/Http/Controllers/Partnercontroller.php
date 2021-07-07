@@ -6,9 +6,11 @@ use App\Models\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Trail\UploadImage;
 
 class Partnercontroller extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -40,21 +42,15 @@ class Partnercontroller extends Controller
     {
         $request->validate([
             'partner_name' => 'required',
-           'icon' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
+           'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg'
 
         ]);
 
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('icon')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->icon);
-
         $partner = new Partner();
         $partner->partner_name = $request->get('partner_name');
-        $partner->icon = "/storage/partner_image/".$imageName;
+        $partner->icon = $this->upload($request,"partner_image");
         $partner->save();
 
-        Storage::disk('local')->put('public/partner_image/'.$imageName, $imageEncode);
         return back()->with('success','Add new partner successful');
     }
 
@@ -93,15 +89,16 @@ class Partnercontroller extends Controller
     {
         $request->validate([
             'partner_name' => 'required',
-            'icon' => 'file|image|max:50000|mimes:jpeg,png,jpg'
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg'
         ]);
         $partner = Partner::find($id);
         $partner->partner_name = $request->get('partner_name');
-        $partner->save();
+
         if($request->hasFile("icon")){
             Storage::delete("public/partner_image/".str_replace('/storage/partner_image/','',$partner->icon));
-            $request->icon->storeAs("public/partner_image",str_replace('/storage/partner_image/','',$partner->icon));
+            $partner->icon = $this->upload($request,"partner_image");
         }
+        $partner->save();
         return back()->with('success','Update partner successful');
     }
 

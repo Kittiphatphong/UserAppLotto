@@ -47,7 +47,7 @@
                         </div>
                         <div class="form-group">
                             <lable>Icon</lable>
-                            <input type="file" class="form-control" name="icon" >
+                            <input type="file" class="form-control" name="image" >
                             @isset($edit)
                                 <div class="d-flex justify-content-center" >
                             <img src="{{$edit->icon}}" class="py-4">

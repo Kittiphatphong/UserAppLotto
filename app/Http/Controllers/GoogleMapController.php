@@ -8,14 +8,10 @@ use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Trail\UploadImage;
 class GoogleMapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  use UploadImage;
     public function index()
     {
 
@@ -56,21 +52,17 @@ class GoogleMapController extends Controller
 
         ]);
 
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
+
 
         $location = New GoogleMap();
         $location->name = $request->get('name');
-        $location->image = "/storage/google_map_image/".$imageName;
+        $location->image = $this->upload($request,"google_map_image");
         $location->lat = $request->get('lat');
         $location->lng= $request->get('lng');
         $location->partner_id = $request->get('partner_id');
         $location->pr_id = $request->get('pr_id');
         $location->save();
 
-        Storage::disk('local')->put('public/google_map_image/'.$imageName, $imageEncode);
         return back()->with('success','Add new location successful');
     }
 
@@ -129,9 +121,9 @@ class GoogleMapController extends Controller
 
         if($request->hasFile("image")){
             Storage::delete("public/google_map_image/".str_replace('/storage/google_map_image/','',$googleMap->image));
-            $request->image->storeAs("public/google_map_image",str_replace('/storage/google_map_image/','',$googleMap->image));
+            $googleMap->image = $this->upload($request,"google_map_image");
         }
-
+        $googleMap->save();
         return redirect()->route('google-map.index')->with('success','Update location successful');
     }
 

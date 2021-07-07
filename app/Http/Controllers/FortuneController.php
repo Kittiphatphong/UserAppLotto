@@ -7,9 +7,10 @@ use App\Models\Temple;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use  App\Http\Controllers\Trail\UploadImage;
 class FortuneController extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -46,19 +47,15 @@ class FortuneController extends Controller
             "image" => "required|file|image|max:50000|mimes:jpeg,png,jpg",
             "temple_id" => "required"
         ]);
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
+
 
         $fortune = New Fortune();
         $fortune->no = $request->get('no');
         $fortune->content = $request->get('content');
         $fortune->temple_id = $request->get('temple_id');
-        $fortune->image = "/storage/fortune_image/".$imageName;
+        $fortune->image = $this->upload($request,"fortune_image");
         $fortune->save();
 
-        Storage::disk('local')->put('public/fortune_image/'.$imageName, $imageEncode);
         return redirect()->route('temple.index')->with('success','Add new fortune successful');
     }
 
@@ -103,13 +100,13 @@ class FortuneController extends Controller
 
         $fortune->no = $request->get('no');
         $fortune->content = $request->get('content');
-        $fortune->save();
+
 
         if($request->hasFile("image")){
             Storage::delete("public/fortune_image/".str_replace('/storage/fortune_image/','',$fortune->image));
-            $request->image->storeAs("public/fortune_image",str_replace('/storage/fortune_image/','',$fortune->image));
+            $fortune->image = $this->upload($request,"fortune_image");
         }
-
+        $fortune->save();
         return redirect()->route('temple.index')->with('success','Update fortune successful');
     }
 
