@@ -18,6 +18,7 @@ class AnimalCategoryResource extends JsonResource
 
         return [
             'category' => $this->name,
+            'image' => $this->image,
             'list' => WithAniamlResource::collection($this->withAnimals),
 
         ];
