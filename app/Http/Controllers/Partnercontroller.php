@@ -87,6 +87,7 @@ class Partnercontroller extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'partner_name' => 'required',
             'image' => 'file|image|max:50000|mimes:jpeg,png,jpg'
@@ -94,7 +95,7 @@ class Partnercontroller extends Controller
         $partner = Partner::find($id);
         $partner->partner_name = $request->get('partner_name');
 
-        if($request->hasFile("icon")){
+        if($request->hasFile("image")){
             Storage::delete("public/partner_image/".str_replace('/storage/partner_image/','',$partner->icon));
             $partner->icon = $this->upload($request,"partner_image");
         }

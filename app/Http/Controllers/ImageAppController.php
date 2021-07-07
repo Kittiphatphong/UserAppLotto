@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Controllers\Trail\UploadImage;
 class ImageAppController extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      *
@@ -45,14 +46,10 @@ class ImageAppController extends Controller
             'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg',
         ]);
         $imageApp = new ImageApp();
-        $stringImageReformat = base64_encode('_'.time());
-        $ext = $request->file('image')->getClientOriginalExtension();
-        $imageName = $stringImageReformat.".".$ext;
-        $imageEncode = File::get($request->image);
-        $imageApp->image = "/storage/background_app_image/".$imageName;
+
+        $imageApp->image = $this->upload($request,"background_app_image");
 //        $imageApp->active = true;
         $imageApp->save();
-        Storage::disk('local')->put('public/background_app_image/'.$imageName, $imageEncode);
         return redirect()->route('image-app.index')->with('success','success');
     }
 
@@ -96,7 +93,8 @@ class ImageAppController extends Controller
         $imageApp = ImageApp::find($id);
         if($request->hasFile("image")){
             Storage::delete("public/background_app_image/".str_replace('/storage/background_app_image/','',$imageApp->image));
-            $request->image->storeAs("public/background_app_image",str_replace('/storage/background_app_image/','',$imageApp->image));
+            $imageApp->image = $this->upload($request,"background_app_image");
+            $imageApp->save();
         }
         return redirect()->route('image-app.index')->with('success','Update success');
     }
