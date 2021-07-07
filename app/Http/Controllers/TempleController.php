@@ -97,14 +97,24 @@ class TempleController extends Controller
             'image' => 'file|image|max:50000|mimes:jpeg,png,jpg'
         ]);
 
-        $temple->temple_name = $request->get('temple_name');
-        $temple->save();
+
 
         if($request->hasFile("image")){
             Storage::delete("public/temple_image/".str_replace('/storage/temple_image/','',$temple->image));
-            $request->image->storeAs("public/temple_image",str_replace('/storage/temple_image/','',$temple->image));
-        }
+            $stringImageReformat = base64_encode('_'.time());
+            $ext = $request->file('image')->getClientOriginalExtension();
+            $imageName = $stringImageReformat.".".$ext;
+            $imageEncode = File::get($request->image);
 
+            $temple->temple_name = $request->get('temple_name');
+            $temple->image = "/storage/temple_image/".$imageName;
+            Storage::disk('local')->put('public/temple_image/'.$imageName, $imageEncode);
+
+        }else{
+            $temple->temple_name = $request->get('temple_name');
+
+        }
+        $temple->save();
         return redirect()->route('temple.index')->with('success','update temple successful');
     }
 
