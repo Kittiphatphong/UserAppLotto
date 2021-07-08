@@ -28,9 +28,12 @@ class FortuneApiController extends Controller
                 "msg" => $validator->errors()->first(),
             ], 422);
         }else{
+            $temple = Temple::find($request->id_temple);
+            $temple->count_used = $temple->count_used+1;
+            $temple->save();
             return response()->json([
                 'status' => true,
-                'data' => PaperFortuneResource::collection(Temple::find($request->id_temple)->apiFortunes)
+                'data' => PaperFortuneResource::collection($temple->apiFortunes)
             ]);
         }
 

@@ -18,6 +18,7 @@ class TempleResource extends JsonResource
           'id' => $this->id,
           'temple_name' => $this->temple_name,
           'temple_image' => $this->image,
+          'count_used' => $this->count_used
         ];
     }
 }
