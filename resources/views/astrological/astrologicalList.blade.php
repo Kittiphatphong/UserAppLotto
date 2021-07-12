@@ -48,9 +48,9 @@
                     <tr>
 
                         <th>ID</th>
-                        <th>TITLE</th>
+                        <th>IMAGE</th>
+                        <th>NAME</th>
                         <th>PERCENT</th>
-
                         <th>ACTION</th>
                         <th>UPDATED AT</th>
 
@@ -60,6 +60,7 @@
                     @foreach($astrological as $item)
                         <tr>
                         <td>{{$item->id}}</td>
+                            <td><img src="{{$item->image}}" alt="image" width="100px" class="rounded"></td>
                         <td>{{$item->name}}</td>
                             <td>
                                 @if($item->getCount() != null)

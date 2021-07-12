@@ -29,7 +29,7 @@
                         <h3 class="card-label">Astrological
                             <span class="d-block text-muted pt-2 font-size-sm"></span></h3>
                     </div>
-                    <form  action="{{isset($edit)? route('astrological.update',$edit->id):route('astrological.store')}}"  method="post" height="1000px" class="pb-10 mb-10">
+                    <form  action="{{isset($edit)? route('astrological.update',$edit->id):route('astrological.store')}}"  method="post" height="1000px" class="pb-10 mb-10" enctype="multipart/form-data">
                         @csrf
 
                         @isset($edit)
@@ -38,6 +38,16 @@
                         <div class="form-group">
                             <label>NAME</label>
                             <input type="text" class="form-control" name="name" value="{{isset($edit)?$edit->name:''}}" placeholder="Enter name">
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" class="form-control" name="image" >
+                            @if(isset($edit))
+                                <div class="d-flex justify-content-center mt-4 border rounded">
+                                    <br><br><br><br><br><br><br><br><br>
+                                    <img src="{{$edit->image}}" width="50%">
+                                </div>
+                            @endif
                         </div>
 
 

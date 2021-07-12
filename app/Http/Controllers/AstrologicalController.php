@@ -5,44 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Astrological;
 use Illuminate\Http\Request;
 use App\Http\Resources\AstrologicalResource;
+use App\Http\Controllers\Trail\UploadImage;
 class AstrologicalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   use UploadImage;
     public function index()
     {
         return view('astrological.astrologicalList')
-            ->with('astrological', Astrological::latest()->get())
-        ->with('asjs', AstrologicalResource::collection(Astrological::latest()->get()));
+            ->with('astrological', Astrological::latest()->get());
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('astrological.astrologicalCreate')
             ->with('astrological','astrological');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $request->validate([
-           'name' => 'required|unique:astrologicals,name'
+           'name' => 'required|unique:astrologicals,name',
+            'image' => 'required|file|image|max:50000|mimes:jpeg,png,jpg',
         ]);
         $astrological = new Astrological();
         $astrological->name = $request->name;
+        $astrological->image = $this->upload($request,'astrological_image');
         $astrological->save();
 
         return redirect()->route('astrological.index')->with('Create successful');
@@ -82,10 +71,16 @@ class AstrologicalController extends Controller
     public function update(Request $request, Astrological $astrological)
     {
         $request->validate([
-            'name' => 'required|unique:astrologicals,name'
+            'name' => 'required|unique:astrologicals,name',
+            'image' => 'file|image|max:50000|mimes:jpeg,png,jpg',
         ]);
 
         $astrological->name = $request->name;
+
+        if($request->file('image')){
+            $astrological->image = $this->editImage($request,$astrological,'astrological_image');
+        }
+
         $astrological->save();
 
         return redirect()->route('astrological.index')->with('Update successful');
@@ -95,6 +90,7 @@ class AstrologicalController extends Controller
     {
 
         $astrological = Astrological::find($id);
+        $this->delete($astrological,'astrological_image');
         $astrological->delete();
         return redirect()->route('astrological.index')->with('Delete successful');
     }

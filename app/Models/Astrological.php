@@ -19,13 +19,16 @@ class Astrological extends Model
 
         if($count_teller <=0){
             $percent_correct =0;
+            $star = 0;
         }else{
         $percent_correct = ($count_teller_correct*100)/$count_teller;
+        $star = 5* $percent_correct/(100);
         }
         return [
             'count_teller' =>  $count_teller,
             'count_teller_correct' => $count_teller_correct,
-            'percent_correct' => $percent_correct
+            'percent_correct' => (string) $percent_correct,
+            'star' => (string) round($star)
         ];
 }
 }
