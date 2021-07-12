@@ -674,7 +674,7 @@
                         </li>
 
 
-                        <li class="menu-item menu-item-submenu @if(isset($method_buy_list) || isset($method_buy_create))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
+                        <li class="menu-item menu-item-submenu @if(isset($method_buy_list) || isset($method_buy_create) || isset($method_buy_categories))menu-item-open menu-item-here @endif " aria-haspopup="true" data-menu-toggle="hover">
                             <a href="javascript:;" class="menu-link menu-toggle">
                                 <i class="menu-icon fas fa-cash-register"></i>
 
@@ -684,6 +684,14 @@
                             <div class="menu-submenu">
                                 <i class="menu-arrow"></i>
                                 <ul class="menu-subnav">
+                                    <li class="menu-item @isset($method_buy_categories) menu-item-active @endisset" aria-haspopup="true">
+                                        <a href="{{route('method-buy-category.index')}}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="menu-text">@lang('Categories')</span>
+                                        </a>
+                                    </li>
 
                                     <li class="menu-item @isset($method_buy_create) menu-item-active @endisset" aria-haspopup="true">
                                         <a href="{{route('method-buy.create')}}" class="menu-link">

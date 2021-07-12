@@ -15,4 +15,7 @@ class MethodBuy extends Model
     public function methodBuySelectImages(){
         return $this->hasMany(MethodBuyImage::class,'method_buy_id');
     }
+    public function methodBuyCategories(){
+        return $this->belongsTo(MethodBuyCategory::class,'method_buy_category_id');
+    }
 }

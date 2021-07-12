@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\MethodBuyResource;
+use App\Http\Resources\MethodBuyCategoryResource;
 use App\Models\MethodBuy;
+use App\Models\MethodBuyCategory;
 use Illuminate\Http\Request;
 
 class MedthodBuyApiController extends Controller
@@ -12,7 +13,7 @@ class MedthodBuyApiController extends Controller
     public function methodBuy(){
         try {
 
-                $data = MethodBuyResource::collection(MethodBuy::where('status',1)->latest()->get());
+                $data = MethodBuyCategoryResource::collection(MethodBuyCategory::all());
 
             return response()->json([
             'status' => true,

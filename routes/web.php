@@ -32,6 +32,7 @@ use App\Http\Controllers\ZodiacController;
 use App\Http\Controllers\AstrologicalController;
 use App\Http\Controllers\AstrologicalDetailController;
 use App\Http\Controllers\AnimalCetagoryController;
+use App\Http\Controllers\MethodBuyCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -200,7 +201,7 @@ Route::group(['middleware' =>'auth'],function(){
 
     //How to buy
     Route::resource('method-buy',MethodBuyController::class);
-
+    Route::resource('method-buy-category',MethodBuyCategoryController::class);
     //Horoscope
 
 //    Route::resource('zodiac',ZodiacController::class);

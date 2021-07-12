@@ -35,6 +35,19 @@
                             @method('PATCH')
                         @endisset
                         <div class="form-group">
+                            <label>CATEGORIES</label>
+
+                            <select class="form-control" name="method_buy_category_id">
+                                @foreach($categories as $item)
+                                <option value="{{$item->id}}"
+                                @isset($edit)
+                                        @if($item->id == $edit->method_buy_category_id) selected @endif
+                                    @endisset
+                                >{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>TITLE</label>
                             <input type="text" class="form-control" name="title" value="{{isset($edit)?$edit->title:''}}" placeholder="Enter Title...">
                         </div>

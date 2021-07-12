@@ -42,12 +42,12 @@
                     <thead>
                     <tr>
 
-                        <th>ID</th>
+                        <th>CATEGORY</th>
                         <th>TITLE</th>
                         <th>DESCRIPTION</th>
                         <th>LINK</th>
                         <th>IMAGE</th>
-                        <th>STATUS</th>
+{{--                        <th>STATUS</th>--}}
                         <th>ACTION</th>
 
                         <th>UPDATED AT</th>
@@ -58,7 +58,7 @@
                     <tbody>
                     @foreach($method_buy_list as $item)
                         <tr>
-                        <td>{{$item->id}}</td>
+                        <td>@if($item->methodBuyCategories != null){{$item->methodBuyCategories->name}} @else <span class="text-danger">N/A</span> @endif</td>
                         <td>{{$item->title}}</td>
                             <td>{{$item->description}}</td>
                             <td>{{$item->link}}</td>
@@ -71,13 +71,13 @@
                                 @endforeach
                                 </div>
                             </td>
-                            <td>
-                                @if($item->status == 1)
-                                    <a href="{{route('method-buy.show',$item->id)}}" class="btn btn-primary btn-sm text-white col-10">ON</a>
-                                @else
-                                    <a href="{{route('method-buy.show',$item->id)}}" class="btn btn-light-primary btn-sm text-white col-10">OFF</a>
-                                @endif
-                            </td>
+{{--                            <td>--}}
+{{--                                @if($item->status == 1)--}}
+{{--                                    <a href="{{route('method-buy.show',$item->id)}}" class="btn btn-primary btn-sm text-white col-10">ON</a>--}}
+{{--                                @else--}}
+{{--                                    <a href="{{route('method-buy.show',$item->id)}}" class="btn btn-light-primary btn-sm text-white col-10">OFF</a>--}}
+{{--                                @endif--}}
+{{--                            </td>--}}
                             <td>      <div class="d-flex justify-content-start m-0">
                                     <a href="{{route('method-buy.edit',$item->id)}}" class="btn btn-link" ><i class="far fa-edit"></i></a>
                                     <form action="{{route('method-buy.destroy',$item->id)}}" method="post" class="delete_form">

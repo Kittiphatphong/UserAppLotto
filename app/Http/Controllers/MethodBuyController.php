@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LiveLink;
 use App\Models\MethodBuy;
+use App\Models\MethodBuyCategory;
 use App\Models\MethodBuyImage;
 use App\Models\RecommentImage;
 use App\Models\RecommentLotto;
@@ -49,7 +50,8 @@ class MethodBuyController extends Controller
     public function create()
     {
         return view('methodBuy.methodBuyCreate')
-            ->with('method_buy_create','method_buy_create');
+            ->with('method_buy_create','method_buy_create')
+            ->with('categories',MethodBuyCategory::latest()->get());
     }
 
     /**
@@ -73,6 +75,7 @@ class MethodBuyController extends Controller
         $methodBuy->title = $request->title;
         $methodBuy->link = $request->link;
         $methodBuy->description = $request->description;
+        $methodBuy->method_buy_category_id = $request->method_buy_category_id;
         $methodBuy->status = 1 ;
         $methodBuy->save();
 
@@ -112,6 +115,7 @@ class MethodBuyController extends Controller
     {
         return view('methodBuy.methodBuyCreate')
             ->with('method_buy_create','method_buy_create')
+            ->with('categories',MethodBuyCategory::latest()->get())
             ->with('edit',MethodBuy::find($id));
     }
 
@@ -137,6 +141,7 @@ class MethodBuyController extends Controller
         $methodBuy->title = $request->title;
         $methodBuy->link = $request->link;
         $methodBuy->description = $request->description;
+        $methodBuy->method_buy_category_id = $request->method_buy_category_id;
         $methodBuy->status = 1 ;
         $methodBuy->save();
 
