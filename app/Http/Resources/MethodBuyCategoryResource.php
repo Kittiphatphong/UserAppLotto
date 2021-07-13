@@ -17,7 +17,7 @@ class MethodBuyCategoryResource extends JsonResource
         return [
             'category_name' => $this->name,
             'category_image' => $this->image,
-            'list' => MethodBuyResource::collection($this->methodBuys)
+            'item_list' => MethodBuyResource::collection($this->methodBuys)
         ];
     }
 }
