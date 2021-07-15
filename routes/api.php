@@ -162,6 +162,7 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //History bill
     Route::post('history-bill-channel',[HistoryBillApiController::class,'history']);
+    Route::post('get-all-draw',[HistoryBillApiController::class,'getDraws']);
 
 });
 //read me

@@ -16,11 +16,27 @@ class HistoryBillApiController extends Controller
     {
         try {
             $phone = $request->user()->currentAccessToken()->tokenable->phone;
-            $data = $this->historyBill($phone,$request->start,$request->end,$request->total);
+            $data = $this->historyBill($phone,$request->draw_id,$request->page,$request->total);
 
             return  response()->json([
                 'status' => true,
                 'data' => $data
+            ]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage()
+            ],422);
+        }
+    }
+
+    public function getDraws(){
+        try {
+
+            return  response()->json([
+                'status' => true,
+                'data' => $this->getAllDraw()
             ]);
 
         }catch (\Exception $e){
