@@ -16,7 +16,7 @@ class HistoryBillApiController extends Controller
     {
         try {
             $phone = $request->user()->currentAccessToken()->tokenable->phone;
-            $data = $this->historyBill("2097262177",$request->start,$request->end,$request->total);
+            $data = $this->historyBill($phone,$request->start,$request->end,$request->total);
 
             return  response()->json([
                 'status' => true,
