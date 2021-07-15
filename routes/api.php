@@ -26,6 +26,8 @@ use App\Http\Controllers\Api\MedthodBuyApiController;
 use App\Http\Controllers\Api\HoroscopeApiController;
 use App\Http\Controllers\Api\AstrologicalApiController;
 use App\Http\Controllers\Api\RandomDigitApiController;
+use App\Http\Controllers\Api\RecordSearchApiController;
+use App\Http\Controllers\Api\HistoryBillApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -153,6 +155,13 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
 
     //Random Digit
     Route::post('random-digit',[RandomDigitApiController::class,'randomDigit']);
+
+    //Top search
+    Route::post('dream-search-list',[RecordSearchApiController::class,'dreamSearchList']);
+    Route::post('record-dream-search',[RecordSearchApiController::class,'recordSearch']);
+
+    //History bill
+    Route::post('history-bill-channel',[HistoryBillApiController::class,'history']);
 
 });
 //read me
